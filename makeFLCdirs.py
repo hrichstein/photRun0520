@@ -70,7 +70,30 @@ def move_files(targnames):
     return None
 
 # def fortCode(targnames):
+# # Try appending the paths to a list and using os.walk
+# have a code entirely dedicated to executing the file
+# then have a second code that is doing the searching for files and you could move or copy the executing code and import it to the first one to run the execute function
+
+# fortran_key = ".f"
+# directory = "." #stands for current directory
+# fortran_files = []
 #
+# for root, dirs, files, in os.walk(".",topdown=False):
+#   for file in files:
+#     if(file.endswith(fortran_key)):
+#       fortran_files.append(os.path.join(root,file))
+#execute.py
+# def execute(file):
+  #do something that executes
+  #main code.py
+# import execute
+# import shutil
+#
+# #searching thing and once you find the file at some path
+# os.copy("execute.py",path)
+# execute(file)
+
+# run whatever os.system thing to be discovered later on fortran_files
 #     names = np.loadtxt(targnames,dtype=str)
 #
 #     for nn in range(len(names)):
