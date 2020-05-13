@@ -69,6 +69,28 @@ def move_files(targnames):
 
     return None
 
+# def fortCode(targnames):
+#
+#     names = np.loadtxt(targnames,dtype=str)
+#
+#     for nn in range(len(names)):
+#         temp_dir_606 = names[nn] + '_f606w/crClean/'
+#         temp_dir_814 = names[nn] + '_f814w/crClean/'
+#
+#         # com = ["cp flt2wj2_acswfc.e ",temp_dir_606]
+#         # run_command(com)
+#         com_1 = ["./",temp_dir_606,"./flt2wj2_acswfc.e ","jdan", "*.fits"]
+#         run_command(com_1)
+#
+#         # com2 = ["cp flt2wj2_acswfc.e ",temp_dir_814]
+#         # run_command(com2)
+#         com2_1 = [temp_dir_814,"./flt2wj2_acswfc.e ","jdan", "*crclean.fits"]
+#         run_command(com2_1)
+#
+#     return None
+
+
+
 
 
 
