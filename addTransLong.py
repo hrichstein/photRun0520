@@ -31,7 +31,7 @@ def addTranscols(targname,filt,iter,workDir='./'):
 
     newCol = np.zeros((len(cat),31))
 
-    image = fits.open(workDir+targname+'_'+fils+jdanUse[0]+"_flc.fits")
+    image = fits.open('/Volumes/Spare Data/photRun0520/hor1DRCs/jdan21010_drc.fits')
     w = wcs.WCS(header=image[1].header,fobj=image)
 
     newCol[:,0],newCol[:,1] = w.wcs_pix2world(cat[:,xc1],cat[:,yc1],1)
@@ -108,7 +108,7 @@ def addTranscols(targname,filt,iter,workDir='./'):
 
     # print(cat[0][wra2c+41])
 
-    np.savetxt(workDir+catDir+targname+"_"+filt+"_at_long.dat", cat,header=header)
+    np.savetxt(workDir+catDir+targname+"_"+filt+"_at_long_DRCwcs.dat", cat,header=header)
 
 
     return None

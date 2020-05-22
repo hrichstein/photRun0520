@@ -13,7 +13,9 @@ wra2o, wdec2o, wra3o, wdec3o, wra4o, wdec4o = 63, 64, 65, 66, 67, 68
 def regMake(targname,filt,workDir):
     jdanUse = getJdan(targname,filt)
 
-    master = np.genfromtxt(workDir+targname+"_"+filt+"_at_long.dat")
+    master = np.genfromtxt(workDir+targname+"_"+filt+"_at_long_DRCwcs.dat")
+
+    np.savetxt(workDir+targname+'_mastCoords_'+filt+'.reg', master[:,[wcsRA,wcsDEC]],fmt='%1.6f')
 
     for jj, jdan in enumerate(jdanUse):
 
@@ -22,28 +24,38 @@ def regMake(targname,filt,workDir):
             wdc_idx = wdec1c
             wro_idx = wra1o
             wdo_idx = wdec1o
+            wrt_idx = wcsRA
+            wdt_idx = wcsDEC
         elif jj==1:
             wrc_idx = wra2c
             wdc_idx = wdec2c
             wro_idx = wra2o
             wdo_idx = wdec2o
+            wrt_idx = wra2t
+            wdt_idx = wdec2t
         elif jj==2:
             wrc_idx = wra3c
             wdc_idx = wdec3c
             wro_idx = wra3o
             wdo_idx = wdec3o
+            wrt_idx = wra3t
+            wdt_idx = wdec3t
         elif jj==3:
             wrc_idx = wra4c
             wdc_idx = wdec4c
             wro_idx = wra4o
             wdo_idx = wdec4o
+            wrt_idx = wra4t
+            wdt_idx = wdec4t
 
         # dcFile = open(workDir+jdan+'_dc.reg')
         # ocFile = open(workDir+jdan+'_oc.reg')
 
-        np.savetxt(workDir+jdan+'_dcCoords.reg', master[:,[wrc_idx,wdc_idx]],fmt='%1.6f')
+        np.savetxt(workDir+jdan+'_dcCoords_drcWCS.reg', master[:,[wrc_idx,wdc_idx]],fmt='%1.6f')
 
-        np.savetxt(workDir+jdan+'_ocCoords.reg', master[:,[wro_idx,wdo_idx]],fmt='%1.6f')
+        np.savetxt(workDir+jdan+'_ocCoords_drcWCS.reg', master[:,[wro_idx,wdo_idx]],fmt='%1.6f')
+
+        np.savetxt(workDir+jdan+'_ltCoords_drcWCS.reg', master[:,[wrt_idx,wdt_idx]],fmt='%1.6f')
 
     return None
 
