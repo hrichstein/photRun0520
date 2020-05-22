@@ -14,7 +14,7 @@ date = '1305'
 # seDir, magCatDir, catDir = f2mag_dirs(date,workDir='./')
 seDir, magCatDir, catDir = f2mag_dirs(date,workDir='./')
 
-offset = 20.0
+offset = 20.0 # number of pixels in one arcsecond
 
 def distCor(targname,filt,workDir='./'):
 
@@ -160,8 +160,8 @@ def wcsTrans(targname,filt,iter,workDir='./'):
     elif filt=='F814W':
         fils = 'f814w/'
 
-    cat = np.genfromtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'{0:d}'.format(iter)+".dat", names=True)
-    catCat = np.loadtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'{0:d}'.format(iter)+".dat")
+    cat = np.genfromtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat", names=True)
+    catCat = np.loadtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat")
 
     colNs = np.array(cat.dtype.names)
 
@@ -186,7 +186,7 @@ def wcsTrans(targname,filt,iter,workDir='./'):
     form = "%d %1.7f %1.7f %1.4f %1.4f %1.4f %1.3f %1.4f %d %1.4f %1.4f %1.4f %1.4f %d %d %d %1.7f %1.7f"
 
 
-    np.savetxt(workDir+catDir+targname+'_'+filt+'_coords{0:d}.dat'.format(iter),cat,header=header, fmt=form)
+    np.savetxt(workDir+catDir+targname+'_'+filt+'_coords_{0:d}.dat'.format(iter),cat,header=header, fmt=form)
 
     return None
 
@@ -195,8 +195,8 @@ def pullMags(targname,filt,iter,workDir='./'):
 
     jdanUse = getJdan(targname,filt)
 
-    master = np.genfromtxt(workDir+catDir+targname+'_'+filt+'_coords{0:d}.dat'.format(iter),names=True)
-    masterCat = np.loadtxt(workDir+catDir+targname+'_'+filt+'_coords{0:d}.dat'.format(iter))
+    master = np.genfromtxt(workDir+catDir+targname+'_'+filt+'_coords_{0:d}.dat'.format(iter),names=True)
+    masterCat = np.loadtxt(workDir+catDir+targname+'_'+filt+'_coords_{0:d}.dat'.format(iter))
 
     colNs = np.array(master.dtype.names)
 
@@ -267,7 +267,7 @@ def pullMags(targname,filt,iter,workDir='./'):
     header = 'wcsRA wcsDEC flux flags c_star mag1 mag2 mag3 mag4 ra1 dec1 ra2 dec2 ra3 dec3 ra4 dec4 xr1 yr1 xc1 yc1 xt1 yt1  xr2 yr2 xc2 yc2 xt2 yt2 xr3 yr3 xc3 yc3 xt3 yt3 xr4 yr4 xc4 xc4 xt4 yt4'
     form = '%1.7f %1.7f %1.4f %d %1.3f %1.4f %1.4f %1.4f %1.4f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f'
 
-    np.savetxt(workDir+catDir+targname+'_'+filt+'_magList{0:d}.dat'.format(iter),magList,header=header, fmt=form)
+    np.savetxt(workDir+catDir+targname+'_'+filt+'_magList_{0:d}.dat'.format(iter),magList,header=header, fmt=form)
 
 
     return None
@@ -354,7 +354,7 @@ def coordStd(data,idx,idx_arr=None):
 
 def filterMags(targname,filt,iter,stdCut=2.5,workDir='./'):
 
-    data = np.genfromtxt(workDir+catDir+targname+'_'+filt+'_magList{0:d}.dat'.format(iter))
+    data = np.genfromtxt(workDir+catDir+targname+'_'+filt+'_magList_{0:d}.dat'.format(iter))
 
     newCol = np.zeros((len(data),7))
 
@@ -438,7 +438,7 @@ def filterMags(targname,filt,iter,stdCut=2.5,workDir='./'):
 
     form = '%1.7f %1.7f %1.4f %d %1.3f %1.4f %1.4f %1.4f %1.4f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.7f %d %d %d'
 
-    np.savetxt(workDir+catDir+targname+'_'+filt+'_cut_std{0:d}.dat'.format(iter),data,header=header, fmt=form)
+    np.savetxt(workDir+catDir+targname+'_'+filt+'_cut_std_{0:d}.dat'.format(iter),data,header=header, fmt=form)
 
     return None
 
@@ -451,7 +451,7 @@ def addTranscols(targname,filt,iter=1,workDir='./'):
 
         cat = np.loadtxt(workDir+catDir+jdanUse[ff]+"_"+targname+"_"+filt+"_dc.dat")
 
-        transCat = np.loadtxt(workDir+catDir+jdanUse[ff]+"_"+targname+"_"+filt+"_t.dat")
+        transCat = np.loadtxt(workDir+catDir+jdanUse[ff]+"_"+targname+"_"+filt+"_t_"+str(iter)+".dat".format(iter))
 
         newCol = np.zeros((len(cat),2))
 
@@ -474,7 +474,7 @@ def wrapAll(targname,filt,date,workDir='./',matchtol=5,iter=1,stdCut=2.5):
         distCor(targname,filt,workDir=workDir)
         offCor(targname,filt,workDir=workDir)
     else:
-        linTrans(targname,filt,catDir)
+        linTrans(targname,filt,iter,catDir)
         addTranscols(targname,filt,iter=iter,workDir='./')
     matchWJCs(targname,filt,iter,workDir=workDir,matchtol=matchtol)
     wcsTrans(targname,filt,iter,workDir=workDir)

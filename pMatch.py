@@ -12,8 +12,8 @@ wcsRA, wcsDEC, flux, flags, c_star, mag1, mag2, mag3, mag4, ra1, dec1, ra2, dec2
 
 def pix_match(targname,iter,catDir='./',matchtol=2):
 
-    infileF606W = catDir+targname+'_F606W_cut_std{0:d}.dat'.format(iter)
-    infileF814W = catDir+targname+'_F814W_cut_std{0:d}.dat'.format(iter)
+    infileF606W = catDir+targname+'_F606W_cut_std_{0:d}.dat'.format(iter)
+    infileF814W = catDir+targname+'_F814W_cut_std_{0:d}.dat'.format(iter)
 
     f606w = np.loadtxt(infileF606W, dtype='float')
     f814w = np.loadtxt(infileF814W, dtype='float')
@@ -54,16 +54,16 @@ def pix_match(targname,iter,catDir='./',matchtol=2):
     idxs2 = idxs2[msk]
     ds = ds[msk]
 
-    print(max(idxs1))
-    print(max(idxs2))
+    # print(max(idxs1))
+    # print(max(idxs2))
 
-    outfile = catDir+targname+'-cut_F606W_match{0:d}.dat'.format(iter)
+    outfile = catDir+targname+'-cut_F606W_match_{0:d}.dat'.format(iter)
     np.savetxt(outfile, idxs2, fmt='%4i')
 
-    outfile = catDir+targname+'-cut_F814W_match{0:d}.dat'.format(iter)
+    outfile = catDir+targname+'-cut_F814W_match_{0:d}.dat'.format(iter)
     np.savetxt(outfile, idxs1, fmt='%4i')
 
-    outfile = catDir+targname+'-cut_ds{0:d}.dat'.format(iter)
+    outfile = catDir+targname+'-cut_ds_{0:d}.dat'.format(iter)
     np.savetxt(outfile, ds, fmt='%1.4f')
 
 
@@ -78,12 +78,12 @@ def matchMags(targname,iter,catDir='./'):
     form = '%1.7f %1.7f %1.4f %d %1.3f %1.4f %1.4f %1.4f %1.4f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.7f %d %d %d'
 
     for ff in range(len(filters)):
-        dataFile = np.genfromtxt(catDir+targname+"_"+filters[ff]+'_cut_std{0:d}.dat'.format(iter))
-        idxFile = np.genfromtxt(catDir+targname+'-cut_'+filters[ff]+"_match{0:d}.dat".format(iter),dtype=int)
+        dataFile = np.genfromtxt(catDir+targname+"_"+filters[ff]+'_cut_std_{0:d}.dat'.format(iter))
+        idxFile = np.genfromtxt(catDir+targname+'-cut_'+filters[ff]+"_match_{0:d}.dat".format(iter),dtype=int)
 
         outArr = dataFile[idxFile]
 
-        np.savetxt(catDir+targname+'-cut-stdPixMatched_'+filters[ff]+'{0:d}.dat'.format(iter),outArr,fmt=form,header=header)
+        np.savetxt(catDir+targname+'-cut-stdPixMatched_'+filters[ff]+'_{0:d}.dat'.format(iter),outArr,fmt=form,header=header)
 
     return None
 

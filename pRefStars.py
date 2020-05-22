@@ -1,9 +1,9 @@
 import numpy as np
 
-def pRefStars(targname,filt,catDir='./',magHi=24.5,magLo=21,\
+def pRefStars(targname,filt,iter,catDir='./',magHi=24.5,magLo=21,\
     stdTol=1,posTol=1):
 
-    data = np.genfromtxt(catDir+targname+'-cut-stdPixMatched_'+filt+'.dat',names=True)
+    data = np.genfromtxt(catDir+targname+'-cut-stdPixMatched_'+filt+'_{0:d}.dat'.format(iter),names=True)
 
     keep = data['mean']!=data['mean']
     for ll in range(len(data)):
@@ -17,6 +17,6 @@ def pRefStars(targname,filt,catDir='./',magHi=24.5,magLo=21,\
 
     form = '%1.7f %1.7f %1.4f %d %1.3f %1.4f %1.4f %1.4f %1.4f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.7f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.7f %d %d %d'
 
-    np.savetxt(catDir+targname+'_refStars_'+filt+'.dat', data[keep], fmt=form, header=header)
+    np.savetxt(catDir+targname+'_refStars_'+filt+'_{0:d}.dat'.format(iter), data[keep], fmt=form, header=header)
 
     return None

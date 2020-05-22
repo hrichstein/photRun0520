@@ -19,14 +19,32 @@ pixtol = 2
 date = '1305'
 catDir = workDir+'catRawMags'+date+'/catDir/'
 
+# iter = int(2)
+nF = True
 iter = 1
-# for ff, filt in enumerate(filt_arr):
-# #     # get_mags(targname,filt,date,workDir=workDir)
-    # wrapAll(targname,filt,date,workDir=workDir,matchtol=matchtol,iter=iter,\
-    # stdCut=2.5)
-# pMatch(targname,iter,catDir,matchtol=pixtol)
+
+if iter == 0:
+    for ff, filt in enumerate(filt_arr):
+        get_mags(targname,filt,date,workDir=workDir)
+        wrapAll(targname,filt,date,workDir=workDir,matchtol=matchtol,iter=iter,\
+        stdCut=2.5)
+    pMatch(targname,iter,catDir,matchtol=pixtol)
+
 
 for ff, filt in enumerate(filt_arr):
-    # pRefStars(targname,filt,catDir,magHi=24.5,magLo=21,\
-    #     stdTol=0.1,posTol=3)
-    linTrans(targname,filt,iter,catDir)
+    pRefStars(targname,filt,(iter-1),catDir,magHi=24.5,magLo=21,\
+    stdTol=0.1,posTol=5)
+
+    wrapAll(targname,filt,date,workDir=workDir,matchtol=matchtol,iter=iter,\
+        stdCut=2.5)
+
+    pMatch(targname,iter,catDir,matchtol=pixtol)
+
+    while (nF):
+        new = np.loadtxt(catDir+targname+'_refStars_'+filt+'_{0:d}.dat'.format(iter))
+        old = np.loadtxt(catDir+targname+'_refStars_'+filt+'_{0:d}.dat'.format(iter-1))
+
+        if len(new)==len(old):
+            nF = False
+        else:
+            iter += 1

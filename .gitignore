@@ -141,6 +141,9 @@ cython_debug/
 *.fits
 *.dat
 *.txt
+*.reg
+*.jpg
+*.png
 
 *.e
 *.DS_STORE

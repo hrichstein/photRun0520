@@ -34,8 +34,8 @@ wcsRA, wcsDEC, flux, flags, c_star, mag1, mag2, mag3, mag4, ra1, dec1, ra2, dec2
 
 def linTrans(targname,filt,iter,workDir='./'):
 
-    match = np.loadtxt(workDir+targname+"_refStars_"+filt+".dat")
-    master = np.loadtxt(workDir+targname+"_refStars_"+filt+".dat")
+    match = np.loadtxt(workDir+targname+"_refStars_"+filt+'_'+str(iter-1)+'.dat')
+    master = np.loadtxt(workDir+targname+"_refStars_"+filt+'_'+str(iter-1)+'.dat')
 
     weights = np.zeros((len(match)))
     weights.fill(1.0)
@@ -60,9 +60,10 @@ def linTrans(targname,filt,iter,workDir='./'):
             xr_x = xc4
             yr_x = yc4
 
-        all = np.loadtxt(workDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat")
+        # all = np.loadtxt(workDir+"master_ids_"+targname+"_"+filt+"_"+str(iter-1)+".dat")
+        all = np.loadtxt(workDir+jdanUse[ff]+"_"+targname+"_"+filt+"_dc.dat")
 
-        outname = jdanUse[ff]+"_"+targname+"_"+filt+"_t.dat"
+        outname = jdanUse[ff]+"_"+targname+"_"+filt+"_t_"+str(iter)+".dat".format(iter)
 
         new_match, new_all = test_linear(match[:,xr_x], match[:,yr_x], master[:,xc1], master[:,yc1], weights, weights, all[:,xc], all[:,yc])
 
