@@ -202,8 +202,12 @@ def pullMags(targname,filt,iter,workDir='./'):
 
     if iter > 0:
         suffix = "_at_{0:d}".format(iter)+".dat"
+        xt = np.int(np.where(colNs=='xo')[0])
+        yt = np.int(np.where(colNs=='yo')[0])
     else:
         suffix = '_oc.dat'
+        xt = np.int(np.where(colNs=='xt')[0])
+        yt = np.int(np.where(colNs=='yt')[0])
 
     ra_id = np.int(np.where(colNs=='RA')[0])
     dec_id = np.int(np.where(colNs=='DEC')[0])
@@ -216,8 +220,7 @@ def pullMags(targname,filt,iter,workDir='./'):
     yr = np.int(np.where(colNs=='yr')[0])
     xc = np.int(np.where(colNs=='xc')[0])
     yc = np.int(np.where(colNs=='yc')[0])
-    xt = np.int(np.where(colNs=='xt')[0])
-    yt = np.int(np.where(colNs=='yt')[0])
+
     wra_id = np.int(np.where(colNs=='wcsRA')[0])
     wdec_id = np.int(np.where(colNs=='wcsDEC')[0])
     id = np.int(np.where(colNs=='id')[0])
@@ -255,8 +258,8 @@ def pullMags(targname,filt,iter,workDir='./'):
         newCols[:,cc+jj+20] = reg[:,xc]
         newCols[:,cc+jj+21] = reg[:,yc]
 
-        newCols[:,cc+jj+28] = reg[:,xc]
-        newCols[:,cc+jj+29] = reg[:,yc]
+        newCols[:,cc+jj+28] = reg[:,xt]
+        newCols[:,cc+jj+29] = reg[:,yt]
 
         cc += 1
         jj += 1
