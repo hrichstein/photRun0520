@@ -145,6 +145,8 @@ cython_debug/
 *.jpg
 *.png
 *.pptx
+*.zip
+*.jpeg
 
 *.e
 *.DS_STORE

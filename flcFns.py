@@ -471,17 +471,17 @@ def addTranscols(targname,filt,iter=1,workDir='./'):
     return None
 
 
-def wrapAll(targname,filt,date,workDir='./',matchtol=5,iter=1,stdCut=2.5):
-
-    if iter==0:
-        distCor(targname,filt,workDir=workDir)
-        offCor(targname,filt,workDir=workDir)
-    else:
-        linTrans(targname,filt,iter,catDir)
-        addTranscols(targname,filt,iter=iter,workDir='./')
-    matchWJCs(targname,filt,iter,workDir=workDir,matchtol=matchtol)
-    wcsTrans(targname,filt,iter,workDir=workDir)
-    pullMags(targname,filt,iter,workDir)
-    filterMags(targname,filt,iter,workDir=workDir,stdCut=stdCut)
+# def wrapAll(targname,filt,date,workDir='./',matchtol=5,iter=1,stdCut=2.5):
+#
+#     if iter==0:
+#         distCor(targname,filt,workDir=workDir)
+#         offCor(targname,filt,workDir=workDir)
+#     else:
+#         linTrans(targname,filt,iter,catDir)
+#         addTranscols(targname,filt,iter=iter,workDir='./')
+#     matchWJCs(targname,filt,iter,workDir=workDir,matchtol=matchtol)
+#     wcsTrans(targname,filt,iter,workDir=workDir)
+#     pullMags(targname,filt,iter,workDir)
+#     filterMags(targname,filt,iter,workDir=workDir,stdCut=stdCut)
 
     return None

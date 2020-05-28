@@ -35,8 +35,10 @@ psf_file = np.genfromtxt(dir1 + 'HOROLOGIUM_CF.1.TOSEND.CAT')
 
 x, y, m606c, m814c, nstar, sat606, sat814, camera, m606, s606, q606, o606, f606, g606, rxs606, sky606, rmssky606, m814, s814, q814, o814, f814, g814, rxs814, sky814, rmssky814, ra, dec = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
 
-psf_idx = np.argsort(psf_file[:,m814c])[:1000]
-psf_1000 = psf_file[psf_idx]
+psf_g = psf_file[psf_file[:,m814c]>10]
+
+psf_idx = np.argsort(psf_g[:,m814c])[:50]
+psf_50 = psf_g[psf_idx]
 
 
-np.savetxt(workDir+'HOROLOGIUM-I_F814W_psf1000.reg',psf_1000[:,[ra,dec]],fmt='%1.6f')
+np.savetxt(workDir+'HOROLOGIUM-I_F814W_psf50.reg',psf_50[:,[ra,dec]],fmt='%1.6f')
