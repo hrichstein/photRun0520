@@ -50,8 +50,8 @@ def matchWJCs(targname,filt,dir='./',matchtol=5):
                 magDif = np.zeros((len(matchrows),1))
                 for mm in range(len(matchrows)):
                     magDif[mm] = master[row][magr] - matchrows[mm][magr]
-                    small = np.argmin(magDif)
-                    master[row][xt+dd+2] = matchrows[small][id]
+                small = np.argmin(magDif)
+                master[row][xt+dd+2] = matchrows[small][id]
                 row += 1
 
             else:

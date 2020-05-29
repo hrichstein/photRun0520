@@ -40,5 +40,10 @@ psf_g = psf_file[psf_file[:,m814c]>10]
 psf_idx = np.argsort(psf_g[:,m814c])[:50]
 psf_50 = psf_g[psf_idx]
 
+psf_out = np.array([psf_50[10],psf_50[12],psf_50[13],psf_50[15],psf_50[20],psf_50[25]])
 
-np.savetxt(workDir+'HOROLOGIUM-I_F814W_psf50.reg',psf_50[:,[ra,dec]],fmt='%1.6f')
+header = 'x y m606c m814c nstar sat606 sat814 camera m606 s606     q606 o606 f606 g606 rxs606 sky606 rmssky606 m814 s814 q814 o814 f814 g814 rxs814 sky814 rmssky814 ra dec'
+
+# np.savetxt(workDir+'HOROLOGIUM-I_F814W_psf50.reg',psf_50[:,[ra,dec]],fmt='%1.6f')
+
+np.savetxt(workDir+'HOROLOGIUM-I_F814W_psf6.dat',psf_out[:,[x,y,ra,dec]],header=header,fmt='%1.5f %1.5f %1.7f %1.7f')
