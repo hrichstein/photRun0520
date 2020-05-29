@@ -87,7 +87,7 @@ def pullMags(targname,filt,dir='./',suffix='_at_2705.dat'):
     form +='%1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f '
     form +='%1.4f %1.4f'
 
-    np.savetxt(dir+'matched_w_MagsPos2705r2.dat',magList,header=header,fmt=form)
+    np.savetxt(dir+'matched_w_MagsPos2705r3.dat',magList,header=header,fmt=form)
 
     return None
 
@@ -95,4 +95,4 @@ targname='HOROLOGIUM-I'
 filt='F814W'
 dir = 'catRawMags1305/catDir/'
 
-pullMags(targname,filt,dir=dir,suffix='_at_2705r2.dat')
+pullMags(targname,filt,dir=dir,suffix='_at_2705r3.dat')
