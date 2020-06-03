@@ -28,45 +28,39 @@ The first set of coordinates is the reference sources in your particular seconda
 
 # xt,yt in this case are just the offset corrected, distortion corrected positions
 
-xt, yt = 11,12 # column numbers in dc file
+# xt, yt = 11,12 # column numbers in dc file
 
 RA, DEC, flux, flags, c_star, mag1, mag2, mag3, mag4, ra1, dec1, ra2, dec2, ra3, dec3, ra4, dec4, xr1, yr1, xr2, yr2, xr3, yr3, xr4, yr4, xc1, yc1, xc2, yc2, xc3, yc3, xc4, yc4, xt1, yt1, xt2, yt2, xt3, yt3, xt4, yt4 = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40
 
-# Original (transformed) FLC coordinates
-# x_arr= np.array([1843.0081,1854.0366,1578.4376,1905.8447,3119.8042,3321.5985])
-#
-# y_arr = np.array([625.12,2636.4446,736.2737,3323.9234,3470.0449,1811.2194])
+# Original FLC X,Y
+x_arr = np.array([1905.8447, 2733.5304, 1735.3688, 1586.7118, 1870.5514, 1578.4376,1843.0081, 1942.4414])
+y_arr = np.array([3323.9234, 2591.8753, 1915.1304,  1715.1404, 1625.8418,  736.2737, 625.12, 336.7415])
 
-# Rotated transformed coordinates
-# x_arr = np.array([796.5337047,2799.894807,882.1808243,3489.192556,3749.410895,2117.087885])
-#
-# y_arr = np.array([-1775.665489,-1596.521504,-1501.77269,-1583.112788,-2777.824291,-3135.517692])
+# Rotated FLC X,T
+# x_arr = np.array([3489.19255567, 2838.66038074, 2070.59434489, 1857.44664442,1795.37820268,  882.18082431,  796.53370475,  518.8455224 ])
+# y_arr= np.array([-1583.11278784, -2476.29022154, -1546.57012504,
+#  -1417.4811784,  -1708.4909154,  -1501.77268973, -1775.66548884,
+#  -1901.9129197])
 
-# Original DRC positions
-x_arr = np.array([1833.02,1921.60,1574.42,1999.06,3211.35,3348.24])
-y_arr = np.array([706.45,2705.68,827.22,3386.51,3485.06,1829.24])
+# Rotated FLC X,T with 1899, 7065 offset added; resulting from first run matching Rotated FLC X,T with 1899, 7065 offset added to PSF
+# x_arr = np.array([5484.295887,   4802.40091105, 4076.11897452, 3869.44630487, 3796.21169842,2896.99915618, 2801.01482972, 2520.06805614])
+# y_arr = np.array([5543.16195301, 4681.00524382, 5635.32278369, 5772.019284,   5485.21671074,5726.62768698, 5457.76641413, 5343.21476812])
 
-# Rotated DRC coord
-# x_arr = np.array([876.5554003,2875.206716,972.3401309,3560.310214,3773.01225,2137.546118])
-# y_arr = np.array([-1758.034287,-1657.237812,-1489.17626,-1669.994623,-2867.54086,-3160.33648])
-
-#After first match drc
-# x_arr = np.array([2636.060456, 4639.658663, 2722.175855, 5328.954998, 5587.108202, 3954.227652])
-# y_arr = np.array([5329.724181, 5506.055221, 5603.482934, 5518.498583, 4323.484781, 3968.094311])
+# Rotated FLC X,T, no offset applied; resulting from first run matching Rotated FLC X,T with 1899, 7065 offset added to PSF
+# x_arr = np.array([3585.295887,   2903.40091105, 2177.11897452, 1970.44630487, 1897.21169842,997.99915618,  902.01482972,  621.06805614])
+# y_arr = np.array([-1521.83804699, -2383.99475618, -1429.67721631, -1292.980716,
+#  -1579.78328926, -1338.37231302, -1607.23358587, -1721.78523188])
 
 match_arr = np.zeros((len(x_arr),2))
 
 match_arr[:,0] = x_arr
 match_arr[:,1] = y_arr
 
-# Original DRC positions
-# x_mas = np.array([1833.02,1921.60,1574.42,1999.06,3211.35,3348.24])
-# y_mas = np.array([706.45,2705.68,827.22,3386.51,3485.06,1829.24])
 
 # PSF positions
-x_mas = np.array([2716.2554,4714.2852,2812.5161,5400.123,5610.8672,3974.3972])
+x_mas = np.array([5400.123, 4718.1953, 3991.6089, 3783.894, 3711.5825, 2812.5161,2716.2554, 2434.9197])
 
-y_mas = np.array([5347.2842,5445.4702,5615.8149,5431.417,4233.6597,3943.2954])
+y_mas = np.array([5431.417,  4569.6943, 5523.9956, 5660.8569, 5374.0845, 5615.8149,5347.2842, 5232.4946])
 
 master_arr = np.zeros((len(x_mas),2))
 
@@ -104,20 +98,25 @@ def linTrans(targname,filt,dir='catRawMags1305/catDir/'):
     #         yr_x = yt4
 
         # all = np.loadtxt(dir+"master_ids_"+targname+"_"+filt+"_"+str(iter-1)+".dat")
-    all = np.loadtxt(dir+jdanUse[0]+"_"+targname+"_"+filt+"_at_2705r2.dat")
+    all = np.loadtxt(dir+"matched_w_MagsPos2705r2.dat")
+    # all = np.loadtxt(dir+'flcRo2PSF_round2.dat')
     # all = np.loadtxt(dir+'jdan21l8q_HOROLOGIUM-I_F814W_3105DRC2PSFall.dat')
 
-    all1000_idx = np.argsort(all[:,7])
-    #
-    all = all[all1000_idx]
+    # all1000_idx = np.argsort(all[:,7])
+    # #
+    # all = all[all1000_idx]
 
-    outname = jdanUse[0]+"_"+targname+"_"+filt+"_0206drcPSF.dat"
+    outname = "flc2PSF_round1.dat"
+    out2 = "flc2PSF_round1_newMatch.dat"
 
     # new_match, new_all = test_linear(match[:,0], match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt], all[:,yt])
 
-    new_match, new_all = test_linear(match[:,0],match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt],all[:,yt])
+    # new_match, new_all = test_linear(match[:,0],match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt1],all[:,yt1])
+
+    new_match, new_all = test_linear(match[:,0],match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt1],all[:,yt1])
 
     np.savetxt(dir+outname, new_all, fmt="%1.6f")
+    np.savetxt(dir+out2, new_match, fmt="%1.6f")
 
 
     return None
