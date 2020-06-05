@@ -35,9 +35,9 @@ RA, DEC, flux, flags, c_star, mag1, mag2, mag3, mag4, ra1, dec1, ra2, dec2, ra3,
 flcCat = np.genfromtxt(dir+'matched_w_MagsPos2705r2.dat')
 drcCat = np.genfromtxt(dir +'drc_useful.dat')
 
-flcArr = np.array([flcCat[1447],flcCat[984],flcCat[680],flcCat[421],flcCat[549],flcCat[181],flcCat[109],flcCat[1]])
+flcArr = np.array([flcCat[984],flcCat[680],flcCat[421],flcCat[549],flcCat[181],flcCat[109],flcCat[1]])
 
-drcArr = np.array([drcCat[1131],drcCat[834],drcCat[523],drcCat[338],drcCat[467],drcCat[81],drcCat[44],drcCat[0]])
+drcArr = np.array([drcCat[834],drcCat[523],drcCat[338],drcCat[467],drcCat[81],drcCat[44],drcCat[0]])
 
 match_arr = np.zeros((len(flcArr),2))
 
@@ -68,13 +68,13 @@ def linTrans(targname,filt,dir='catRawMags1305/catDir/'):
     #
     # outname = jdanUse[0]+"_"+targname+"_"+filt+"_0206drcPSF.dat"
 
-    outname = 'flcDRCmatch0406.dat'
+    outname = 'flcDRCmatch0506.dat'
     # new_match, new_all = test_linear(match[:,0], match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt], all[:,yt])
 
     new_match, new_all = test_linear(match[:,0],match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt1],all[:,yt1])
 
     np.savetxt(dir+outname, new_all, fmt="%1.6f")
-    np.savetxt(dir+'flcDRC0406newMatch.dat',new_match,fmt='%1.6f')
+    # np.savetxt(dir+'flcDRC0406newMatch.dat',new_match,fmt='%1.6f')
 
 
     return None
@@ -86,7 +86,7 @@ def addTranscols(targname,filt,dir='catRawMags1305/catDir/'):
     # for ff in range(len(jdanUse)):
     cat = np.genfromtxt(dir+'matched_w_MagsPos2705r2.dat')
 
-    transCat = np.genfromtxt(dir + 'flcDRCmatch0406.dat')
+    transCat = np.genfromtxt(dir + 'flcDRCmatch0506.dat')
 
     newCol = np.zeros((len(cat),2))
 
@@ -97,7 +97,7 @@ def addTranscols(targname,filt,dir='catRawMags1305/catDir/'):
 
     header = 'RA DEC flux flags c_star mag1 mag2 mag3 mag4 ra1 dec1 ra2 dec2 ra3 dec3 ra4 dec4 xr1 yr1 xr2 yr2 xr3 yr3 xr4 yr4 xc1 yc1 xc2 yc2 xc3 yc3 xc4 yc4 xt1 yt1 xt2 yt2 xt3 yt3 xt4 yt4 xDRC yDRC'
 
-    np.savetxt(dir+'flcDRCpos0406.dat', cat, header=header)
+    np.savetxt(dir+'flcDRCpos0506.dat', cat, header=header)
 
     return None
 
