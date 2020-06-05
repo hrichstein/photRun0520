@@ -1,14 +1,16 @@
 import numpy as np
 import os
 
-matchtol = 1
+matchtol = 2.8
 
 dir = 'catRawMags1305/catDir/'
 
 dir1='/Volumes/Spare Data/Hannah_Data/mattia/rephotometryquestion/'
 psf = np.genfromtxt(dir1 + 'HOROLOGIUM_CF.1.TOSEND.CAT')
 
-cat = np.genfromtxt(dir+'flc2PSF_round1.dat')
+# cat = np.genfromtxt(dir+'flc2PSF_round1.dat')
+# cat = np.genfromtxt(dir+'flc2PSF_round2.dat')
+cat = np.genfromtxt(dir+'flc2PSF_round4.dat')
 cat_ids = np.zeros((len(cat),1))
 cat_ids[:,0] = np.arange(0,len(cat),1)
 cat = np.hstack((cat,cat_ids))
@@ -48,4 +50,10 @@ master = np.hstack((master,cat_pos))
 header = 'x_psf y_psf id_psf id_cat x_cat y_cat'
 form = '%1.5f %1.5f %d %d %1.5f %1.5f'
 
-np.savetxt(dir+'match_0406.dat',master,header=header,fmt=form)
+# np.savetxt(dir+'match_0406.dat',master,header=header,fmt=form)
+
+# np.savetxt(dir+'match_0406r2.dat',master,header=header,fmt=form)
+# 669
+
+# np.savetxt(dir+'match_0406r4.dat',master,header=header,fmt=form)
+# 669
