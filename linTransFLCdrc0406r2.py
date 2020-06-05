@@ -28,7 +28,7 @@ The first set of coordinates is the reference sources in your particular seconda
 
 RA, DEC, flags, c_star, mag1, mag2, mag3, mag4, xt1, yt1, xDRC_trans, yDRC_trans, xDRC_mat, yDRC_mat, magDRC, id_cat = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
 
-cat = np.genfromtxt(dir+'matchedFLCdrc0506.dat')
+cat = np.genfromtxt(dir+'matchedFLCdrc0506r2.dat')
 
 match_arr = np.zeros((len(cat),2))
 
@@ -40,7 +40,7 @@ master_arr = np.zeros((len(cat),2))
 master_arr[:,0] = cat[:,xDRC_mat]
 master_arr[:,1] = cat[:,yDRC_mat]
 
-all_cat = np.genfromtxt(dir+'flcDRCpos0506.dat')
+all_cat = np.genfromtxt(dir+'flcDRCpos0506r2.dat')
 
 RA, DEC, flux, flags, c_star, mag1, mag2, mag3, mag4, ra1, dec1, ra2, dec2, ra3, dec3, ra4, dec4, xr1, yr1, xr2, yr2, xr3, yr3, xr4, yr4, xc1, yc1, xc2, yc2, xc3, yc3, xc4, yc4, xt1, yt1, xt2, yt2, xt3, yt3, xt4, yt4, xDRC, yDRC = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42
 
@@ -62,7 +62,7 @@ def linTrans(targname,filt,dir='catRawMags1305/catDir/'):
     #
     # outname = jdanUse[0]+"_"+targname+"_"+filt+"_0206drcPSF.dat"
 
-    outname = 'flcDRCmatch0506r2.dat'
+    outname = 'flcDRCmatch0506r3.dat'
     # new_match, new_all = test_linear(match[:,0], match[:,1], master[:,0], master[:,1], weights, weights, all[:,xt], all[:,yt])
 
     new_match, new_all = test_linear(match[:,0],match[:,1], master[:,0], master[:,1], weights, weights, all[:,xDRC],all[:,yDRC])
@@ -80,7 +80,7 @@ def addTranscols(targname,filt,dir='catRawMags1305/catDir/'):
     # for ff in range(len(jdanUse)):
     cat = np.genfromtxt(dir+'matched_w_MagsPos2705r2.dat')
 
-    transCat = np.genfromtxt(dir + 'flcDRCmatch0506r2.dat')
+    transCat = np.genfromtxt(dir + 'flcDRCmatch0506r3.dat')
 
     newCol = np.zeros((len(cat),2))
 
@@ -91,7 +91,7 @@ def addTranscols(targname,filt,dir='catRawMags1305/catDir/'):
 
     header = 'RA DEC flux flags c_star mag1 mag2 mag3 mag4 ra1 dec1 ra2 dec2 ra3 dec3 ra4 dec4 xr1 yr1 xr2 yr2 xr3 yr3 xr4 yr4 xc1 yc1 xc2 yc2 xc3 yc3 xc4 yc4 xt1 yt1 xt2 yt2 xt3 yt3 xt4 yt4 xDRC yDRC'
 
-    np.savetxt(dir+'flcDRCpos0506r2.dat', cat, header=header)
+    np.savetxt(dir+'flcDRCpos0506r3.dat', cat, header=header)
 
     return None
 

@@ -1,14 +1,14 @@
 import numpy as np
 import os
 
-matchtol = 10
+matchtol = 3
 
 dir = 'catRawMags1305/catDir/'
 
 # dir1='/Volumes/Spare Data/Hannah_Data/mattia/rephotometryquestion/'
 # psf = np.genfromtxt(dir1 + 'HOROLOGIUM_CF.1.TOSEND.CAT')
 
-cat = np.genfromtxt(dir+'flcDRCpos0506r2.dat')
+cat = np.genfromtxt(dir+'flcDRCpos0506r3.dat')
 drc = np.genfromtxt(dir+'drc_useful.dat')
 
 RA, DEC, x, y, magr, id = 0, 1, 2, 3, 4, 5
@@ -87,4 +87,4 @@ header= 'x y magr id_cat'
 #
 # header = 'RA DEC flags c_star mag1 mag2 mag3 mag4 xt1 yt1 xDRC yDRC id_cat xDRC_mat yDRC_mat magDRC'
 #
-np.savetxt(dir+'drcFLCidx_0506r2.dat',master,header=header)
+np.savetxt(dir+'drcFLCidx_0506r3.dat',master,header=header)
