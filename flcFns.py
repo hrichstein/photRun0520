@@ -151,44 +151,44 @@ def matchWJCs(targname,filt,iter=0,workDir='./',matchtol=5):
 
     return None
 
-def wcsTrans(targname,filt,iter,workDir='./'):
-
-    jdanUse = getJdan(targname,filt)
-
-    if filt=='F606W':
-        fils = 'f606w/'
-    elif filt=='F814W':
-        fils = 'f814w/'
-
-    cat = np.genfromtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat", names=True)
-    catCat = np.loadtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat")
-
-    colNs = np.array(cat.dtype.names)
-
-    xc = np.int(np.where(colNs=='xc')[0])
-    yc = np.int(np.where(colNs=='yc')[0])
-
-    newCols = np.zeros((len(cat),2))
-
-    image = fits.open(workDir+targname+'_'+fils+jdanUse[0]+"_flc.fits")
-    w = wcs.WCS(header=image[1].header,fobj=image)
-
-    # Applied to distortion corrected values
-    # Since drawing from file, the "master" is just the first one listed.
-    newCols[:,0], newCols[:,1] = w.wcs_pix2world(catCat[:,xc],catCat[:,yc],1)
-
-    image.close()
-
-    cat = np.hstack((catCat, newCols))
-
-    header = "flags RA DEC xr yr flux c_star magr id xc yc xt yt id2 id3 id4 wcsRA wcsDEC"
-
-    form = "%d %1.7f %1.7f %1.4f %1.4f %1.4f %1.3f %1.4f %d %1.4f %1.4f %1.4f %1.4f %d %d %d %1.7f %1.7f"
-
-
-    np.savetxt(workDir+catDir+targname+'_'+filt+'_coords_{0:d}.dat'.format(iter),cat,header=header, fmt=form)
-
-    return None
+# def wcsTrans(targname,filt,iter,workDir='./'):
+#
+#     jdanUse = getJdan(targname,filt)
+#
+#     if filt=='F606W':
+#         fils = 'f606w/'
+#     elif filt=='F814W':
+#         fils = 'f814w/'
+#
+#     cat = np.genfromtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat", names=True)
+#     catCat = np.loadtxt(workDir+catDir+"master_ids_"+targname+"_"+filt+'_{0:d}'.format(iter)+".dat")
+#
+#     colNs = np.array(cat.dtype.names)
+#
+#     xc = np.int(np.where(colNs=='xc')[0])
+#     yc = np.int(np.where(colNs=='yc')[0])
+#
+#     newCols = np.zeros((len(cat),2))
+#
+#     image = fits.open(workDir+targname+'_'+fils+jdanUse[0]+"_flc.fits")
+#     w = wcs.WCS(header=image[1].header,fobj=image)
+#
+#     # Applied to distortion corrected values
+#     # Since drawing from file, the "master" is just the first one listed.
+#     newCols[:,0], newCols[:,1] = w.wcs_pix2world(catCat[:,xc],catCat[:,yc],1)
+#
+#     image.close()
+#
+#     cat = np.hstack((catCat, newCols))
+#
+#     header = "flags RA DEC xr yr flux c_star magr id xc yc xt yt id2 id3 id4 wcsRA wcsDEC"
+#
+#     form = "%d %1.7f %1.7f %1.4f %1.4f %1.4f %1.3f %1.4f %d %1.4f %1.4f %1.4f %1.4f %d %d %d %1.7f %1.7f"
+#
+#
+#     np.savetxt(workDir+catDir+targname+'_'+filt+'_coords_{0:d}.dat'.format(iter),cat,header=header, fmt=form)
+#
+#     return None
 
 #
 def pullMags(targname,filt,iter,workDir='./'):
@@ -471,14 +471,14 @@ def addTranscols(targname,filt,iter=1,workDir='./'):
     return None
 
 
-# def wrapAll(targname,filt,date,workDir='./',matchtol=5,iter=1,stdCut=2.5):
+def wrapAll(targname,filt,date,workDir='./',matchtol=5,iter=1,stdCut=2.5):
 #
-#     if iter==0:
-#         distCor(targname,filt,workDir=workDir)
-#         offCor(targname,filt,workDir=workDir)
-#     else:
-#         linTrans(targname,filt,iter,catDir)
-#         addTranscols(targname,filt,iter=iter,workDir='./')
+    if iter==0:
+        distCor(targname,filt,workDir=workDir)
+        offCor(targname,filt,workDir=workDir)
+    else:
+        linTrans(targname,filt,iter,catDir)
+        addTranscols(targname,filt,iter=iter,workDir='./')
 #     matchWJCs(targname,filt,iter,workDir=workDir,matchtol=matchtol)
 #     wcsTrans(targname,filt,iter,workDir=workDir)
 #     pullMags(targname,filt,iter,workDir)

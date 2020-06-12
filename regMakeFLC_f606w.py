@@ -15,7 +15,7 @@ idx= np.argsort(file[:,mag1])[:100]
 
 file_100 = file[idx]
 
-# np.savetxt('flc50source_f606w.reg',file_100[:,[RA,DEC]],fmt='%1.7f')
+np.savetxt('flc100source_f606w.reg',file_100[:,[RA,DEC]],fmt='%1.7f')
 
 # header = 'RA DEC flux flags c_star mag1 mag2 mag3 mag4 ra1 '
 # header += 'dec1 ra2 dec2 ra3 dec3 ra4 dec4 xr1 yr1 xr2 yr2 xr3 yr3 xr4 yr4 '
@@ -29,4 +29,4 @@ file_100 = file[idx]
 
 # np.savetxt('flc6source.dat',file_50[[8,9,10,12,16,18],:],fmt=form,header=header)
 
-np.savetxt(workDir+'flc100source_f606w.dat',file_100[:,[RA,DEC,xt1,yt1,id]],fmt='%1.7f  %1.7f  %1.5f %1.5f %d')
+np.savetxt(workDir+'flc100_f606w.dat',file_100[:,[RA,DEC,xt1,yt1,id]],fmt='%1.7f  %1.7f  %1.5f %1.5f %d')

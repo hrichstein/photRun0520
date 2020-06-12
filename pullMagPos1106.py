@@ -1,7 +1,7 @@
 import numpy as np
 from getJdan import *
 
-def pullMags(targname,filt,dir='./',suffix='_at_2705.dat'):
+def pullMags(targname,filt,dir='./',suffix='_at_1106.dat'):
 
     jdanUse = getJdan(targname,filt)
 
@@ -41,6 +41,7 @@ def pullMags(targname,filt,dir='./',suffix='_at_2705.dat'):
     jj = 0
     cc = 0
     while jj < len(jdanUse):
+        suffix = '_at_2705.dat'
         cat = np.genfromtxt(dir+jdanUse[jj]+"_"+targname+"_"+filt+suffix,names=True)
         catCat = np.loadtxt(dir+jdanUse[jj]+"_"+targname+"_"+filt+suffix)
 
@@ -87,7 +88,7 @@ def pullMags(targname,filt,dir='./',suffix='_at_2705.dat'):
     form +='%1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f '
     form +='%1.4f %1.4f'
 
-    np.savetxt(dir+'matched_w_MagsPos1106r2.dat',magList,header=header,fmt=form)
+    np.savetxt(dir+'matched_w_MagsPos1106.dat',magList,header=header,fmt=form)
 
     return None
 
@@ -95,4 +96,4 @@ targname='HOROLOGIUM-I'
 filt='F606W'
 dir = 'catRawMags1305/catDir/'
 
-pullMags(targname,filt,dir=dir,suffix='_at_1106r2.dat')
+pullMags(targname,filt,dir=dir,suffix='_at_1106.dat')

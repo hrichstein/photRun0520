@@ -8,7 +8,9 @@ dir = 'catRawMags1305/catDir/'
 # dir1='/Volumes/Spare Data/Hannah_Data/mattia/rephotometryquestion/'
 # psf = np.genfromtxt(dir1 + 'HOROLOGIUM_CF.1.TOSEND.CAT')
 
-cat = np.genfromtxt(dir+'flcDRCpos1106_f606w.dat')
+# cat = np.genfromtxt(dir+'flcDRCpos1106_f606w.dat')
+cat = np.genfromtxt(dir+'flcDRCpos1106_f606wr2.dat')
+
 drc = np.genfromtxt(dir+'drc_useful_f606w.dat')
 
 RA, DEC, x, y, magr, id = 0, 1, 2, 3, 4, 5
@@ -87,4 +89,4 @@ header= 'x y magr id_cat'
 #
 # header = 'RA DEC flags c_star mag1 mag2 mag3 mag4 xt1 yt1 xDRC yDRC id_cat xDRC_mat yDRC_mat magDRC'
 #
-np.savetxt(dir+'drcFLCidx_1106_f606w.dat',master,header=header)
+np.savetxt(dir+'drcFLCidx_1106_f606wr2.dat',master,header=header)
