@@ -149,6 +149,7 @@ cython_debug/
 *.jpeg
 *.docx
 *.xlsx
+*.pdf
 
 *.e
 *.DS_STORE
