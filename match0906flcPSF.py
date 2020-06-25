@@ -6,7 +6,7 @@ matchtol = 2
 dir = 'catRawMags1305/catDir/'
 
 psf_dir = '/Volumes/Spare Data/Hannah_Data/mattia/rephotometryquestion/'
-psf_file = np.genfromtxt(psf_dir + 'HOROLOGIUM_CF.1.TOSEND.CAT')
+psf_file = np.genfromtxt(psf_dir + 'HOROLOGIUM_CF.2.TOSEND.CAT')
 
 cat = np.genfromtxt(dir+'flcPSFpos0906.dat')
 
@@ -67,4 +67,4 @@ header= 'x y magr id_cat'
 #
 # header = 'RA DEC flags c_star mag1 mag2 mag3 mag4 xt1 yt1 xDRC yDRC id_cat xDRC_mat yDRC_mat magDRC'
 #
-np.savetxt(dir+'flcPSF_idx_0906.dat',master,header=header)
+np.savetxt(dir+'flcPSF_idx_1706_f814wAPER.dat',master,header=header)
