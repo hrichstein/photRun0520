@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def getRef(targname,filt,dir='./',matchtol=50):
+def getRef_i(targname,filt,dir='./',matchtol=10,stdTol=2.5,iter=1):
 
     if filt=='F606W':
         fils = '_f606w'
@@ -10,25 +10,43 @@ def getRef(targname,filt,dir='./',matchtol=50):
         fils = '_f814w'
 
     drcN = np.genfromtxt(dir+'drc_useful_'+targname+'.dat',names=True)
-
     drc = np.genfromtxt(dir+'drc_useful_'+targname+'.dat')
 
     idD = np.zeros((len(drc),1))
     idD[:,0] = np.arange(0,len(drc),1)
 
     drc = np.hstack((drc,idD))
+    colDs = np.array(drcN.dtype.names)
 
-    flcN = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat',names=True)
+    if iter==1:
+        flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat",names=True)
+        flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat")
 
-    flc = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat')
+        colFs = np.array(flcN.dtype.names)
+
+        xF = np.int(np.where(colFs=='xDRC')[0])
+        yF = np.int(np.where(colFs=='yDRC')[0])
+    else:
+        flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}.dat".format(iter-1),names=True)
+        flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}.dat".format(iter-1))
+
+        colFs = np.array(flcN.dtype.names)
+
+        xstr = 'xDRC_'+ str(int(iter-1))
+        ystr = 'yDRC_'+ str(int(iter-1))
+
+        xF = np.int(np.where(colFs==xstr)[0])
+        yF = np.int(np.where(colFs==ystr)[0])
+
+
+    # These line differ from the original, which had xt1, etc., since this is the second iteration of this
+
+        ######
 
     idF = np.zeros((len(flc),1))
     idF[:,0] = np.arange(0,len(flc),1)
 
     flc = np.hstack((flc,idF))
-
-    colDs = np.array(drcN.dtype.names)
-    colFs = np.array(flcN.dtype.names)
 
     idFc = len(colFs) # which column index the id would be
     idDc = len(colDs) # which column index the id would be
@@ -37,17 +55,15 @@ def getRef(targname,filt,dir='./',matchtol=50):
     xStr = 'x'+fils
     yStr = 'y'+fils
 
-    # Picking  30 brightest stars
-    d30 = np.argsort(drcN[magStr])[:30]
-    drc30 = drc[d30]
+    # Picking 50 brightest stars
+    d50 = np.argsort(drcN[magStr])[:50]
+    drc50 = drc[d50]
 
-    f30 = np.argsort(flcN['mean'])[:30]
-    flc30 = flc[f30]
+    f50 = np.argsort(flcN['mean'])[:50]
+    flc50 = flc[f50]
 
     # To know which columns have which info
-    # Moving from xt,yt space in FLCs to x,y space in DRCs
-    xF = np.int(np.where(colFs=='xt1')[0])
-    yF = np.int(np.where(colFs=='yt1')[0])
+
     magF = np.int(np.where(colFs=='mean')[0])
     stdF = np.int(np.where(colFs=='stdev')[0])
 
@@ -56,10 +72,10 @@ def getRef(targname,filt,dir='./',matchtol=50):
     yD = np.int(np.where(colDs==yStr)[0])
     magD = np.int(np.where(colDs==magStr)[0])
 
-    master_in = flc30[:,[xF,yF,magF,stdF,idFc]]
+    master_in = flc50[:,[xF,yF,magF,stdF,idFc]]
     x,y,magrF,stdF_mas,idF_mas = 0,1,2,3,4
 
-    cat = drc30
+    cat = drc50
     matchids = np.zeros((len(master_in),1))
 
     nF_out = True
@@ -67,7 +83,7 @@ def getRef(targname,filt,dir='./',matchtol=50):
     matchtol=matchtol
     while nF_out:
         # master, matchids = matchlistID(master_in,match_arr,matchtol,x1,y1,x2,y2,id_mat)
-        master, matchids = matchlistID(master_in,cat,matchtol,x,y,magrF,stdF_mas,xD,yD,magD,idDc)
+        master, matchids = matchlistID(master_in,cat,matchtol,x,y,magrF,stdF_mas,xD,yD,magD,idDc,stdTol=stdTol)
 
         # x,y,magrF,stdF_mas,xD,yD,magD,idDc are all indices, not actual values
 
@@ -76,9 +92,9 @@ def getRef(targname,filt,dir='./',matchtol=50):
             print('Minimum Number Reached:{0:d}'.format(len(master)),targname,filt)
         else:
             print('Need More Stars')
-            master_in = flc30[:,[xF,yF,magF,stdF,idFc]]
+            master_in = flc50[:,[xF,yF,magF,stdF,idFc]]
             matchids = np.zeros((len(master_in),1))
-            matchtol += 50
+            matchtol += 10
 
     master = np.hstack((master,matchids))
 
@@ -97,10 +113,17 @@ def getRef(targname,filt,dir='./',matchtol=50):
     outArr = np.hstack((master,newCols))
 
     xo, yo, magrF, stdF, idF, idD, xD, yD, magrD = 0, 1, 2, 3, 4, 5, 6, 7, 8
+
+    xoff = outArr[:,xo] - outArr[:,xD]
+    yoff = outArr[:,yo] - outArr[:,yD]
+    tot_off = np.sqrt(xoff**2 + yoff**2)
+    mean_off = np.mean(tot_off)
+
     header = 'xF yF magrF stdF idF idD xD yD magrD'
     form = '%1.5f %1.5f %1.4f %1.5f %d %d %1.5f %1.5f %1.4f'
 
-    outName = dir+'flcDRCref_'+filt
+    # changed to reflect iteration
+    outName = dir+'flcDRCref_'+filt+'_'+str(iter)
 
     np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
 
@@ -108,8 +131,8 @@ def getRef(targname,filt,dir='./',matchtol=50):
 
     fig, ax = plt.subplots(figsize=(6,6))
 
-    ax.scatter(outArr[:,xo],outArr[:,yo],label='FLC',s=50)
-    ax.scatter(outArr[:,xD],outArr[:,yD],label='DRC',s= 30)
+    ax.scatter(outArr[:,xD],outArr[:,yD],label='DRC',s= 50)
+    ax.scatter(outArr[:,xo],outArr[:,yo],label='FLC',s=20)
 
     ax.legend()
     ax.set_title(targname+'_'+filt)
@@ -118,8 +141,10 @@ def getRef(targname,filt,dir='./',matchtol=50):
 
     plt.close()
 
+    # returning number of reference stars and average (x,y) offset
+    print(len(outArr), np.round(mean_off,4))
 
-    return None
+    return len(outArr), mean_off
 
 
 def matchlistID(master,cat,matchtol,x1,y1,mag1,std1,\
@@ -184,25 +209,3 @@ def matchlistID(master,cat,matchtol,x1,y1,mag1,std1,\
                 nF = False
 
     return master,matchids_in
-
-
-# def makePlot(match_arr,new_match,outname):
-#
-#     match = match_arr
-#     new = new_match
-#
-#     fig, ax = plt.subplots(figsize=(6,6))
-#
-#     ax.scatter(match[:,0],match[:,1],s=30,label='Original')
-#     ax.scatter(new[:,0],new[:,1],s=15,label='New')
-#
-#     ax.legend()
-#     ax.set_title(outname)
-#
-#     # print(outname)
-#     # plt.show()
-#     plt.savefig(outname)
-#     #
-#     plt.close()
-#
-#     return None

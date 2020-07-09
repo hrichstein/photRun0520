@@ -52,7 +52,8 @@ def outDiths(targname,filt,dir='./',suffix='_ref.dat',iter=1):
             new_match, new_all = test_linear(match_arr[:,0],match_arr[:,1], master_arr[:,0], master_arr[:,1], weights, weights, all_arr[:,0],all_arr[:,1])
 
             # This would be a good place to have it make a plot
-            # makePlot(match_arr,new_match,outname=jdanUse[dd+1]+'_matchCheck.png')
+            # makePlot(targname,filt,match_arr[:,0],match_arr[:,1],\
+            # new_match[:,0],new_match[:,1],master_arr[:,0], master_arr[:,1],label_1='Past FLC Trans Pos.',label_2='New in FLC2DRC',label_3='Original in DRC',outname=plotName)
 
             outArr = np.hstack((allCat,new_all))
             header = 'flags RA DEC xr yr flux c_star magr id xc yc xo yo xt yt'
@@ -64,3 +65,21 @@ def outDiths(targname,filt,dir='./',suffix='_ref.dat',iter=1):
 
 
     return None
+
+# def makePlot(targname,filt,x1,y1,x2,y2,x3,y3,label_1,\
+#     label_2,label_3,outname):
+#
+#     fig, ax = plt.subplots(figsize=(6,6))
+#
+#     ax.scatter(x3,y3,label=label_3,s=70)
+#     ax.scatter(x1,y1,label=label_1,s=50)
+#     ax.scatter(x2,y2,label=label_2,s=20)
+#
+#     ax.legend()
+#     ax.set_title(targname+'_'+filt)
+#
+#     plt.savefig(outname+'.png',dpi=600,bbox_inches='tight')
+#     plt.close()
+#
+#
+#     return None

@@ -8,6 +8,8 @@ from f2mag0707 import f2mag_dirs
 from hst_func import *
 from linTrans import *
 
+# I think this file is obsolete
+
 upperDir = "/Volumes/Spare Data/Hannah_Data/"
 offset = 20.0
 

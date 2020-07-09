@@ -17,7 +17,7 @@ def makePlot(match_arr,new_match,outname):
 
     # print(outname)
     # plt.show()
-    plt.savefig(outname)
+    plt.savefig(outname,dpi=600,bbox_inches='tight')
     #
     plt.close()
 

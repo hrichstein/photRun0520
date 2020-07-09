@@ -63,7 +63,8 @@ def test_linear(matchx, matchy, masterx, mastery, weix, weiy, allx, ally):
 
   allvals = np.hstack((allx, ally))
 
-  print(matchx.shape, matchy.shape, allx.shape, ally.shape, match.shape, allvals.shape)
+  # This is what prints so many things!!!
+  # print(matchx.shape, matchy.shape, allx.shape, ally.shape, match.shape, allvals.shape)
 
   xx = 6 	# number of parameters
 
@@ -86,13 +87,13 @@ def test_linear(matchx, matchy, masterx, mastery, weix, weiy, allx, ally):
 
   m = mpfit(linear1_lin, p0, parinfo=parinfo, functkw=fa, ftol=1e-15, xtol=1e-15, \
             gtol=1e-15)
-
+    #added nprint=0 and quiet=0
 
   # calculate the degrees of freedom for the problem
   dof = len(match) - len(m.params)
 
 
-  # calculate the parameter correlation matrix pcor from the calculated 
+  # calculate the parameter correlation matrix pcor from the calculated
   # covariance matrix cov
   cov = m.covar
   pcor = cov*0.
@@ -135,9 +136,9 @@ def test_linear(matchx, matchy, masterx, mastery, weix, weiy, allx, ally):
 
   match_new[:,0] = ar[0:int(len(ar)/2)]
   match_new[:,1] = ar[int(len(ar)/2):]
-  
+
   #np.savetxt("image1_it.dat", ar, fmt="%1.5f")
-  
+
   ar2 = linear1(allvals, par)
 
   all_new = np.zeros((int(len(ar2)/2), 2))
@@ -153,7 +154,7 @@ def test_linear(matchx, matchy, masterx, mastery, weix, weiy, allx, ally):
 ####
 
 if __name__ == "__main__":
-  
+
   vals = np.loadtxt("image2_i.dat")	# Load in the data
   allvals = np.loadtxt("image2_ia.dat") # Load in all positions
 
@@ -162,7 +163,7 @@ if __name__ == "__main__":
   x_valsx = vals[0:int(len(vals)/2),ix]
   x_valsy = vals[int(len(vals)/2):, ix]
 
-  print(len(x_valsx), len(x_valsy))
+  # print(len(x_valsx), len(x_valsy))
 
   y_valsx = vals[0:int(len(vals)/2),iy]
   y_valsy = vals[int(len(vals)/2):, iy]
@@ -174,4 +175,3 @@ if __name__ == "__main__":
   x_ally = allvals[int(len(allvals)/2):, ix]
 
   vals_new, all_new = test_linear(x_valsx, x_valsy, y_valsx, y_valsy, err_x, err_y, x_allx, x_ally)
-
