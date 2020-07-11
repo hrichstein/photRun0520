@@ -4,6 +4,7 @@ from astropy.io import fits
 
 from getRefiter0707 import *
 from linFLC2drcIter0707 import *
+from getMatchedFLCdrc0707 import *
 
 from f2mag0707 import f2mag_dirs
 
@@ -52,6 +53,16 @@ def whichIter(targname,filt,dir='./'):
     # return file_str, nS_list, mOff_list, it_list, out
     return file_str
 
+
+def doIterMatch(targname,filt,dir='./',matchtol=2.5,stdTol=5):
+
+    match_file = whichIter(targname,filt,dir=dir)
+
+    print(match_file)
+
+    getMatch(targname,filt,match_file,dir=dir,matchtol=matchtol,stdTol=stdTol)
+
+    return None
 # targname = 'HYDRA-II'
 # filt = 'F606W'
 #

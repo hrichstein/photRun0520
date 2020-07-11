@@ -66,20 +66,4 @@ def outDiths(targname,filt,dir='./',suffix='_ref.dat',iter=1):
 
     return None
 
-# def makePlot(targname,filt,x1,y1,x2,y2,x3,y3,label_1,\
-#     label_2,label_3,outname):
 #
-#     fig, ax = plt.subplots(figsize=(6,6))
-#
-#     ax.scatter(x3,y3,label=label_3,s=70)
-#     ax.scatter(x1,y1,label=label_1,s=50)
-#     ax.scatter(x2,y2,label=label_2,s=20)
-#
-#     ax.legend()
-#     ax.set_title(targname+'_'+filt)
-#
-#     plt.savefig(outname+'.png',dpi=600,bbox_inches='tight')
-#     plt.close()
-#
-#
-#     return None

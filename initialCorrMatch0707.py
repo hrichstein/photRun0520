@@ -76,13 +76,13 @@ def offCor(targname,filt,workDir='./'):
     return None
 
 # Specifically for first run through
-def matchWJCs(targname,filt,workDir='./',matchtol=2):
+def matchWJCs(targname,filt,workDir='./',matchtol=2,suffix='_ref.dat'):
 
     # xt, yt = 11,12
     # magr,id = 7,8
 
     jdanUse = getJdan(targname,filt)
-    outName = "master_ids_"+targname+"_"+filt+"_0.dat"
+    outName = "master_ids_"+targname+"_"+filt+suffix
 
     master = np.genfromtxt(workDir+jdanUse[0]+"_"+targname+'_'+filt+"_oc.dat",names=True)
     masterCat = np.loadtxt(workDir+jdanUse[0]+"_"+targname+'_'+filt+'_oc.dat')
@@ -185,9 +185,9 @@ def pullMags(targname,filt,dir='./',suffix='_0.dat'):
     jj = 0
     cc = 0
     while jj < len(jdanUse):
-        suffix = '_oc.dat'
-        cat = np.genfromtxt(dir+jdanUse[jj]+"_"+targname+"_"+filt+suffix,names=True)
-        catCat = np.loadtxt(dir+jdanUse[jj]+"_"+targname+"_"+filt+suffix)
+        suff = '_oc.dat'
+        cat = np.genfromtxt(dir+jdanUse[jj]+"_"+targname+"_"+filt+suff,names=True)
+        catCat = np.loadtxt(dir+jdanUse[jj]+"_"+targname+"_"+filt+suff)
 
         if jj==0:
             idcol = id
@@ -232,17 +232,19 @@ def pullMags(targname,filt,dir='./',suffix='_0.dat'):
     form +='%1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f '
     form +='%1.4f %1.4f'
 
-    np.savetxt(dir+'matched_w_MagsPos_0.dat',magList,header=header,fmt=form)
+    np.savetxt(dir+'matched_w_MagsPos'+suffix,magList,header=header,fmt=form)
 
     return None
 
 
 def wrapped(targname,filt):
     seDir, magCatDir, catDir = f2mag_dirs(targname,date='1305',workDir='./')
-    # distCor(targname,filt,workDir=catDir)
-    # offCor(targname,filt,workDir=catDir)
-    # matchWJCs(targname,filt,workDir=catDir,matchtol=3)
+    distCor(targname,filt,workDir=catDir)
+    offCor(targname,filt,workDir=catDir)
+    matchWJCs(targname,filt,workDir=catDir,matchtol=3,suffix='_0.dat')
     pullMags(targname,filt,dir=catDir,suffix='_0.dat')
+    matchWJCs(targname,filt,workDir=catDir,matchtol=0.2,suffix='_ref.dat')
+    pullMags(targname,filt,dir=catDir,suffix='_ref.dat')
 
     return None
     #

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def getMatch(targname,filt,file,dir='./',matchtol=3,stdTol=5):
+def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
 
     if filt=='F606W':
         fils = '_f606w'
@@ -40,8 +40,6 @@ def getMatch(targname,filt,file,dir='./',matchtol=3,stdTol=5):
     xstr = colFs[-2]
     ystr = colFs[-1]
 
-    # break
-
     xF = np.int(np.where(colFs==xstr)[0])
     yF = np.int(np.where(colFs==ystr)[0])
     magF = np.int(np.where(colFs=='mean')[0])
@@ -71,17 +69,18 @@ def getMatch(targname,filt,file,dir='./',matchtol=3,stdTol=5):
 
         # x,y,magrF,stdF_mas,xD,yD,magD,idDc are all indices, not actual values
 
-        # I'm going to assume I won't run into number issues here, but may need to check back.
-
-        if len(master)>=int(0.1*len(cat)):
+        if len(master)>=int(0.2*len(cat)):
             nF_out = False
-            print('Minimum Number Reached:{0:d}'.format(len(master)),targname,filt)
+            print('Minimum Number Reached: %d' % len(master),targname,filt)
         else:
             print('Need More Stars')
-            print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(matchtol,len(master)))
+            print("Pixel Tolerance: %d, Number Stars: %d" % (matchtol,len(master)))
             master_in = flc[:,[xF,yF,magF,stdF,idFc]]
             matchids = np.zeros((len(master_in),1))
-            matchtol += 5
+            matchtol += 2.5
+
+        if matchtol >= 20:
+            print("Sacrificing number of stars for quality of matches.")
 
     master = np.hstack((master,matchids))
     print(targname, filt, len(master))

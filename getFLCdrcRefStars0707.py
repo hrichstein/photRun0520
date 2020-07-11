@@ -186,23 +186,4 @@ def matchlistID(master,cat,matchtol,x1,y1,mag1,std1,\
     return master,matchids_in
 
 
-# def makePlot(match_arr,new_match,outname):
 #
-#     match = match_arr
-#     new = new_match
-#
-#     fig, ax = plt.subplots(figsize=(6,6))
-#
-#     ax.scatter(match[:,0],match[:,1],s=30,label='Original')
-#     ax.scatter(new[:,0],new[:,1],s=15,label='New')
-#
-#     ax.legend()
-#     ax.set_title(outname)
-#
-#     # print(outname)
-#     # plt.show()
-#     plt.savefig(outname)
-#     #
-#     plt.close()
-#
-#     return None
