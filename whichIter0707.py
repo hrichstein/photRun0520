@@ -25,7 +25,7 @@ def whichIter(targname,filt,dir='./'):
         mOff_list = np.append(mOff_list,[meanOffset])
         it_list = np.append(it_list,[iter])
 
-        if iter>=int(2):
+        if iter>=int(2): # may need to change to 4 in some cases?? (ex. Hydra2)
             if np.logical_and((nS_list[-1] >= nS_list[-2]),(mOff_list[-1] <= mOff_list[-2])) :
                 kI = False
                 takeRun = iter
@@ -43,6 +43,9 @@ def whichIter(targname,filt,dir='./'):
 
         linFLC2drc_i(targname,filt,dir=dir,iter=iter)
         iter += 1
+        # if iter==2:
+        #     kI = False
+        #     takeRun = iter-1
 
     if takeRun == 1:
         file_str = dir+targname+"_"+filt+"_drcTrans.dat"

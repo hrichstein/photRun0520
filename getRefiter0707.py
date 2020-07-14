@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def getRef_i(targname,filt,dir='./',matchtol=10,stdTol=2.5,iter=1):
+def getRef_i(targname,filt,dir='./',matchtol=5,stdTol=2.5,iter=1):
 
     if filt=='F606W':
         fils = '_f606w'
@@ -94,7 +94,7 @@ def getRef_i(targname,filt,dir='./',matchtol=10,stdTol=2.5,iter=1):
             print('Need More Stars')
             master_in = flc50[:,[xF,yF,magF,stdF,idFc]]
             matchids = np.zeros((len(master_in),1))
-            matchtol += 10
+            matchtol += 5
 
     master = np.hstack((master,matchids))
 
@@ -131,8 +131,8 @@ def getRef_i(targname,filt,dir='./',matchtol=10,stdTol=2.5,iter=1):
 
     fig, ax = plt.subplots(figsize=(6,6))
 
-    ax.scatter(outArr[:,xD],outArr[:,yD],label='DRC',s= 50)
-    ax.scatter(outArr[:,xo],outArr[:,yo],label='FLC',s=20)
+    ax.scatter(outArr[:,xD],outArr[:,yD],label='DRC',s= 20)
+    ax.scatter(outArr[:,xo],outArr[:,yo],label='FLC',s=5)
 
     ax.legend()
     ax.set_title(targname+'_'+filt)
