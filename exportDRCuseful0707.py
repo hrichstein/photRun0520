@@ -34,9 +34,9 @@ def exp_DRC(targname):
 
 # targname_arr = ['HYDRA-II','PEGASUS-III','PHOENIX-II','RETICULUM-II','TRIANGULUM-II-EAST','TRIANGULUM-II-WEST','TUCANA-II-NE',
 # 'TUCANA-II-NW','TUCANA-II-SE','TUCANA-II-SW','SAGITTARIUS-II']
-targname_arr=['HOROLOGIUM-I']
-for c1,tt in enumerate(targname_arr):
-    exp_DRC(tt)
+# targname_arr=['HOROLOGIUM-I']
+# for c1,tt in enumerate(targname_arr):
+#     exp_DRC(tt)
 
 
 # end
