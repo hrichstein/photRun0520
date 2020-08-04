@@ -2,16 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from linear6d import *
 
-def linFiltTrans(targname,dir='./'):
+def linFiltTrans(targname,dir='photUtils0820/'):
 
     # Going from F814W to F606W
 
-    file = np.genfromtxt(dir+'filtRef_'+targname+'_mDc.dat',names=True)
-    fileCat = np.genfromtxt(dir+'filtRef_'+targname+'_mDc.dat')
+    file = np.genfromtxt(dir+'filtRef_'+targname+'_pU.dat',names=True)
+    fileCat = np.genfromtxt(dir+'filtRef_'+targname+'_pU.dat')
     colNs = np.array(file.dtype.names)
 
-    all = np.genfromtxt(dir+'magZPTedAll_F814W_mDc.dat',names=True)
-    allCat = np.genfromtxt(dir+'magZPTedAll_F814W_mDc.dat')
+    all = np.genfromtxt(dir+'starFinder_F814W.dat',names=True)
+    allCat = np.genfromtxt(dir+'starFinder_F814W.dat')
     colAs = np.array(all.dtype.names)
 
     # Putting the F814W positions into the match array to be used as references transformed
@@ -36,8 +36,8 @@ def linFiltTrans(targname,dir='./'):
     # Filling the array with values to be transformed
     all_arr = np.zeros((len(all),2))
 
-    x_bt = np.int(np.where(colAs=='xt1')[0])
-    y_bt = np.int(np.where(colAs=='yt1')[0])
+    x_bt = np.int(np.where(colAs=='xcenter')[0])
+    y_bt = np.int(np.where(colAs=='ycenter')[0])
 
     all_arr[:,0] = allCat[:,x_bt]
     all_arr[:,1] = allCat[:,y_bt]
@@ -50,7 +50,7 @@ def linFiltTrans(targname,dir='./'):
     # new_match[:,0],new_match[:,1],master_arr[:,0], master_arr[:,1],label_1='Original in F814W',label_2='New in F814W 2 F606W',label_3='Original in F606W',outname=outName+'_matchCheck.png')
 
     makePlot(targname,match_arr[:,0],match_arr[:,1],\
-    new_match[:,0],new_match[:,1],master_arr[:,0], master_arr[:,1],label_1='Original in F814W',label_2='New in F814W 2 F606W',label_3='Original in F606W',outname=outName+'_matchCheck_mDc.png')
+    new_match[:,0],new_match[:,1],master_arr[:,0], master_arr[:,1],label_1='Original in F814W',label_2='New in F814W 2 F606W',label_3='Original in F606W',outname=outName+'_matchCheck.png')
 
     outArr = np.hstack((allCat,new_all))
 
@@ -59,7 +59,7 @@ def linFiltTrans(targname,dir='./'):
     header += ' x_f606wTrans y_f606wTrans'
 
     # np.savetxt(outName+'.dat',outArr,header=header)
-    np.savetxt(outName+'_mDc.dat',outArr,header=header)
+    np.savetxt(outName+'_pU.dat',outArr,header=header)
 
     return None
 
@@ -77,8 +77,10 @@ def makePlot(targname,x1,y1,x2,y2,x3,y3,label_1,\
     ax.set_title(targname)
 
     # plt.savefig(outname+'.png',dpi=600,bbox_inches='tight')
-    plt.savefig(outname+'_mDc.png',dpi=600,bbox_inches='tight')
+    plt.savefig(outname+'_pU.png',dpi=600,bbox_inches='tight')
     plt.close()
 
 
     return None
+
+linFiltTrans('HOROLOGIUM-I',dir='photUtils0820/')

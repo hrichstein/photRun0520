@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
 
 
-    file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
+    # file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
+    file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'_mDc.dat',names=True)
     drc = np.genfromtxt(dir+'drc_useful_'+targname+'.dat')
 
     lenD = len(drc)
@@ -45,7 +46,8 @@ def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
     title_str = targname + '_' + filt + ' {0}'.format(len(flc_diff[0]))
     ax.set_title(title_str)
 
-    plt.savefig(dir+targname+'_'+filt+'ZPTline.png',dpi=600,bbox_inches='tight')
+    # plt.savefig(dir+targname+'_'+filt+'ZPTline.png',dpi=600,bbox_inches='tight')
+    plt.savefig(dir+targname+'_'+filt+'ZPTline_mdC.png',dpi=600,bbox_inches='tight')
 
     plt.close()
 
@@ -54,8 +56,10 @@ def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
 
 def applyZPT(mag_corr,err_add,targname,filt,dir='./'):
 
-    all = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat',names=True)
-    cat = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat')
+    # all = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat',names=True)
+    # cat = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat')
+    all = np.genfromtxt(dir+'magSTDcutAll_'+filt+'_mDc.dat',names=True)
+    cat = np.genfromtxt(dir+'magSTDcutAll_'+filt+'_mDc.dat')
 
     mean = all['mean']
     std = all['stdev']
@@ -80,7 +84,8 @@ def applyZPT(mag_corr,err_add,targname,filt,dir='./'):
     # form +='%1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f %1.4f '
     # form +='%1.4f %1.4f %1.4f %1.5f %d %d %d %1.4f %1.5'
 
-    np.savetxt(dir+'magZPTedAll_'+filt+'.dat',outArr,header=header)
+    # np.savetxt(dir+'magZPTedAll_'+filt+'.dat',outArr,header=header)
+    np.savetxt(dir+'magZPTedAll_'+filt+'_mDc.dat',outArr,header=header)
 
 
     return None

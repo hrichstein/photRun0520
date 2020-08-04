@@ -42,6 +42,10 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
 
     xF = np.int(np.where(colFs==xstr)[0])
     yF = np.int(np.where(colFs==ystr)[0])
+
+    xR = np.int(np.where(colFs=='xr1')[0])
+    yR = np.int(np.where(colFs=='yr1')[0])
+
     magF = np.int(np.where(colFs=='mean')[0])
     stdF = np.int(np.where(colFs=='stdev')[0])
 
@@ -53,7 +57,7 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
     idFc = len(colFs) # which column index the id would be
     idDc = len(colDs) # which column index the id would be
 
-    master_in = flc[:,[xF,yF,magF,stdF,idFc]]
+    master_in = flc[:,[xF,yF,magF,stdF,idFc,xR,yR]]
     x,y,magrF,stdF_mas,idF_mas = 0,1,2,3,4
 
     cat = drc
@@ -75,7 +79,7 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
         else:
             print('Need More Stars')
             print("Pixel Tolerance: %d, Number Stars: %d" % (matchtol,len(master)))
-            master_in = flc[:,[xF,yF,magF,stdF,idFc]]
+            master_in = flc[:,[xF,yF,magF,stdF,idFc,xR,yR]]
             matchids = np.zeros((len(master_in),1))
             matchtol += 2.5
 
@@ -85,7 +89,7 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
     master = np.hstack((master,matchids))
     print(targname, filt, len(master))
 
-    xF_mas, yF_mas, magF_mas, stdF_mas, idF_mas, idD_mas = 0, 1, 2, 3, 4, 5
+    xF_mas, yF_mas, magF_mas, stdF_mas, idF_mas, xR, yR, idD_mas = 0, 1, 2, 3, 4, 5, 6, 7
 
     newCols = np.zeros((len(master),3))
 
@@ -99,9 +103,9 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
 
     outArr = np.hstack((master,newCols))
 
-    xo, yo, magrF, stdF, idF, idD, xD, yD, magrD = 0, 1, 2, 3, 4, 5, 6, 7, 8
-    header = 'xF yF magrF stdF idF idD xD yD magrD'
-    form = '%1.5f %1.5f %1.4f %1.5f %d %d %1.5f %1.5f %1.4f'
+    xo, yo, magrF, stdF, idF, xR,yR,idD, xD, yD, magrD = 0, 1, 2, 3, 4, 5, 6, 7, 8,9,10
+    header = 'xF yF magrF stdF idF xR yR idD xD yD magrD'
+    form = '%1.5f %1.5f %1.4f %1.5f %d %1.5f %1.5f %d %1.5f %1.5f %1.4f'
 
     outName = dir+'flcDRCmatch_'+filt
 

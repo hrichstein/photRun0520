@@ -5,7 +5,8 @@ import matplotlib.pyplot as plt
 def plotZPTdiff(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
 
 
-    file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
+    # file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
+    file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'_mDc.dat',names=True)
     drc = np.genfromtxt(dir+'drc_useful_'+targname+'.dat')
 
     lenD = len(drc)
@@ -54,7 +55,7 @@ def plotZPTdiff(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
     fig, ax = plt.subplots(figsize=(6,6))
     # #
 
-    cax = ax.imshow(mean,extent=extent,origin='lower',interpolation='nearest',vmin=min_diff,vmax=max_diff,cmap=cm)
+    cax = ax.imshow(mean.T,extent=extent,origin='lower',interpolation='nearest',vmin=min_diff,vmax=max_diff,cmap=cm)
     cbar = fig.colorbar(cax)
     # # sc = ax.scatter(xv.flatten(),yv.flatten(),c=mean.flatten(),vmin=min_diff,vmax=max_diff,s=20,cmap=cm)
     #
@@ -65,7 +66,8 @@ def plotZPTdiff(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
     title_str = targname + '_' + filt + ' {0}'.format(len(flc_diff[0]))
     ax.set_title(title_str)
     # #
-    plt.savefig(dir+targname+'_'+filt+'ZPTbinned.png',dpi=600,bbox_inches='tight')
+    # plt.savefig(dir+targname+'_'+filt+'ZPTbinned.png',dpi=600,bbox_inches='tight')
+    plt.savefig(dir+targname+'_'+filt+'ZPTbinned_mDc.png',dpi=600,bbox_inches='tight')
     # plt.show()
     plt.close()
 
@@ -78,7 +80,8 @@ def plotZPTdiff(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
     title_str = targname + '_' + filt + ' {0}'.format(len(flc_diff[0]))
     ax.set_title(title_str)
     # #
-    plt.savefig(dir+targname+'_'+filt+'ZPTscatter.png',dpi=600,bbox_inches='tight')
+    # plt.savefig(dir+targname+'_'+filt+'ZPTscatter.png',dpi=600,bbox_inches='tight')
+    plt.savefig(dir+targname+'_'+filt+'ZPTscatter_mDc.png',dpi=600,bbox_inches='tight')
     # plt.show()
     plt.close()
 

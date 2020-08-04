@@ -12,6 +12,8 @@ upperDir = "/Volumes/Spare Data/Hannah_Data/"
 offset = 20.0 # number of pixels in one arcsecond
 # seDir, magCatDir, catDir = f2mag_dirs(targname,date='1305',workDir='./')
 
+# Eventually put the magCorrection function in here
+
 def distCor(targname,filt,workDir='./'):
 
     jdanUse = getJdan(targname,filt)

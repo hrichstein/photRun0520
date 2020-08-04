@@ -5,7 +5,8 @@ def makeCMD(targname,dir='./'):
 
     drc = np.genfromtxt(dir+'drc_useful_'+targname+'.dat',names=True)
 
-    flc = np.genfromtxt(dir+targname+'_sourceList0720.dat',names=True)
+    # flc = np.genfromtxt(dir+targname+'_sourceList0720.dat',names=True)
+    flc = np.genfromtxt(dir+targname+'_sourceList0723_mDc.dat',names=True)
 
     d_idx = np.logical_and(drc['c_star_f606w']>=0.5, drc['c_star_f814w']>=0.5)
     f_idx = np.logical_and(flc['c_star_f606w']>=0.5, flc['c_star_f814w']>=0.5)
@@ -35,7 +36,8 @@ def makeCMD(targname,dir='./'):
     ax1.legend()
     ax2.legend()
 
-    plt.savefig(dir+targname+'_cmd.png',dpi=600,bbox_inches='tight')
+    # plt.savefig(dir+targname+'_cmd.png',dpi=600,bbox_inches='tight')
+    plt.savefig(dir+targname+'_cmd_mDc.png',dpi=600,bbox_inches='tight')
 
     plt.close()
 

@@ -18,9 +18,13 @@ def getRef(targname,filt,dir='./',matchtol=50):
 
     drc = np.hstack((drc,idD))
 
-    flcN = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat',names=True)
+    # flcN = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat',names=True)
+    #
+    # flc = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat')
 
-    flc = np.genfromtxt(dir+'magSTDcutAll_'+filt+'.dat')
+    flcN = np.genfromtxt(dir+'magSTDcutAll_'+filt+'_mDc.dat',names=True)
+
+    flc = np.genfromtxt(dir+'magSTDcutAll_'+filt+'_mDc.dat')
 
     idF = np.zeros((len(flc),1))
     idF[:,0] = np.arange(0,len(flc),1)
@@ -102,7 +106,9 @@ def getRef(targname,filt,dir='./',matchtol=50):
 
     outName = dir+'flcDRCref_'+filt
 
-    np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
+    # np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
+
+    np.savetxt(outName+'_mDc.dat',outArr,header=header,fmt=form)
 
     # Plotting Section
 
@@ -114,7 +120,9 @@ def getRef(targname,filt,dir='./',matchtol=50):
     ax.legend()
     ax.set_title(targname+'_'+filt)
 
-    plt.savefig(outName+'.png',dpi=600,bbox_inches='tight')
+    # plt.savefig(outName+'.png',dpi=600,bbox_inches='tight')
+
+    plt.savefig(outName+'_mDc.png',dpi=600,bbox_inches='tight')
 
     plt.close()
 

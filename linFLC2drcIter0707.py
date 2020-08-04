@@ -6,11 +6,16 @@ def linFLC2drc_i(targname,filt,dir='./',iter=1):
 
     if iter==1:
 
-        file = np.genfromtxt(dir+'flcDRCref_'+filt+".dat",names=True)
-        fileCat = np.genfromtxt(dir+'flcDRCref_'+filt+".dat")
+        # file = np.genfromtxt(dir+'flcDRCref_'+filt+".dat",names=True)
+        # fileCat = np.genfromtxt(dir+'flcDRCref_'+filt+".dat")
 
-        all = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat",names=True)
-        allCat = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat")
+        # all = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat",names=True)
+        # allCat = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat")
+        file = np.genfromtxt(dir+'flcDRCref_'+filt+"_mDc.dat",names=True)
+        fileCat = np.genfromtxt(dir+'flcDRCref_'+filt+"_mDc.dat")
+
+        all = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans_mDc.dat",names=True)
+        allCat = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans_mDc.dat")
 
         colAs = np.array(all.dtype.names)
 
@@ -26,11 +31,17 @@ def linFLC2drc_i(targname,filt,dir='./',iter=1):
 
     elif iter> 1:
 
-        file = np.genfromtxt(dir+'flcDRCref_'+filt+"_"+str(iter-1)+'.dat',names=True)
-        fileCat = np.genfromtxt(dir+'flcDRCref_'+filt+"_"+str(iter-1)+'.dat')
+        # file = np.genfromtxt(dir+'flcDRCref_'+filt+"_"+str(iter-1)+'.dat',names=True)
+        # fileCat = np.genfromtxt(dir+'flcDRCref_'+filt+"_"+str(iter-1)+'.dat')
+        #
+        # all = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter-1)+".dat",names=True)
+        # allCat = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter-1)+".dat")
 
-        all = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter-1)+".dat",names=True)
-        allCat = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter-1)+".dat")
+        file = np.genfromtxt(dir+'flcDRCref_'+filt+"_"+str(iter-1)+'_mDc.dat',names=True)
+        fileCat = np.genfromtxt(dir+'flcDRCref_'+filt+"_"+str(iter-1)+'_mDc.dat')
+
+        all = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter-1)+"_mDc.dat",names=True)
+        allCat = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter-1)+"_mDc.dat")
 
         colAs = np.array(all.dtype.names)
 
@@ -84,7 +95,8 @@ def linFLC2drc_i(targname,filt,dir='./',iter=1):
 
         outArr = np.hstack((allCat,new_all))
         #
-        np.savetxt(outName+'.dat',outArr,header=header)
+        # np.savetxt(outName+'.dat',outArr,header=header)
+        np.savetxt(outName+'_mDc.dat',outArr,header=header)
 
     except RuntimeWarning:
         print('Not good enough.',targname,filt,dd)

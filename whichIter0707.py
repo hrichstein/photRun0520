@@ -6,7 +6,7 @@ from getRefiter0707 import *
 from linFLC2drcIter0707 import *
 from getMatchedFLCdrc0707 import *
 
-from f2mag0707 import f2mag_dirs
+# from f2mag0707 import f2mag_dirs
 
 def whichIter(targname,filt,dir='./'):
 
@@ -48,10 +48,12 @@ def whichIter(targname,filt,dir='./'):
         #     takeRun = iter-1
 
     if takeRun == 1:
-        file_str = dir+targname+"_"+filt+"_drcTrans.dat"
+        # file_str = dir+targname+"_"+filt+"_drcTrans.dat"
+        file_str = dir+targname+"_"+filt+"_drcTrans_mDc.dat"
     else:
         iterStr = str(takeRun-1)
-        file_str = dir+targname+"_"+filt+"_drcTrans"+iterStr+".dat"
+        # file_str = dir+targname+"_"+filt+"_drcTrans"+iterStr+".dat"
+        file_str = dir+targname+"_"+filt+"_drcTrans"+iterStr+"_mDc.dat"
 
     # return file_str, nS_list, mOff_list, it_list, out
     return file_str

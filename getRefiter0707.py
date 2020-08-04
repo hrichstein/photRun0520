@@ -18,17 +18,36 @@ def getRef_i(targname,filt,dir='./',matchtol=5,stdTol=2.5,iter=1):
     drc = np.hstack((drc,idD))
     colDs = np.array(drcN.dtype.names)
 
+    # if iter==1:
+    #     flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat",names=True)
+    #     flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat")
+    #
+    #     colFs = np.array(flcN.dtype.names)
+    #
+    #     xF = np.int(np.where(colFs=='xDRC')[0])
+    #     yF = np.int(np.where(colFs=='yDRC')[0])
+    # else:
+    #     flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}.dat".format(iter-1),names=True)
+    #     flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}.dat".format(iter-1))
+    #
+    #     colFs = np.array(flcN.dtype.names)
+    #
+    #     xstr = 'xDRC_'+ str(int(iter-1))
+    #     ystr = 'yDRC_'+ str(int(iter-1))
+    #
+    #     xF = np.int(np.where(colFs==xstr)[0])
+    #     yF = np.int(np.where(colFs==ystr)[0])
     if iter==1:
-        flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat",names=True)
-        flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans.dat")
+        flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans_mDc.dat",names=True)
+        flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans_mDc.dat")
 
         colFs = np.array(flcN.dtype.names)
 
         xF = np.int(np.where(colFs=='xDRC')[0])
         yF = np.int(np.where(colFs=='yDRC')[0])
     else:
-        flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}.dat".format(iter-1),names=True)
-        flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}.dat".format(iter-1))
+        flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}_mDc.dat".format(iter-1),names=True)
+        flc = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans{0:d}_mDc.dat".format(iter-1))
 
         colFs = np.array(flcN.dtype.names)
 
@@ -125,7 +144,8 @@ def getRef_i(targname,filt,dir='./',matchtol=5,stdTol=2.5,iter=1):
     # changed to reflect iteration
     outName = dir+'flcDRCref_'+filt+'_'+str(iter)
 
-    np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
+    # np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
+    np.savetxt(outName+'_mDc.dat',outArr,header=header,fmt=form)
 
     # Plotting Section
 
@@ -137,7 +157,8 @@ def getRef_i(targname,filt,dir='./',matchtol=5,stdTol=2.5,iter=1):
     ax.legend()
     ax.set_title(targname+'_'+filt)
 
-    plt.savefig(outName+'.png',dpi=600,bbox_inches='tight')
+    # plt.savefig(outName+'.png',dpi=600,bbox_inches='tight')
+    plt.savefig(outName+'_mDc.png',dpi=600,bbox_inches='tight')
 
     plt.close()
 

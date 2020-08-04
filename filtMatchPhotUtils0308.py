@@ -1,13 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def getRefFilt(targname,matchtol=3,dir='./'):
+def getRefFilt(targname,matchtol=3,dir='photUtils0820/'):
 
-    f606wN = np.genfromtxt(dir+'magZPTedAll_F606W_mDc.dat',names=True)
-    f606w = np.genfromtxt(dir+'magZPTedAll_F606W_mDc.dat')
+    f606wN = np.genfromtxt(dir+'starFinder_F606W.dat',names=True)
+    f606w = np.genfromtxt(dir+'starFinder_F606W.dat')
 
-    f814wN = np.genfromtxt(dir+'magZPTedAll_F814W_mDc.dat',names=True)
-    f814w = np.genfromtxt(dir+'magZPTedAll_F814W_mDc.dat')
+    f814wN = np.genfromtxt(dir+'starFinder_F814W.dat',names=True)
+    f814w = np.genfromtxt(dir+'starFinder_F814W.dat')
 
     id606 = np.zeros((len(f606w),1))
     id606[:,0] = np.arange(0,len(f606w),1)
@@ -24,17 +24,17 @@ def getRefFilt(targname,matchtol=3,dir='./'):
     # Getting indices of columns
 
     # Will be the same for both filters
-    xt1 = np.int(np.where(col606=='xt1')[0])
-    yt1 = np.int(np.where(col606=='yt1')[0])
-    magZPT = np.int(np.where(col606=='magZPT')[0])
+    xt1 = np.int(np.where(col606=='xcenter')[0])
+    yt1 = np.int(np.where(col606=='ycenter')[0])
+    magZPT = np.int(np.where(col606=='magr')[0])
 
     idCol = len(col606)
 
     # Sorting to get the 50 brightest stars
-    v50 = np.argsort(f606wN['magZPT'])[:50]
+    v50 = np.argsort(f606wN['magr'])[:50]
     fv_50 = f606w[v50]
 
-    i50 = np.argsort(f814wN['magZPT'])[:50]
+    i50 = np.argsort(f814wN['magr'])[:50]
     fi_50 = f814w[i50]
 
     master_in = fv_50[:,[xt1,yt1,magZPT,idCol]]
@@ -82,7 +82,7 @@ def getRefFilt(targname,matchtol=3,dir='./'):
 
     outName = dir+'filtRef_'+targname
     # np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
-    np.savetxt(outName+'_mDc.dat',outArr,header=header,fmt=form)
+    np.savetxt(outName+'_pU.dat',outArr,header=header,fmt=form)
 
     fig, ax = plt.subplots(figsize=(6,6))
 
@@ -93,7 +93,7 @@ def getRefFilt(targname,matchtol=3,dir='./'):
     ax.set_title(targname)
 
     # plt.savefig(outName+'.png',dpi=600,bbox_inches='tight')
-    plt.savefig(outName+'_mDc.png',dpi=600,bbox_inches='tight')
+    plt.savefig(outName+'_pU.png',dpi=600,bbox_inches='tight')
 
     plt.close()
 
@@ -151,3 +151,5 @@ def matchlistID(master,cat,matchtol,x1,y1,mag1,\
 
 
     return master,matchids_in
+
+getRefFilt('HOROLOGIUM-I',matchtol=3,dir='photUtils0820/')

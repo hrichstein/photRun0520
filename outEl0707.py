@@ -3,8 +3,10 @@ import matplotlib.pyplot as plt
 
 def outputElen(targname, dir='./'):
 
-    fileN = np.genfromtxt(dir+targname+'_allMatchedZPTed.dat',names=True)
-    file = np.genfromtxt(dir+targname+'_allMatchedZPTed.dat')
+    # fileN = np.genfromtxt(dir+targname+'_allMatchedZPTed.dat',names=True)
+    # file = np.genfromtxt(dir+targname+'_allMatchedZPTed.dat')
+    fileN = np.genfromtxt(dir+targname+'_allMatchedZPTed_mDc.dat',names=True)
+    file = np.genfromtxt(dir+targname+'_allMatchedZPTed_mDc.dat')
 
     colNs = np.array(fileN.dtype.names)
 
@@ -36,7 +38,8 @@ def outputElen(targname, dir='./'):
 
     form = "%1.7f %1.7f %d %1.3f %1.5f %1.5f %1.5f %1.5f %1.5f %1.5f %1.7f %1.7f %d %1.3f %1.5f %1.5f %1.5f %1.5f %1.5f %1.5f"
 
-    np.savetxt(dir+targname+'_sourceList0720.dat',outArr,header=header,fmt=form)
+    # np.savetxt(dir+targname+'_sourceList0720.dat',outArr,header=header,fmt=form)
+    np.savetxt(dir+targname+'_sourceList0723_mDc.dat',outArr,header=header,fmt=form)
 
 
     return None
