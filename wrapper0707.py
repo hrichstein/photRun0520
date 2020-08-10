@@ -8,7 +8,7 @@ from exportDRCuseful0707 import *
 from f2mag0707 import *
 # from hst_func import *
 # from linTrans import *
-from f2mag0707 import f2mag_dirs
+# from f2mag0707 import f2mag_dirs
 from initialCorrMatch0707 import *
 from linTrans_1_0707 import *
 from pltMaking0707 import *
@@ -56,7 +56,7 @@ filt_arr = ['F606W', 'F814W']
 # targname_arr=['HOROLOGIUM-I']
 # targname_arr = ['TUCANA-V']
 
-targname_arr = ['SAGITTARIUS-II']
+targname_arr = ['SAGITTARIUS-II','HOROLOGIUM-I']
 # targname_arr = ['PHOENIX-II']
 
 # targname_arr = ['HYDRA-II','PEGASUS-III','PHOENIX-II','RETICULUM-II','TRIANGULUM-II-EAST','TRIANGULUM-II-WEST','TUCANA-II-NE','TUCANA-II-NW','TUCANA-II-SE','TUCANA-II-SW','SAGITTARIUS-II','HOROLOGIUM-I','HOROLOGIUM-II-EAST','HOROLOGIUM-II-WEST','INDUS-II','PICTORIS-I','PISCES-II','RETICULUM-III','SEGUE-1-EAST','SEGUE-1-WEST','SEGUE-2','SEXTANS','TUCANA-III-EAST',

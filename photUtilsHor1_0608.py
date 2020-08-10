@@ -72,7 +72,7 @@ def runPhotUtils(targname,jdan,filt):
     header = s0.join(rawflux_pos_r4.dtype.names)
 
     saveDir = 'photUtils0820/hor1run0608/'
-    outname = saveDir + jdan + '_' + filt + '_photU.dat'
+    outname = saveDir + jdan + '_' + filt + 'photU.dat'
 
     np.savetxt(outname,rawflux_pos_r4,header=header)
 
