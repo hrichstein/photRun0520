@@ -70,6 +70,9 @@ def runPhotUtils(targname,filt,jdanUse=None,saveDir='./'):
             +2.5*np.log10(hdr['exptime']) + ZPT
 
         rawflux_pos_r4['magr'] = final_phot
+
+        rawflux_pos_r4['id'] = np.arange(0,len(rawflux_pos_r4),1)
+
         s0 = ' '
         header = s0.join(rawflux_pos_r4.dtype.names)
 

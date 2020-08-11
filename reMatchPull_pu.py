@@ -3,7 +3,7 @@ import os
 from astropy.io import fits
 import time
 
-from getJdan import getJdan
+# from getJdan import getJdan
 from f2mag0707 import f2mag_dirs
 from hst_func import *
 from linTrans import *
@@ -11,12 +11,12 @@ from linTrans import *
 upperDir = "/Volumes/Spare Data/Hannah_Data/"
 offset = 20.0
 
-def matchWJCs_i(targname,filt,workDir='./',matchtol=0.5,iter=1):
+def matchWJCs_i(targname,filt,jdanUse,workDir='./',matchtol=0.5,iter=1):
 
     # xt, yt = 11,12
     # magr,id = 7,8
 
-    jdanUse = getJdan(targname,filt)
+    # jdanUse = getJdan(targname,filt)
     outName = "master_ids_"+targname+"_"+filt+"_aftLT.dat"
 
     master = np.genfromtxt(workDir+jdanUse[0]+"_"+targname+'_'+filt+"_oc.dat",names=True)
@@ -33,15 +33,20 @@ def matchWJCs_i(targname,filt,workDir='./',matchtol=0.5,iter=1):
     id = np.int(np.where(colNs=='id')[0])
     # Create an array of zeros with columns equal to the number of non-master dithers to store the matching id for each source
     matchids = np.zeros((len(master), (len(jdanUse)-1)))
+    # transPos = np.zeros((len(master), 2*(len(jdanUse)-1)))
     # master = np.hstack((masterCat, matchids))
 
+    # cc = 0
     # Loop through other images
     for dd in range(len(jdanUse)-1):
         # Load catalogs
         cat = np.genfromtxt(workDir+jdanUse[dd+1]+"_"+targname+'_'+filt+"_t{0:d}.dat".format(iter),names=True)
         catCat = np.genfromtxt(workDir+jdanUse[dd+1]+"_"+targname+'_'+filt+"_t{0:d}.dat".format(iter))
 
-        colNs = np.array(cat.dtype.names)
+        # colAs = np.array(cat.dtype.names)
+        #
+        # xt1 = np.int(np.where(colAs==xtstr)[0])
+        # yt1 = np.int(np.where(colAs==ytstr)[0])
 
         nF = True
         row = 0
@@ -52,7 +57,9 @@ def matchWJCs_i(targname,filt,workDir='./',matchtol=0.5,iter=1):
     #         # Setting the proper column number to the matching index.
             if (len(matchrows) == 1):
               matchids[row][dd] = matchrows[0][id]
-              row = row + 1
+              # transPos[row][cc] = matchrows[0][xt1]
+              # transPos[row][cc+1] = matchrows[0][yt1]
+              row += 1
 
             elif (len(matchrows) > 1):
                 distDiff = np.zeros((len(matchrows),1))
@@ -61,32 +68,34 @@ def matchWJCs_i(targname,filt,workDir='./',matchtol=0.5,iter=1):
                     distDiff[mm] = np.sqrt( (master[row][xt] - matchrows[mm][xtstr])**2 +  (master[row][yt] - matchrows[mm][ytstr])**2)
                     small = np.argmin(distDiff)
                     matchids[row][dd] = matchrows[small][id]
+                    # transPos[row][cc] = matchrows[small][xt1]
+                    # transPos[row][cc+1] = matchrows[small][yt1]
                     row += 1
 
             else:
               master = np.delete(master, row, 0)
               masterCat = np.delete(masterCat, row, 0)
+              # transPos = np.delete(transPos,row,0)
               matchids = np.delete(matchids,row,0)
 
             if (row >= len(master)):
                 nF = False
+                # cc = (dd+1) * 2
 
     outArr = np.hstack((masterCat,matchids))
 
-    s0 = ' '
-    header = s0.join(colNs)
-    header +=  " id2 id3 id4"
+    header = 'id xcenter ycenter aperture_sum annulus_median aper_bkg final_phot magr x_dc y_dc xt yt id2 id3 id4'
 
-    print(targname,filt,len(master))
+    # print(targname,filt,len(master))
     np.savetxt(workDir+outName,outArr, header=header)
 
 
     return None
 
 
-def pullMags_i(targname,filt,dir='./',suffix='_aftLT.dat',iter=1):
+def pullMags_i(targname,filt,jdanUse,dir='./',suffix='_aftLT.dat',iter=1):
 
-    jdanUse = getJdan(targname,filt)
+    # jdanUse = getJdan(targname,filt)
 
     master = np.genfromtxt(dir+'master_ids_'+targname+'_'+filt+suffix,names=True)
     masterCat = np.loadtxt(dir+'master_ids_'+targname+'_'+filt+suffix)
@@ -116,6 +125,7 @@ def pullMags_i(targname,filt,dir='./',suffix='_aftLT.dat',iter=1):
     jj = 0
     cc = 0
     while jj < len(jdanUse):
+
         xt = np.int(np.where(colNs=='xt')[0])
         yt = np.int(np.where(colNs=='yt')[0])
 
@@ -174,9 +184,9 @@ def pullMags_i(targname,filt,dir='./',suffix='_aftLT.dat',iter=1):
     return None
 
 
-def wrapped_i(targname,filt,iter=1,catDir='./'):
-    matchWJCs_i(targname,filt,workDir=catDir,matchtol=3,iter=iter)
-    pullMags_i(targname,filt,dir=catDir,suffix='_aftLT.dat',iter=iter)
+def wrapped_i(targname,filt,jdan,iter=1,catDir='./'):
+    matchWJCs_i(targname,filt,jdan,workDir=catDir,matchtol=3,iter=iter)
+    pullMags_i(targname,filt,jdan,dir=catDir,suffix='_aftLT.dat',iter=iter)
 
     return None
 

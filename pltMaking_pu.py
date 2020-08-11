@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from getJdan import getJdan
+# from getJdan import getJdan
 
 def makePlot(match_arr,new_match,outname):
 
@@ -23,9 +23,9 @@ def makePlot(match_arr,new_match,outname):
 
     return None
 
-def openFiles(targname,filt,dir='./',iter=1):
+def openFiles(targname,filt,jdanUse,dir='./',iter=1):
 
-    jdanUse = getJdan(targname,filt)
+    # jdanUse = getJdan(targname,filt)
 
     for dd in range(len(jdanUse)-1):
         file = np.genfromtxt(dir+jdanUse[dd+1]+"_"+targname+"_"+filt+"_t{0:d}.dat".format(iter),names=True)

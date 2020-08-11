@@ -98,7 +98,7 @@ def makeSTDcuts(dir,filt,suffix='_aftLT.dat'):
 
     header += ' mean stdev cut_flag idx_cut num_abv_std'
 
-    np.savetxt(dir+'magSTDcutAll_'+filt+'.dat',data,header=header,fmt=form)
+    np.savetxt(dir+'magSTDcutAll_'+filt+'.dat',data,header=header)
 
     print('Counter:',counter)
     print('Same: ',keptAll)

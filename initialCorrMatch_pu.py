@@ -2,7 +2,7 @@ import numpy as np
 import os
 from astropy.io import fits
 
-from getJdan import getJdan
+# from getJdan import getJdan
 # from f2mag0707 import f2mag_dirs
 from hst_func import *
 from linTrans import *
@@ -104,7 +104,7 @@ def matchWJCs(targname,filt,jdanUse,workDir='./',matchtol=2,suffix='_ref.dat'):
     magr = np.int(np.where(colNs=='magr')[0])
     id = np.int(np.where(colNs=='id')[0])
     # Create an array of zeros with columns equal to the number of non-master dithers to store the matching id for each source
-    matchids = np.zeros((len(master), (len(jdanUse)-1)))
+    matchids = np.zeros((len(master), (len(jdanUse)-1)),dtype=int)
     # master = np.hstack((masterCat, matchids))
 
     # Loop through other images
@@ -113,7 +113,9 @@ def matchWJCs(targname,filt,jdanUse,workDir='./',matchtol=2,suffix='_ref.dat'):
         cat = np.genfromtxt(workDir+jdanUse[dd+1]+"_"+targname+'_'+filt+'_oc.dat',names=True)
         catCat = np.loadtxt(workDir+jdanUse[dd+1]+"_"+targname+'_'+filt+'_oc.dat')
 
-        colNs = np.array(cat.dtype.names)
+        # print('Length Cat',len(cat))
+
+        # colNs = np.array(cat.dtype.names)
 
         nF = True
         row = 0
@@ -141,6 +143,7 @@ def matchWJCs(targname,filt,jdanUse,workDir='./',matchtol=2,suffix='_ref.dat'):
 
             if (row >= len(master)):
                 nF = False
+                # print('Max MatchID',np.max(matchids))
 
     outArr = np.hstack((masterCat,matchids))
 
@@ -149,7 +152,7 @@ def matchWJCs(targname,filt,jdanUse,workDir='./',matchtol=2,suffix='_ref.dat'):
     header +=  " id2 id3 id4"
 
     print(targname,filt,len(master))
-    np.savetxt(workDir+outName,outArr, header=header)
+    np.savetxt(workDir+outName,outArr,header=header)
 
 
     return None
@@ -205,9 +208,13 @@ def pullMags(targname,filt,jdanUse,dir='./',suffix='_0.dat'):
         elif jj==3:
             idcol = id4
 
+
         newIDcol = masterCat[:,idcol]
         idx = np.asarray(newIDcol,int)
 
+        # print('Cat Length',len(cat))
+        # print('Max IDX',np.max(idx))
+    #
         reg = catCat[idx]
 
         newCols[:,cc] = reg[:,magr]
@@ -220,11 +227,11 @@ def pullMags(targname,filt,jdanUse,dir='./',suffix='_0.dat'):
 
         newCols[:,cc+jj+20] = reg[:,xt]
         newCols[:,cc+jj+21] = reg[:,yt]
-
+    #
         cc += 1
         jj += 1
-
-
+    #
+    #
     magList = np.hstack((coordRows, newCols))
 
     header = 'flux mag1 mag2 mag3 mag4 xr1 yr1 xr2 yr2 xr3 yr3 xr4 yr4 xc1 yc1 xc2 yc2 xc3 yc3 xc4 yc4 xt1 yt1 xt2 yt2 xt3 yt3 xt4 yt4'

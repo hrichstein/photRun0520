@@ -34,6 +34,7 @@ from makeCMD0707 import *
 
 # from outCorrFull import *
 from magcorrTry2407 import *
+    # doAll
 
 filt_arr = ['F606W', 'F814W']
 # filt_arr = ['F606W']
