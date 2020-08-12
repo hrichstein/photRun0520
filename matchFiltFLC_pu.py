@@ -1,31 +1,41 @@
 import numpy as np
 # import matplotlib.pyplot as plt
 
-def matchFiltDRC(targname,dir='./',matchtol=3):
+def matchFilt(targname,dir='./',matchtol=3):
 
-    f606wN = np.genfromtxt(dir+'drcPU_F606W.dat',names=True)
-    f606w = np.genfromtxt(dir+'drcPU_F606W.dat')
+    f606wN = np.genfromtxt(dir+'magZPTedAll_F606W.dat',names=True)
+    f606w = np.genfromtxt(dir+'magZPTedAll_F606W.dat')
 
-    f814wN = np.genfromtxt(dir+
-    targname+'_DRCfiltTrans_pU.dat',names=True)
-    f814w = np.genfromtxt(dir+targname+'_DRCfiltTrans_pU.dat')
+    # f814wN = np.genfromtxt(dir+'magZPTedAll_F814W.dat',names=True)
+    # f814w = np.genfromtxt(dir+'magZPTedAll_F814W.dat')
+    f814wN = np.genfromtxt(dir+targname + "_filtTrans_pu.dat",names=True)
+    f814w = np.genfromtxt(dir+targname + "_filtTrans_pu.dat")
 
+    id606 = np.zeros((len(f606w),1))
+    id606[:,0] = np.arange(0,len(f606w),1)
+
+    f606w = np.hstack((f606w,id606))
     col606 = np.array(f606wN.dtype.names)
+
+    id814 = np.zeros((len(f814w),1))
+    id814[:,0] = np.arange(0,len(f814w),1)
+
+    f814w = np.hstack((f814w,id814))
     col814 = np.array(f814wN.dtype.names)
 
     # Getting columns of x,y of transformed F814W to F606W
     xI = np.int(np.where(col814=='x_f606wTrans')[0])
     yI = np.int(np.where(col814=='y_f606wTrans')[0])
-    magI = np.int(np.where(col814=='magr')[0])
-    idI = np.int(np.where(col814=='id')[0])
+    magI = np.int(np.where(col814=='magZPT')[0])
+    idI = len(col814)
 
-    xV = np.int(np.where(col606=='xcenter')[0])
-    yV = np.int(np.where(col606=='ycenter')[0])
-    magV = np.int(np.where(col606=='magr')[0])
-    idV = np.int(np.where(col606=='id')[0])
+    xV = np.int(np.where(col606=='xt1')[0])
+    yV = np.int(np.where(col606=='yt1')[0])
+    magV = np.int(np.where(col606=='magZPT')[0])
+    idV = len(col606)
 
-    master_in = f606w[:,[idV,xV,yV,magV]]
-    idV_mas,x,y,magrV = 0,1,2,3
+    master_in = f606w[:,[xV,yV,magV,idV]]
+    x,y,magrV,idV_mas = 0,1,2,3
 
     cat = f814w
     matchids = np.zeros((len(master_in),1))
@@ -51,7 +61,7 @@ def matchFiltDRC(targname,dir='./',matchtol=3):
             print("Pixel Tolerance: %d, Number Stars: %d" % (matchtol,len(master)))
             matchtol += 1
             if matchtol <= 10:
-                master_in = f606w[:,[idV,xV,yV,magV]]
+                master_in = f606w[:,[xV,yV,magV,idV]]
                 matchids = np.zeros((len(master_in),1))
             else:
                 print("Sacrificing number of stars for quality of matches.")
@@ -60,7 +70,7 @@ def matchFiltDRC(targname,dir='./',matchtol=3):
     master = np.hstack((master,matchids))
     print(targname, len(master)/minLen)
 
-    idV_mas, xV_mas, yV_mas, magV_mas, idI_mas = 0, 1, 2, 3, 4
+    xV_mas, yV_mas, magV_mas, idV_mas, idI_mas = 0, 1, 2, 3, 4
 
     newCols = np.zeros((len(master),3))
 
@@ -73,9 +83,19 @@ def matchFiltDRC(targname,dir='./',matchtol=3):
     reg814 = f814w[idx814]
 
     outArr = np.hstack((reg606,reg814))
-    header = 'id_f606w xcenter_f606w ycenter_f606w aperture_sum_f606w annulus_median_f606w aper_bkg_f606w final_phot_f606w magr_f606w id_f814w xcenter_f814w ycenter_f814w aperture_sum_f814w annulus_median_f814w aper_bkg_f814w final_phot_f814w magr_f814w x_f606wTrans y_f606wTrans'
 
-    np.savetxt(dir+targname+'_filtMatchDRC_pU.dat',outArr,header=header)
+    col606_temp = np.array(["{}{}".format(n,'_f606w') for n in col606])
+    s0 = ' '
+    header606 = s0.join(col606_temp)
+    header606 += ' id_f606w '
+
+    col814_temp = np.array(["{}{}".format(n,'_f814w') for n in col814])
+    header814 = s0.join(col814_temp)
+    header814 += ' id_f814w'
+
+    header = header606 + header814
+
+    np.savetxt(dir+targname+'_allMatchedZPTed_pu.dat',outArr,header=header)
 
 
     return None

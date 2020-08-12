@@ -2,15 +2,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 from linear6d import *
 
-def linFiltTransDRC(targname,dir='./'):
+def linFiltTrans(targname,dir='./'):
 
     # Going from F814W to F606W
-    file = np.genfromtxt(dir+'drcFiltRef_'+targname+'.dat',names=True)
-    fileCat = np.genfromtxt(dir+'drcFiltRef_'+targname+'.dat')
+
+    file = np.genfromtxt(dir+'filtRef_'+targname+'_pu.dat',names=True)
+    fileCat = np.genfromtxt(dir+'filtRef_'+targname+'_pu.dat')
     colNs = np.array(file.dtype.names)
 
-    all = np.genfromtxt(dir+'drcPU_F814W.dat',names=True)
-    allCat = np.genfromtxt(dir+'drcPU_F814W.dat')
+    all = np.genfromtxt(dir+'magZPTedAll_F814W.dat',names=True)
+    allCat = np.genfromtxt(dir+'magZPTedAll_F814W.dat')
     colAs = np.array(all.dtype.names)
 
     # Putting the F814W positions into the match array to be used as references transformed
@@ -35,15 +36,18 @@ def linFiltTransDRC(targname,dir='./'):
     # Filling the array with values to be transformed
     all_arr = np.zeros((len(all),2))
 
-    x_bt = np.int(np.where(colAs=='xcenter')[0])
-    y_bt = np.int(np.where(colAs=='ycenter')[0])
+    x_bt = np.int(np.where(colAs=='xt1')[0])
+    y_bt = np.int(np.where(colAs=='yt1')[0])
 
     all_arr[:,0] = allCat[:,x_bt]
     all_arr[:,1] = allCat[:,y_bt]
 
-    outName = dir + targname + "_DRCfiltTrans"
+    outName = dir + targname + "_filtTrans"
 
     new_match, new_all = test_linear(match_arr[:,0],match_arr[:,1], master_arr[:,0], master_arr[:,1], weights, weights, all_arr[:,0],all_arr[:,1])
+
+    # makePlot(targname,match_arr[:,0],match_arr[:,1],\
+    # new_match[:,0],new_match[:,1],master_arr[:,0], master_arr[:,1],label_1='Original in F814W',label_2='New in F814W 2 F606W',label_3='Original in F606W',outname=outName+'_matchCheck.png')
 
     makePlot(targname,match_arr[:,0],match_arr[:,1],\
     new_match[:,0],new_match[:,1],master_arr[:,0], master_arr[:,1],label_1='Original in F814W',label_2='New in F814W 2 F606W',label_3='Original in F606W',outname=outName+'_matchCheck')
@@ -55,7 +59,7 @@ def linFiltTransDRC(targname,dir='./'):
     header += ' x_f606wTrans y_f606wTrans'
 
     # np.savetxt(outName+'.dat',outArr,header=header)
-    np.savetxt(outName+'_pU.dat',outArr,header=header)
+    np.savetxt(outName+'_pu.dat',outArr,header=header)
 
     return None
 
@@ -73,7 +77,7 @@ def makePlot(targname,x1,y1,x2,y2,x3,y3,label_1,\
     ax.set_title(targname)
 
     # plt.savefig(outname+'.png',dpi=600,bbox_inches='tight')
-    plt.savefig(outname+'_pU.png',dpi=600,bbox_inches='tight')
+    plt.savefig(outname+'_pu.png',dpi=600,bbox_inches='tight')
     plt.close()
 
 
