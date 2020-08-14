@@ -4,9 +4,9 @@ from astropy.io import fits
 
 from getDRCfiltRef_pu import *
     # getRefDRCFilt
-from drcFiltLinTrans_pu import *
+# from drcFiltLinTrans_pu import *
     # linFiltTransDRC
-from matchDRCfilt_pu import *
+# from matchDRCfilt_pu import *
     # matchFiltDRC
 
 from getJdan import getJdan
@@ -40,6 +40,7 @@ from matchOldNew import *
     # getONRef, getONmatch
 # from linONtrans import *
 from makeCMDon import *
+from getRefPSFflc_pu import *
 
 
 filt_arr = ['F606W','F814W']
@@ -83,4 +84,5 @@ for c1,targname in enumerate(targname_arr):
     # getONRef(targname,filt='F606W',dir=saveDir,matchtol=10)
     # linONtrans(targname,filt='F606W',dir=saveDir)
     # getONmatch(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
-    makeCMD(targname,dir=saveDir,filt='F606W')
+    # makeCMD(targname,dir=saveDir,filt='F606W')
+    getRefPSFflc('HOROLOGIUM-I',matchtol=1,dir=saveDir)

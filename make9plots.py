@@ -13,8 +13,6 @@ def feedFunc(targname,filt='F606W',dir='./',name='newOld'):
 
     make9plots(match['magr_f606wO'],match['magr_f814wO'],match['magr_f606wN'],match['magr_f814wN'],'Old FLCs','New FLCs',filt='F606W',saveDir=dir,name=name)
 
-    # make9plots(file814['magZPT_f606w'],file814['magZPT_f814w'],file814['magr_f606w'],file814['magr_f814w'],'FLCs','DRC',filt='F814W',saveDir=dir)
-
     return None
 
 # FLC/DRC
