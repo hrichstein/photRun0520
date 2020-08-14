@@ -6,20 +6,32 @@ from sklearn.linear_model import LinearRegression
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.stats import binned_statistic
 
-def feedFunc(targname,dir='./'):
+# OLD/NEW
+def feedFunc(targname,filt='F606W',dir='./',name='newOld'):
 
-    file814 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_on_F814W.dat',names=True)
+    match = np.genfromtxt(dir+'newOLDmatch_FULL_'+filt+'.dat',names=True)
 
-    file606 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_on_F814W.dat',names=True)
+    make9plots(match['magr_f606wO'],match['magr_f814wO'],match['magr_f606wN'],match['magr_f814wN'],'Old FLCs','New FLCs',filt='F606W',saveDir=dir,name=name)
 
-    make9plots(file606['magZPT_f606w'],file606['magZPT_f814w'],file606['magr_f606w'],file606['magr_f814w'],'FLCs','DRC',filt='F606W',saveDir=dir)
-
-    make9plots(file814['magZPT_f606w'],file814['magZPT_f814w'],file814['magr_f606w'],file814['magr_f814w'],'FLCs','DRC',filt='F814W',saveDir=dir)
+    # make9plots(file814['magZPT_f606w'],file814['magZPT_f814w'],file814['magr_f606w'],file814['magr_f814w'],'FLCs','DRC',filt='F814W',saveDir=dir)
 
     return None
 
+# FLC/DRC
+# def feedFunc(targname,dir='./'):
+#
+#     file814 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_on_F814W.dat',names=True)
+#
+#     file606 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_on_F814W.dat',names=True)
+#
+#     make9plots(file606['magZPT_f606w'],file606['magZPT_f814w'],file606['magr_f606w'],file606['magr_f814w'],'FLCs','DRC',filt='F606W',saveDir=dir)
+#
+#     make9plots(file814['magZPT_f606w'],file814['magZPT_f814w'],file814['magr_f606w'],file814['magr_f814w'],'FLCs','DRC',filt='F814W',saveDir=dir)
+#
+#     return None
 
-def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,filt='F606W',saveDir='./'):
+
+def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,filt='F606W',saveDir='./',name=None):
 
     arr1_c = arr1_v - arr1_i
     arr2_c = arr2_v - arr2_i
@@ -140,7 +152,7 @@ def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,filt='F606W',saveDir='./'):
 
 
     # plt.show()
-    plt.savefig(saveDir+'ninePlots_'+filt+'.png',dpi=600,bbox_inches='tight')
+    plt.savefig(saveDir+'ninePlots_'+name+'.png',dpi=600,bbox_inches='tight')
 
     plt.close()
     return None

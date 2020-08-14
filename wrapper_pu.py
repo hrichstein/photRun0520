@@ -16,8 +16,8 @@ from initialCorrMatch_pu import *
 from linTrans_1_pu import outDiths, makePlot, openFiles
 from reMatchPull_pu import *
     # matchWJCs_i, pullMags_i, wrapped_i
-from stdCuts_pu import makeSTDcuts
-from drcFLCref_pu import *
+# from stdCuts_pu import makeSTDcuts
+# from drcFLCref_pu import *
     # getRef
 from linFLC2drc_pu import *
     # linFLC2drc
@@ -37,7 +37,9 @@ from linFLC2drc_pu import *
 # from make9plots import *
 #     # feedFunc
 from matchOldNew import *
-    # getONRef
+    # getONRef, getONmatch
+# from linONtrans import *
+from makeCMDon import *
 
 
 filt_arr = ['F606W','F814W']
@@ -78,4 +80,7 @@ for c1,targname in enumerate(targname_arr):
     # doIterMatchDRC(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
     # doIterMatchDRC(targname,filt='F814W',dir=saveDir,matchtol=3,stdTol=5)
     # feedFunc(targname,dir=saveDir)
-    getONRef(targname,filt='F606W',dir=saveDir,matchtol=10)
+    # getONRef(targname,filt='F606W',dir=saveDir,matchtol=10)
+    # linONtrans(targname,filt='F606W',dir=saveDir)
+    # getONmatch(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
+    makeCMD(targname,dir=saveDir,filt='F606W')
