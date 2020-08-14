@@ -21,16 +21,24 @@ from drcFLCref_pu import *
     # getRef
 from linFLC2drc_pu import *
     # linFLC2drc
-from whichIter_pu import whichIter, doIterMatch, getMatch
-from getZPT_pu import *
-    # getZPT, applyZPT, doZPT
-from plotZPTdiff_pu import plotZPTdiff
-from getRefFilt_pu import *
-    # getRefFilt
-from linTransFiltFLC_pu import *
-from matchFiltFLC_pu import *
-    # matchFilt
-from makeCMD_pu import makeCMD
+# from whichIter_pu import whichIter, doIterMatch, getMatch
+# from getZPT_pu import *
+#     # getZPT, applyZPT, doZPT
+# from plotZPTdiff_pu import plotZPTdiff
+# from getRefFilt_pu import *
+#     # getRefFilt
+# from linTransFiltFLC_pu import *
+# from matchFiltFLC_pu import *
+#     # matchFilt
+# from makeCMD_pu import makeCMD
+# from matchFLCdrcAll import *
+#     # doIterMatchDRC
+#
+# from make9plots import *
+#     # feedFunc
+from matchOldNew import *
+    # getONRef
+
 
 filt_arr = ['F606W','F814W']
 # filt_arr = ['F606W']
@@ -41,6 +49,7 @@ targname_arr = ['HOROLOGIUM-I']
 for c1,targname in enumerate(targname_arr):
     rand_tuple = f2mag_dirs(targname,date='10Aug',workDir='./')
     saveDir = rand_tuple[-1]
+    print(saveDir)
 
     # getRefDRCFilt(targname,dir=saveDir,matchtol=3)
     # linFiltTransDRC(targname,dir=saveDir)
@@ -56,13 +65,17 @@ for c1,targname in enumerate(targname_arr):
         # makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
         # getRef(targname,filt,dir=saveDir,matchtol=50)
         # linFLC2drc(targname,filt,dir=saveDir)
-        # match_file = whichIter(targname,filt,dir=saveDir)
-        # print(match_file)
-        # getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
+        ## match_file = whichIter(targname,filt,dir=saveDir)
+        ## print(match_file)
+        ## getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
     # getRefFilt(targname,matchtol=3,dir=saveDir)
     # linFiltTrans(targname,dir=saveDir)
     # matchFilt(targname,dir=saveDir,matchtol=3)
-    makeCMD(targname,dir=saveDir)
+    # makeCMD(targname,dir=saveDir)
+    # doIterMatchDRC(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
+    # doIterMatchDRC(targname,filt='F814W',dir=saveDir,matchtol=3,stdTol=5)
+    # feedFunc(targname,dir=saveDir)
+    getONRef(targname,filt='F606W',dir=saveDir,matchtol=10)

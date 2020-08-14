@@ -29,7 +29,7 @@ def whichIter(targname,filt,dir='./',matchtol=10):
         mOff_list = np.append(mOff_list,[meanOffset])
         it_list = np.append(it_list,[iter])
 
-        if iter>=int(4): # may need to change to 4 in some cases?? (ex. Hydra2)
+        if iter>=int(3): # may need to change to 4 in some cases?? (ex. Hydra2)
             maxStars = it_list[np.argsort(nS_list)[-1]] # iteration that had the largest number of reference stars found, meaning the PREVIOUS iteration's linTrans was best
             minDiff = it_list[np.argsort(mOff_list)[0]]
 
@@ -68,6 +68,7 @@ def whichIter(targname,filt,dir='./',matchtol=10):
     # elif takeRun == 1:
     #     file_str = dir+targname+"_"+filt+"_drcTrans.dat"
     else:
+        iterStr = str(iter) # I think I don't have to subtract one here... I hope
         file_str = dir+targname+"_"+filt+"_drcTrans"+iterStr+".dat"
 
     diag.write('Took Run:' + str(takeRun) + '\n')
@@ -167,7 +168,7 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
         if matchtol >= 20:
             print("Sacrificing number of stars for quality of matches.")
             nF_out = False
-            
+
     master = np.hstack((master,matchids))
     print(targname, filt, len(master))
 

@@ -72,7 +72,7 @@ def matchFilt(targname,dir='./',matchtol=3):
 
     xV_mas, yV_mas, magV_mas, idV_mas, idI_mas = 0, 1, 2, 3, 4
 
-    newCols = np.zeros((len(master),3))
+    # newCols = np.zeros((len(master),3))
 
     idCol606 = master[:,idV_mas]
     idx606 = np.asarray(idCol606,int)

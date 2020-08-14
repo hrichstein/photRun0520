@@ -8,8 +8,18 @@ from scipy.stats import binned_statistic
 
 def feedFunc(targname,dir='./'):
 
+    file814 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_on_F814W.dat',names=True)
 
-def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,saveDir='./'):
+    file606 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_on_F814W.dat',names=True)
+
+    make9plots(file606['magZPT_f606w'],file606['magZPT_f814w'],file606['magr_f606w'],file606['magr_f814w'],'FLCs','DRC',filt='F606W',saveDir=dir)
+
+    make9plots(file814['magZPT_f606w'],file814['magZPT_f814w'],file814['magr_f606w'],file814['magr_f814w'],'FLCs','DRC',filt='F814W',saveDir=dir)
+
+    return None
+
+
+def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,filt='F606W',saveDir='./'):
 
     arr1_c = arr1_v - arr1_i
     arr2_c = arr2_v - arr2_i
@@ -51,9 +61,19 @@ def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,saveDir='./'):
 
     bin_val6 = bin_means6/np.sqrt(len(arr1_c))
 
+
+    median1 = np.median(stats.sigmaclip(arr2_v-arr1_v,4,4)[0])
+    median2 = np.median(stats.sigmaclip(arr2_i-arr1_i,4,4)[0])
+    median3 = np.median(stats.sigmaclip(arr2_c-arr1_c,4,4)[0])
+
+
     # Plotting Part
 
     plt.rcParams['axes.grid'] = True
+    # plt.rcParams.update({
+    # "text.usetex": True,
+    # "font.family": "sans-serif",
+    # "font.sans-serif": ["Helvetica"]})
 
     fig, ((ax1,ax2,ax3), (ax4,ax5,ax6), (ax7,ax8,ax9)) = \
     plt.subplots(3,3,figsize=(18,18))
@@ -104,23 +124,23 @@ def make9plots(arr1_v,arr1_i,arr2_v,arr2_i,str1,str2,saveDir='./'):
     ax7.set_xlim(18,24.5)
     ax7.set_ylim(-0.0005,0.014)
     ax7.set_xlabel('V {0} [mag]'.format(str1))
-    ax7.set_ylabel(r'$\sigma$/$\sqrt{N}$({0}-{1}) [mag]'.format(str2,str1))
+    ax7.set_ylabel(r'$\sigma$/sqrt(N)({0}-{1}) [mag]'.format(str2,str1))
 
     ax8.scatter(bin_cent5,bin_val5,s=30,color='blue')
     ax8.set_xlim(18,24.5)
     ax8.set_ylim(-0.0005,0.014)
     ax8.set_xlabel('I {0} [mag]'.format(str1))
-    ax8.set_ylabel(r'$\sigma$/$\sqrt{N}$({0}-{1}) [mag]'.format(str2,str1))
+    ax8.set_ylabel(r'$\sigma$/sqrt(N)({0}-{1}) [mag]'.format(str2,str1))
 
     ax9.scatter(bin_cent6,bin_val6,s=30,color='blue')
     ax9.set_xlim(-1,2.5)
     ax9.set_ylim(-0.0005,0.014)
     ax9.set_xlabel('(V-I) {0} [mag]'.format(str1))
-    ax9.set_ylabel(r'$\sigma$/$\sqrt{N}$({0}-{1}) [mag]'.format(str2,str1))
+    ax9.set_ylabel(r'$\sigma$/sqrt(N)({0}-{1}) [mag]'.format(str2,str1))
 
 
     # plt.show()
-    plt.savefig(saveDir+'ninePltos.png',dpi=600,bbox_inches='tight')
+    plt.savefig(saveDir+'ninePlots_'+filt+'.png',dpi=600,bbox_inches='tight')
 
-
+    plt.close()
     return None
