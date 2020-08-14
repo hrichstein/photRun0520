@@ -13,7 +13,7 @@ from getJdan import getJdan
 from runPU_1008 import f2mag_dirs, runPhotUtils
 from initialCorrMatch_pu import *
     # distCor, offCor, matchWJCs, pullMags, wrapped
-from linTrans_1_pu import outDiths, makePlot, openFiles
+# from linTrans_1_pu import outDiths, makePlot, openFiles
 from reMatchPull_pu import *
     # matchWJCs_i, pullMags_i, wrapped_i
 # from stdCuts_pu import makeSTDcuts
@@ -34,13 +34,21 @@ from linFLC2drc_pu import *
 # from matchFLCdrcAll import *
 #     # doIterMatchDRC
 #
-# from make9plots import *
+from make9plots import *
 #     # feedFunc
 from matchOldNew import *
     # getONRef, getONmatch
 # from linONtrans import *
-from makeCMDon import *
-from getRefPSFflc_pu import *
+# from makeCMDon import *
+# from getRefPSFflc_pu import *
+# from linPSFtoFLC_1408 import *
+# from matchPSFflc_1408 import *
+# from getRefAPERflc_1408 import *
+# from linAPER2flc_1408 import *
+# from matchAPERflc_1408 import *
+# from makeCMDaperF_1408 import *
+# from makeCMDpsfF_1408 import *
+from drcFLC_diff_1408bins import *
 
 
 filt_arr = ['F606W','F814W']
@@ -58,7 +66,7 @@ for c1,targname in enumerate(targname_arr):
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
-    # for c2,filt in enumerate(filt_arr):
+    for c2,filt in enumerate(filt_arr):
     #     jdan = getJdan(targname,filt)
         # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
         # wrapped(targname,filt,jdan,catDir=saveDir)
@@ -74,6 +82,7 @@ for c1,targname in enumerate(targname_arr):
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
+        plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
     # getRefFilt(targname,matchtol=3,dir=saveDir)
     # linFiltTrans(targname,dir=saveDir)
     # matchFilt(targname,dir=saveDir,matchtol=3)
@@ -85,4 +94,12 @@ for c1,targname in enumerate(targname_arr):
     # linONtrans(targname,filt='F606W',dir=saveDir)
     # getONmatch(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
     # makeCMD(targname,dir=saveDir,filt='F606W')
-    getRefPSFflc('HOROLOGIUM-I',matchtol=1,dir=saveDir)
+    # getRefPSFflc('HOROLOGIUM-I',matchtol=1,dir=saveDir)
+    # linPSFTrans(targname,dir=saveDir)
+    # matchPSFflc(targname,dir=saveDir,matchtol=3)
+    # feedFunc(targname,dir=saveDir,name='psfFLC')
+    # getRefaperflc(targname,matchtol=3,dir=saveDir)
+    # linAPERTrans(targname,dir=saveDir)
+    # matchAPERflc(targname,dir=saveDir,matchtol=3)
+    # feedFunc(targname,dir=saveDir,name='aperFLC')
+    # makeCMD(targname,dir=saveDir)

@@ -6,14 +6,32 @@ from sklearn.linear_model import LinearRegression
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.stats import binned_statistic
 
-# OLD/NEW
-def feedFunc(targname,filt='F606W',dir='./',name='newOld'):
+#FLC/APER
+def feedFunc(targname,dir='./',name='aperFLC'):
 
-    match = np.genfromtxt(dir+'newOLDmatch_FULL_'+filt+'.dat',names=True)
+    match = np.genfromtxt(dir+targname+'_APER2flcMatch_1408.dat',names=True)
 
-    make9plots(match['magr_f606wO'],match['magr_f814wO'],match['magr_f606wN'],match['magr_f814wN'],'Old FLCs','New FLCs',filt='F606W',saveDir=dir,name=name)
+    make9plots(match['magZPT_f606w'],match['magZPT_f814w'],match['m606c'],match['m814c'],'New FLCs','APER',saveDir=dir,name=name)
 
     return None
+
+
+#FLC/PSF
+# def feedFunc(targname,dir='./',name='psfFLC'):
+#
+#     match = np.genfromtxt(dir+targname+'_PSF2flcMatch_1408.dat',names=True)
+#
+#     make9plots(match['magZPT_f606w'],match['magZPT_f814w'],match['m606c'],match['m814c'],'New FLCs','PSF',saveDir=dir,name=name)
+
+    # return None
+# OLD/NEW
+# def feedFunc(targname,filt='F606W',dir='./',name='newOld'):
+#
+#     match = np.genfromtxt(dir+'newOLDmatch_FULL_'+filt+'.dat',names=True)
+#
+#     make9plots(match['magr_f606wO'],match['magr_f814wO'],match['magr_f606wN'],match['magr_f814wN'],'Old FLCs','New FLCs',filt='F606W',saveDir=dir,name=name)
+#
+#     return None
 
 # FLC/DRC
 # def feedFunc(targname,dir='./'):
