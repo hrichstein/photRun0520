@@ -6,14 +6,34 @@ from sklearn.linear_model import LinearRegression
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from scipy.stats import binned_statistic
 
-#FLC/APER
-def feedFunc(targname,dir='./',name='aperFLC'):
+# FLC noZPT/DRC
+def feedFunc(targname,dir='./',name='blah'):
 
-    match = np.genfromtxt(dir+targname+'_APER2flcMatch_1408.dat',names=True)
+    file814 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_onZPT_F814W.dat',names=True)
 
-    make9plots(match['magZPT_f606w'],match['magZPT_f814w'],match['m606c'],match['m814c'],'New FLCs','APER',saveDir=dir,name=name)
+    file606 = np.genfromtxt(dir+targname+'_matchedFLC_DRC_onZPT_F814W.dat',names=True)
+
+    make9plots(file606['mean_f606w'],file606['mean_f814w'],file606['magr_f606w'],file606['magr_f814w'],'FLCs noZPT','DRC',filt='F606W',saveDir=dir,name=name)
+
+    make9plots(file814['mean_f606w'],file814['mean_f814w'],file814['magr_f606w'],file814['magr_f814w'],'FLCs noZPT','DRC',filt='F814W',saveDir=dir,name=name)
 
     return None
+#DRC OLD/NEW
+# def feedFunc(targname,dir='./',name='onDRC'):
+#
+#     match = np.genfromtxt(dir+targname+'_old2newDRCMatch_1408.dat',names=True)
+#
+#     make9plots(match['magRaw_v'],match['magRaw_i'],match['magr_f606w'],match['magr_f814w'],'Old DRC','New DRC',saveDir=dir,name=name)
+#
+#     return None
+#FLC/APER
+# def feedFunc(targname,dir='./',name='aperFLC'):
+#
+#     match = np.genfromtxt(dir+targname+'_APER2flcMatch_1408.dat',names=True)
+#
+#     make9plots(match['magZPT_f606w'],match['magZPT_f814w'],match['m606c'],match['m814c'],'New FLCs','APER',saveDir=dir,name=name)
+#
+#     return None
 
 
 #FLC/PSF

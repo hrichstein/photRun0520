@@ -9,7 +9,7 @@ from getDRCfiltRef_pu import *
 # from matchDRCfilt_pu import *
     # matchFiltDRC
 
-from getJdan import getJdan
+# from getJdan import getJdan
 from runPU_1008 import f2mag_dirs, runPhotUtils
 from initialCorrMatch_pu import *
     # distCor, offCor, matchWJCs, pullMags, wrapped
@@ -19,7 +19,7 @@ from reMatchPull_pu import *
 # from stdCuts_pu import makeSTDcuts
 # from drcFLCref_pu import *
     # getRef
-from linFLC2drc_pu import *
+# from linFLC2drc_pu import *
     # linFLC2drc
 # from whichIter_pu import whichIter, doIterMatch, getMatch
 # from getZPT_pu import *
@@ -36,7 +36,7 @@ from linFLC2drc_pu import *
 #
 from make9plots import *
 #     # feedFunc
-from matchOldNew import *
+# from matchOldNew import *
     # getONRef, getONmatch
 # from linONtrans import *
 # from makeCMDon import *
@@ -48,7 +48,11 @@ from matchOldNew import *
 # from matchAPERflc_1408 import *
 # from makeCMDaperF_1408 import *
 # from makeCMDpsfF_1408 import *
-from drcFLC_diff_1408bins import *
+# from drcFLC_diff_1408bins import *
+# from getRefDRCon import *
+# from linDRCon_1408 import *
+# from matchONdrc_1408 import *
+# from matchONnoZPT_flc import *
 
 
 filt_arr = ['F606W','F814W']
@@ -66,7 +70,7 @@ for c1,targname in enumerate(targname_arr):
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
-    for c2,filt in enumerate(filt_arr):
+    # for c2,filt in enumerate(filt_arr):
     #     jdan = getJdan(targname,filt)
         # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
         # wrapped(targname,filt,jdan,catDir=saveDir)
@@ -82,7 +86,7 @@ for c1,targname in enumerate(targname_arr):
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
-        plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
+        # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
     # getRefFilt(targname,matchtol=3,dir=saveDir)
     # linFiltTrans(targname,dir=saveDir)
     # matchFilt(targname,dir=saveDir,matchtol=3)
@@ -103,3 +107,7 @@ for c1,targname in enumerate(targname_arr):
     # matchAPERflc(targname,dir=saveDir,matchtol=3)
     # feedFunc(targname,dir=saveDir,name='aperFLC')
     # makeCMD(targname,dir=saveDir)
+    # getRefdrcON(targname,matchtol=3,dir=saveDir)
+    # linDRConTrans(targname,dir=saveDir)
+    # matchONdrc(targname,dir=saveDir,matchtol=3)
+    feedFunc(targname,dir=saveDir,name='flcDRCnoZPT')
