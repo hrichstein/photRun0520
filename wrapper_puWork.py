@@ -36,8 +36,24 @@ from reMatchPull_pu import *
 #
 from make9plots import *
 #     # feedFunc
+# from matchOldNew import *
+    # getONRef, getONmatch
+# from linONtrans import *
+# from makeCMDon import *
+# from getRefPSFflc_pu import *
+# from linPSFtoFLC_1408 import *
+# from matchPSFflc_1408 import *
+# from getRefAPERflc_1408 import *
+# from linAPER2flc_1408 import *
+# from matchAPERflc_1408 import *
+# from makeCMDaperF_1408 import *
+# from makeCMDpsfF_1408 import *
 # from drcFLC_diff_1408bins import *
-
+# from getRefDRCon import *
+# from linDRCon_1408 import *
+# from matchONdrc_1408 import *
+# from matchONnoZPT_flc import *
+from masterFeed_matched import *
 
 filt_arr = ['F606W','F814W']
 # filt_arr = ['F606W']
@@ -48,6 +64,7 @@ targname_arr = ['HOROLOGIUM-I']
 for c1,targname in enumerate(targname_arr):
     rand_tuple = f2mag_dirs(targname,date='10Aug',workDir='./')
     saveDir = rand_tuple[-1]
+    print(saveDir)
 
     # getRefDRCFilt(targname,dir=saveDir,matchtol=3)
     # linFiltTransDRC(targname,dir=saveDir)
@@ -69,7 +86,7 @@ for c1,targname in enumerate(targname_arr):
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
-
+        # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
     # getRefFilt(targname,matchtol=3,dir=saveDir)
     # linFiltTrans(targname,dir=saveDir)
     # matchFilt(targname,dir=saveDir,matchtol=3)
@@ -77,4 +94,21 @@ for c1,targname in enumerate(targname_arr):
     # doIterMatchDRC(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
     # doIterMatchDRC(targname,filt='F814W',dir=saveDir,matchtol=3,stdTol=5)
     # feedFunc(targname,dir=saveDir)
-    #
+    # getONRef(targname,filt='F606W',dir=saveDir,matchtol=10)
+    # linONtrans(targname,filt='F606W',dir=saveDir)
+    # getONmatch(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
+    # makeCMD(targname,dir=saveDir,filt='F606W')
+    # getRefPSFflc('HOROLOGIUM-I',matchtol=1,dir=saveDir)
+    # linPSFTrans(targname,dir=saveDir)
+    # matchPSFflc(targname,dir=saveDir,matchtol=3)
+    # feedFunc(targname,dir=saveDir,name='psfFLC')
+    # getRefaperflc(targname,matchtol=3,dir=saveDir)
+    # linAPERTrans(targname,dir=saveDir)
+    # matchAPERflc(targname,dir=saveDir,matchtol=3)
+    # feedFunc(targname,dir=saveDir,name='aperFLC')
+    # makeCMD(targname,dir=saveDir)
+    # getRefdrcON(targname,matchtol=3,dir=saveDir)
+    # linDRConTrans(targname,dir=saveDir)
+    # matchONdrc(targname,dir=saveDir,matchtol=3)
+    # feedFunc(targname,dir=saveDir,name='flcDRCnoZPT')
+    masterFeed(targname,dir=saveDir)
