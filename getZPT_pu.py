@@ -31,7 +31,7 @@ def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
             print('Not very good stats. Need more stars.')
             kG = False
 
-    mag_corr = np.nanmean(flc_diff[0])
+    mag_corr = np.nanmedian(flc_diff[0])
     err_add = np.nanstd(flc_diff[0] / np.sqrt(len(flc_diff[0])))
 
     # plotting part

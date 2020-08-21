@@ -246,7 +246,7 @@ def wrapped(targname,filt,jdan=None,catDir='./'):
     offCor(targname,filt,jdan,workDir=catDir)
     matchWJCs(targname,filt,jdan,workDir=catDir,matchtol=3,suffix='_0.dat')
     pullMags(targname,filt,jdan,dir=catDir,suffix='_0.dat')
-    matchWJCs(targname,filt,jdan,workDir=catDir,matchtol=0.2,suffix='_ref.dat')
+    matchWJCs(targname,filt,jdan,workDir=catDir,matchtol=0.5,suffix='_ref.dat')
     pullMags(targname,filt,jdan,dir=catDir,suffix='_ref.dat')
 
     return None

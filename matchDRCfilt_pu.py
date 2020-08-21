@@ -1,10 +1,18 @@
 import numpy as np
+import os
 # import matplotlib.pyplot as plt
 
 def matchFiltDRC(targname,dir='./',matchtol=3):
 
-    f606wN = np.genfromtxt(dir+'drcPU_F606W.dat',names=True)
-    f606w = np.genfromtxt(dir+'drcPU_F606W.dat')
+    x = os.listdir(dir)
+    for ii in x:
+        if ii.endswith('_F606WphotU.dat'):
+            f606w_file = ii
+        elif ii.endswith('_F814WphotU.dat'):
+            f814w_file = ii
+
+    f606wN = np.genfromtxt(dir+f606w_file,names=True)
+    f606w = np.genfromtxt(dir+f606w_file)
 
     f814wN = np.genfromtxt(dir+
     targname+'_DRCfiltTrans_pU.dat',names=True)

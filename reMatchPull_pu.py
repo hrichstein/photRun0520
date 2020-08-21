@@ -32,7 +32,7 @@ def matchWJCs_i(targname,filt,jdanUse,workDir='./',matchtol=0.5,iter=1):
     magr = np.int(np.where(colNs=='magr')[0])
     id = np.int(np.where(colNs=='id')[0])
     # Create an array of zeros with columns equal to the number of non-master dithers to store the matching id for each source
-    matchids = np.zeros((len(master), (len(jdanUse)-1)))
+    matchids = np.zeros((len(master), (len(jdanUse)-1)),dtype=int)
     # transPos = np.zeros((len(master), 2*(len(jdanUse)-1)))
     # master = np.hstack((masterCat, matchids))
 
@@ -43,10 +43,6 @@ def matchWJCs_i(targname,filt,jdanUse,workDir='./',matchtol=0.5,iter=1):
         cat = np.genfromtxt(workDir+jdanUse[dd+1]+"_"+targname+'_'+filt+"_t{0:d}.dat".format(iter),names=True)
         catCat = np.genfromtxt(workDir+jdanUse[dd+1]+"_"+targname+'_'+filt+"_t{0:d}.dat".format(iter))
 
-        # colAs = np.array(cat.dtype.names)
-        #
-        # xt1 = np.int(np.where(colAs==xtstr)[0])
-        # yt1 = np.int(np.where(colAs==ytstr)[0])
 
         nF = True
         row = 0
@@ -70,7 +66,7 @@ def matchWJCs_i(targname,filt,jdanUse,workDir='./',matchtol=0.5,iter=1):
                     matchids[row][dd] = matchrows[small][id]
                     # transPos[row][cc] = matchrows[small][xt1]
                     # transPos[row][cc+1] = matchrows[small][yt1]
-                    row += 1
+                row += 1
 
             else:
               master = np.delete(master, row, 0)

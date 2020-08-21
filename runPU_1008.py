@@ -28,6 +28,11 @@ def runPhotUtils(targname,filt,jdanUse=None,saveDir='./'):
         hdr = hdu[0].header
         hdu.close()
 
+        outname = saveDir + jdanUse[ff] + '_' + filt + 'photU.dat'
+
+        # print(type(saveDir))
+        # print(type(jdanUse[ff]))
+        # print(type(filt))
         data = sci.copy()
 
         mean, median, std = sigma_clipped_stats(data, sigma=3.0, \
@@ -84,22 +89,22 @@ def runPhotUtils(targname,filt,jdanUse=None,saveDir='./'):
     return None
 
 
-def f2mag_dirs(targname,date='10Aug',workDir='./'):
-
-    # Gives the name of the directory with se files
-    # Creates folder for raw mags if it doesn't exists
-    # returns the names of both
-
-    magCatDir = workDir + 'photUtils' + date + '/'
-    catDir = magCatDir + 'catDir_' + targname + '/'
-
-    if not os.path.exists(os.path.join(".",magCatDir)):
-        os.makedirs(magCatDir)
-    if not os.path.exists(os.path.join(".",catDir)):
-        os.makedirs(catDir)
-
-
-    return catDir
+# def f2mag_dirs(targname,date='10Aug',workDir='./'):
+#
+#     # Gives the name of the directory with se files
+#     # Creates folder for raw mags if it doesn't exists
+#     # returns the names of both
+#
+#     magCatDir = workDir + 'photUtils' + date + '/'
+#     catDir = magCatDir + 'catDir_' + targname + '/'
+#
+#     if not os.path.exists(os.path.join(".",magCatDir)):
+#         os.makedirs(magCatDir)
+#     if not os.path.exists(os.path.join(".",catDir)):
+#         os.makedirs(catDir)
+#
+#
+#     return catDir
 
 # targname = 'HOROLOGIUM-I'
 # jdanUse_814 = getJdan(targname,filt='F814W')

@@ -1,14 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 
 def getRefDRCFilt(targname,dir='./',matchtol=5):
 
-    f606wN = np.genfromtxt(dir+'drcPU_F606W.dat',names=True)
-    f606w = np.genfromtxt(dir+'drcPU_F606W.dat')
+    x = os.listdir(dir)
+    for ii in x:
+        if ii.endswith('_F606WphotU.dat'):
+            f606w_file = ii
+        elif ii.endswith('_F814WphotU.dat'):
+            f814w_file = ii
 
-    f814wN = np.genfromtxt(dir+'drcPU_F814W.dat',names=True)
-    f814w = np.genfromtxt(dir+'drcPU_F814W.dat')
+    f606wN = np.genfromtxt(dir+f606w_file,names=True)
+    f606w = np.genfromtxt(dir+f606w_file)
+
+    f814wN = np.genfromtxt(dir+f814w_file,names=True)
+    f814w = np.genfromtxt(dir+f814w_file)
 
     col606 = np.array(f606wN.dtype.names)
     col814 = np.array(f814wN.dtype.names)

@@ -1,16 +1,24 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 from linear6d import *
 
 def linFiltTransDRC(targname,dir='./'):
+
+    x = os.listdir(dir)
+    for ii in x:
+        if ii.endswith('_F606WphotU.dat'):
+            f606w_file = ii
+        elif ii.endswith('_F814WphotU.dat'):
+            f814w_file = ii
 
     # Going from F814W to F606W
     file = np.genfromtxt(dir+'drcFiltRef_'+targname+'.dat',names=True)
     fileCat = np.genfromtxt(dir+'drcFiltRef_'+targname+'.dat')
     colNs = np.array(file.dtype.names)
 
-    all = np.genfromtxt(dir+'drcPU_F814W.dat',names=True)
-    allCat = np.genfromtxt(dir+'drcPU_F814W.dat')
+    all = np.genfromtxt(dir+f814w_file,names=True)
+    allCat = np.genfromtxt(dir+f814w_file)
     colAs = np.array(all.dtype.names)
 
     # Putting the F814W positions into the match array to be used as references transformed
