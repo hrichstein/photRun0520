@@ -10,7 +10,7 @@ def getRef(targname,filt,dir='./',matchtol=50):
         fils = '_f814w'
 
     drcDir = './photUtils20Aug/catDir_'+targname+'/'
-    
+
     drcN = np.genfromtxt(drcDir+targname+'_filtMatchDRC_pU.dat',names=True)
     drc = np.genfromtxt(drcDir+targname+'_filtMatchDRC_pU.dat')
 
@@ -79,6 +79,10 @@ def getRef(targname,filt,dir='./',matchtol=50):
             master_in = flc30[:,[xF,yF,magF,stdF,idFc]]
             matchids = np.zeros((len(master_in),1))
             matchtol += 10
+            if matchtol>=2000:
+                nF_out = False
+                print('Something is Wrong')
+                print(targname,filt)
 
     master = np.hstack((master,matchids))
 
@@ -173,9 +177,10 @@ def matchlistID(master,cat,matchtol,x1,y1,mag1,std1,\
                 matchids_in = matchids_in[udx]
 
                 print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(matchtol,len(master)))
+                print(len(master),len(matchids_in))
                 nF = False
 
-            elif len(udx)==len(master):
+            elif (len(udx)==len(master)) and (len(udx)==len(matchids_in)):
                 # print(len(udx),len(master))
                 print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(matchtol,len(master)))
                 nF = False

@@ -9,8 +9,10 @@ def getRef_i(targname,filt,dir='./',matchtol=5,stdTol=2.5,iter=1):
     elif filt=='F814W':
         fils = '_f814w'
 
-    drcN = np.genfromtxt(dir+targname+'_filtMatchDRC_pU.dat',names=True)
-    drc = np.genfromtxt(dir+targname+'_filtMatchDRC_pU.dat')
+    drcDir = './photUtils20Aug/catDir_'+targname+'/'
+
+    drcN = np.genfromtxt(drcDir+targname+'_filtMatchDRC_pU.dat',names=True)
+    drc = np.genfromtxt(drcDir+targname+'_filtMatchDRC_pU.dat')
 
     idD = np.zeros((len(drc),1))
     idD[:,0] = np.arange(0,len(drc),1)

@@ -17,6 +17,8 @@ def whichIter(targname,filt,dir='./',matchtol=10):
     mOff_list = []
     it_list = []
 
+    takeRun = int(0)
+
     while kI:
 
         numStars, meanOffset = getRef_i(targname,filt,dir=dir,matchtol=matchtol,stdTol=2.5,iter=iter)
@@ -34,11 +36,11 @@ def whichIter(targname,filt,dir='./',matchtol=10):
             minDiff = it_list[np.argsort(mOff_list)[0]]
 
             if maxStars==minDiff:
-                takeRun = minDiff-1 # iteration to take
+                takeRun = int(minDiff-1) # iteration to take
                 kI = False
-            else:
-                if np.argsort(mOff_list)[0] <= 1:
-                    kI = False
+            elif np.argsort(mOff_list)[0] <= 1:
+                takeRun = int(minDiff-1)
+                kI = False
 
             # if np.logical_and((nS_list[-1] >= nS_list[-2]),(mOff_list[-1] <= mOff_list[-2])) :
             #     kI = False
@@ -60,15 +62,18 @@ def whichIter(targname,filt,dir='./',matchtol=10):
         iter += 1
         if matchtol > 5:
             matchtol = matchtol - 2
-        # if iter==2:
-        #     kI = False
-        #     takeRun = iter-1
+
+        if iter>=10:
+            takeRun = int(minDiff-1)
+            kI = False
+
     if takeRun==0:
         file_str = dir+targname+"_"+filt+"_drcTrans_pu.dat"
     # elif takeRun == 1:
     #     file_str = dir+targname+"_"+filt+"_drcTrans.dat"
     else:
-        iterStr = str(iter) # I think I don't have to subtract one here... I hope
+        # iterStr = str(iter) # I think I don't have to subtract one here... I hope
+        iterStr = str(takeRun)
         file_str = dir+targname+"_"+filt+"_drcTrans"+iterStr+".dat"
 
     diag.write('Took Run:' + str(takeRun) + '\n')
@@ -92,12 +97,16 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
 
     if filt=='F606W':
         fils = '_f606w'
+        fils2 = '_f814w'
     elif filt=='F814W':
         fils = '_f814w'
+        fils2 = '_f606w'
 
     magStr = 'magr'+fils
     xStr = 'xcenter'+fils
     yStr = 'ycenter'+fils
+
+    magStr2 = 'magr'+fils2
 
     drcDir = './photUtils20Aug/catDir_'+targname+'/'
 
@@ -114,6 +123,7 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
     xD = np.int(np.where(colDs==xStr)[0])
     yD = np.int(np.where(colDs==yStr)[0])
     magD = np.int(np.where(colDs==magStr)[0])
+    magD2 = np.int(np.where(colDs==magStr2)[0])
 
     # Things affected by iter changing
     # flcN = np.genfromtxt(dir+targname+"_"+filt+"_drcTrans"+str(iter)+".dat",names=True)
@@ -157,26 +167,30 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
 
         # x,y,magrF,stdF_mas,xD,yD,magD,idDc are all indices, not actual values
 
-        if len(master)>=int(0.2*len(cat)):
+        if len(master)>=int(0.1*len(cat)):
             nF_out = False
             print('Minimum Number Reached: %d' % len(master),targname,filt)
         else:
             print('Need More Stars')
             print("Pixel Tolerance: %d, Number Stars: %d" % (matchtol,len(master)))
-            master_in = flc[:,[xF,yF,magF,stdF,idFc]]
-            matchids = np.zeros((len(master_in),1))
             matchtol += 2.5
+            if matchtol <= 20:
+                master_in = flc[:,[xF,yF,magF,stdF,idFc]]
+                matchids = np.zeros((len(master_in),1))
+            else:
+                print("Sacrificing number of stars for quality of matches.")
+                nF = False
 
-        if matchtol >= 20:
-            print("Sacrificing number of stars for quality of matches.")
-            nF_out = False
+        # if matchtol >= 20:
+        #     print("Sacrificing number of stars for quality of matches.")
+        #     nF_out = False
 
     master = np.hstack((master,matchids))
     print(targname, filt, len(master))
 
     xF_mas, yF_mas, magF_mas, stdF_mas, idF_mas, idD_mas = 0, 1, 2, 3, 4, 5
 
-    newCols = np.zeros((len(master),3))
+    newCols = np.zeros((len(master),4))
 
     idxCol = master[:,idD_mas]
     idxD = np.asarray(idxCol,int)
@@ -185,14 +199,17 @@ def getMatch(targname,filt,file,dir='./',matchtol=2.5,stdTol=5):
     newCols[:,0] = regD[:,xD]
     newCols[:,1] = regD[:,yD]
     newCols[:,2] = regD[:,magD]
+    newCols[:,3] = regD[:,magD2]
 
     outArr = np.hstack((master,newCols))
 
     xo, yo, magrF, stdF, idF, idD, xD, yD, magrD = 0, 1, 2, 3, 4, 5, 6, 7, 8
-    header = 'xF yF magrF stdF idF idD xD yD magrD'
-    form = '%1.5f %1.5f %1.4f %1.5f %d %d %1.5f %1.5f %1.4f'
+    header = 'xF yF magrF stdF idF idD xD yD '
+    header += 'magrD'+fils
+    header += ' magrD'+fils2
+    form = '%1.5f %1.5f %1.4f %1.5f %d %d %1.5f %1.5f %1.4f %1.4f'
 
-    outName = dir+'flcDRCmatch_'+filt
+    outName = dir+targname+'_flcDRCmatch_'+filt
 
     np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
 
@@ -260,14 +277,16 @@ def matchlistID(master,cat,matchtol,x1,y1,mag1,std1,\
             matchids_in = np.delete(matchids_in,row,0)
 
         if (row >= len(master)):
+            print('Tripping UDX')
             u, udx = np.unique(matchids_in,return_index=True)
 
             if len(udx)<len(master):
                 master = master[udx]
                 matchids_in = matchids_in[udx]
+                print(len(master),len(matchids_in))
                 nF = False
 
-            elif len(udx)==len(master):
+            elif (len(udx)==len(master)) and (len(udx)==len(matchids_in)) :
                 nF = False
 
     return master,matchids_in

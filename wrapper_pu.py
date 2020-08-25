@@ -4,20 +4,20 @@ from astropy.io import fits
 
 # from getDRCfiltRef_pu import *
 #     # getRefDRCFilt
-# from drcFiltLinTrans_pu import *
+# from drcFiltLinTrans_pu2 import *
 #     # linFiltTransDRC
-# from matchDRCfilt_pu import *
+# from matchDRCfilt_pu2 import *
     # matchFiltDRC
 
-from getJdan import getJdan
+# from getJdan import getJdan
 from runPU_1008 import runPhotUtils
 from runPU_drc import f2mag_dirs
-# from initialCorrMatch_pu import *
+from initialCorrMatch_pu import *
     # distCor, offCor, matchWJCs, pullMags, wrapped
-# from linTrans_1_pu import outDiths, makePlot, openFiles
-# from reMatchPull_pu import *
+from linTrans_1_pu import outDiths, makePlot, openFiles
+from reMatchPull_pu import *
     # matchWJCs_i, pullMags_i, wrapped_i
-# from stdCuts_pu import makeSTDcuts
+from stdCuts_pu import makeSTDcuts
 from drcFLCref_pu import *
     # getRef
 from linFLC2drc_pu import *
@@ -42,32 +42,38 @@ from whichIter_pu import whichIter, doIterMatch, getMatch
 targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
 
 filt_arr = ['F814W','F606W']
-# filt_arr = ['F606W']
+# filt_arr = ['F814W']
 # targname_arr = ['SAGITTARIUS-II','HOROLOGIUM-I']
 
-# targname_arr = ['BOOTES-II-NORTH']
+# targname_arr = ['RETICULUM-III']
+
+def f2mag_dirs(targname,date='20Aug',workDir='./'):
+
+    return workDir+'catRawMags'+date+'/catDir_'+targname+'/'
 
 for c1,targname in enumerate(targname_arr):
     saveDir = f2mag_dirs(targname,date='20Aug',workDir='./')
-    saveDir = saveDir[-1]
+    # saveDir = saveDir[-1]
+    print(targname)
     # getRefDRCFilt(targname,dir=saveDir,matchtol=3)
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
     for c2,filt in enumerate(filt_arr):
-        jdan = getJdan(targname,filt)
-        runPhotUtils(targname,filt,jdan,saveDir=saveDir)
-        wrapped(targname,filt,jdan,catDir=saveDir)
-        outDiths(targname,filt,jdan,dir=saveDir,suffix='_ref.dat',iter=1)
-        openFiles(targname,filt,jdan,dir=saveDir,iter=1)
-        wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
-        makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
+        # jdan = getJdan(targname,filt)
+        # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
+        # wrapped(targname,filt,jdan,catDir=saveDir)
+        # outDiths(targname,filt,jdan,dir=saveDir,suffix='_ref.dat',iter=1)
+        # openFiles(targname,filt,jdan,dir=saveDir,iter=1)
+        # wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
+        # makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
         # getRef(targname,filt,dir=saveDir,matchtol=50)
         # linFLC2drc(targname,filt,dir=saveDir)
-        ## match_file = whichIter(targname,filt,dir=saveDir)
-        ## print(match_file)
-        ## getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
-        # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
+        ### Below are included in doIterMatch
+        ### match_file = whichIter(targname,filt,dir=saveDir)
+        ### print(match_file)
+        ### getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
+        doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
 
