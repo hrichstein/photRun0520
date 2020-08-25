@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 
 def makeCMD(targname,dir='./'):
 
-    drc = np.genfromtxt(dir+targname+'_filtMatchDRC_pU.dat',names=True)
+    drcDir = 'photUtils20Aug/catDir_'+targname+'/'
+    drc = np.genfromtxt(drcDir+targname+'_filtMatchDRC_pU.dat',names=True)
 
 
     flc = np.genfromtxt(dir+targname+'_allMatchedZPTed_pu.dat',names=True)

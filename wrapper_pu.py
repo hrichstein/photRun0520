@@ -12,26 +12,28 @@ from astropy.io import fits
 # from getJdan import getJdan
 from runPU_1008 import runPhotUtils
 from runPU_drc import f2mag_dirs
-from initialCorrMatch_pu import *
+# from initialCorrMatch_pu import *
     # distCor, offCor, matchWJCs, pullMags, wrapped
-from linTrans_1_pu import outDiths, makePlot, openFiles
-from reMatchPull_pu import *
+# from linTrans_1_pu import outDiths, makePlot, openFiles
+# from reMatchPull_pu import *
     # matchWJCs_i, pullMags_i, wrapped_i
-from stdCuts_pu import makeSTDcuts
-from drcFLCref_pu import *
+# from stdCuts_pu import makeSTDcuts
+# from drcFLCref_pu import *
     # getRef
-from linFLC2drc_pu import *
+# from linFLC2drc_pu import *
     # linFLC2drc
-from whichIter_pu import whichIter, doIterMatch, getMatch
+# from whichIter_pu import whichIter, doIterMatch, getMatch
 # from getZPT_pu import *
 #     # getZPT, applyZPT, doZPT
-# from plotZPTdiff_pu import plotZPTdiff
-# from getRefFilt_pu import *
+from newZPT_pu import *
+    # uses TopCat cut files
+from plotZPTdiff_pu import plotZPTdiff
+from getRefFilt_pu import *
 #     # getRefFilt
-# from linTransFiltFLC_pu import *
-# from matchFiltFLC_pu import *
+from linTransFiltFLC_pu import *
+from matchFiltFLC_pu import *
 #     # matchFilt
-# from makeCMD_pu import makeCMD
+from makeCMD_pu import makeCMD
 # from matchFLCdrcAll import *
 #     # doIterMatchDRC
 #
@@ -73,14 +75,14 @@ for c1,targname in enumerate(targname_arr):
         ### match_file = whichIter(targname,filt,dir=saveDir)
         ### print(match_file)
         ### getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
-        doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
-        # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
+        # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
+        doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.1)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
 
-    # getRefFilt(targname,matchtol=3,dir=saveDir)
-    # linFiltTrans(targname,dir=saveDir)
-    # matchFilt(targname,dir=saveDir,matchtol=3)
-    # makeCMD(targname,dir=saveDir)
+    getRefFilt(targname,matchtol=3,dir=saveDir)
+    linFiltTrans(targname,dir=saveDir)
+    matchFilt(targname,dir=saveDir,matchtol=3)
+    makeCMD(targname,dir=saveDir)
     # doIterMatchDRC(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
     # doIterMatchDRC(targname,filt='F814W',dir=saveDir,matchtol=3,stdTol=5)
     # feedFunc(targname,dir=saveDir)
