@@ -25,21 +25,23 @@ from runPU_drc import f2mag_dirs
 # from whichIter_pu import whichIter, doIterMatch, getMatch
 # from getZPT_pu import *
 #     # getZPT, applyZPT, doZPT
-from newZPT_pu import *
+# from newZPT_pu import *
     # uses TopCat cut files
-from plotZPTdiff_pu import plotZPTdiff
-from getRefFilt_pu import *
+# from plotZPTdiff_pu import plotZPTdiff
+# from getRefFilt_pu import *
 #     # getRefFilt
-from linTransFiltFLC_pu import *
-from matchFiltFLC_pu import *
+# from linTransFiltFLC_pu import *
+# from matchFiltFLC_pu import *
 #     # matchFilt
-from makeCMD_pu import makeCMD
+# from makeCMD_pu import makeCMD
 # from matchFLCdrcAll import *
 #     # doIterMatchDRC
-#
+# from applyRedDm import applyRedDm
+# from makeCMD_abs import makeCMDabs
 # from make9plots import *
 #     # feedFunc
 # from drcFLC_diff_1408bins import *
+# from match4cstar import match4cStar606, match4cStar814
 
 targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
 
@@ -61,7 +63,7 @@ for c1,targname in enumerate(targname_arr):
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
-    for c2,filt in enumerate(filt_arr):
+    # for c2,filt in enumerate(filt_arr):
         # jdan = getJdan(targname,filt)
         # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
         # wrapped(targname,filt,jdan,catDir=saveDir)
@@ -76,13 +78,17 @@ for c1,targname in enumerate(targname_arr):
         ### print(match_file)
         ### getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
-        doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.1)
+        # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.1)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
 
-    getRefFilt(targname,matchtol=3,dir=saveDir)
-    linFiltTrans(targname,dir=saveDir)
-    matchFilt(targname,dir=saveDir,matchtol=3)
-    makeCMD(targname,dir=saveDir)
+    # getRefFilt(targname,matchtol=3,dir=saveDir)
+    # linFiltTrans(targname,dir=saveDir)
+    # matchFilt(targname,dir=saveDir,matchtol=3)
+    # makeCMD(targname,dir=saveDir)
+    # applyRedDm(targname,dir=saveDir)
+    # makeCMDabs(targname,dir=saveDir)
+    # match4cStar606(targname,dir=saveDir,matchtol=3)
+    # match4cStar814(targname,dir=saveDir,matchtol=3)
     # doIterMatchDRC(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
     # doIterMatchDRC(targname,filt='F814W',dir=saveDir,matchtol=3,stdTol=5)
     # feedFunc(targname,dir=saveDir)
