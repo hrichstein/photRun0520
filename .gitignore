@@ -150,6 +150,8 @@ cython_debug/
 *.docx
 *.xlsx
 *.pdf
+*.csv
+*.cat
 
 *.e
 *.DS_STORE
