@@ -25,8 +25,9 @@ from runPU_drc import f2mag_dirs
 # from whichIter_pu import whichIter, doIterMatch, getMatch
 # from getZPT_pu import *
 #     # getZPT, applyZPT, doZPT
-# from newZPT_pu import *
+# from newZPT_pu2 import *
     # uses TopCat cut files
+from getZPT_pu3 import *
 # from plotZPTdiff_pu import plotZPTdiff
 # from getRefFilt_pu import *
 #     # getRefFilt
@@ -42,8 +43,11 @@ from runPU_drc import f2mag_dirs
 #     # feedFunc
 # from drcFLC_diff_1408bins import *
 # from match4cstar import match4cStar606, match4cStar814
+from match4cstar_f606wWmag import match4cStar606
+# targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
+# targname_arr = np.genfromtxt('targnamesPost.txt',dtype='str')
 
-targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
+targname_arr = ['TUCANA-II-SE']
 
 filt_arr = ['F814W','F606W']
 # filt_arr = ['F814W']
@@ -51,7 +55,7 @@ filt_arr = ['F814W','F606W']
 
 # targname_arr = ['RETICULUM-III']
 
-def f2mag_dirs(targname,date='20Aug',workDir='./'):
+def f2mag_dirs(targname,date='28Sep',workDir='./'):
 
     return workDir+'catRawMags'+date+'/catDir_'+targname+'/'
 
@@ -78,7 +82,7 @@ for c1,targname in enumerate(targname_arr):
         ### print(match_file)
         ### getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
-        # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.1)
+        # doZPT(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.5)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
 
     # getRefFilt(targname,matchtol=3,dir=saveDir)
@@ -87,7 +91,7 @@ for c1,targname in enumerate(targname_arr):
     # makeCMD(targname,dir=saveDir)
     # applyRedDm(targname,dir=saveDir)
     # makeCMDabs(targname,dir=saveDir)
-    # match4cStar606(targname,dir=saveDir,matchtol=3)
+    match4cStar606(targname,dir=saveDir,matchtol=3)
     # match4cStar814(targname,dir=saveDir,matchtol=3)
     # doIterMatchDRC(targname,filt='F606W',dir=saveDir,matchtol=3,stdTol=5)
     # doIterMatchDRC(targname,filt='F814W',dir=saveDir,matchtol=3,stdTol=5)

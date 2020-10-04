@@ -5,10 +5,21 @@ import matplotlib.pyplot as plt
 def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
 
 
-    file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
-    drc = np.genfromtxt(dir+targname+'_filtMatchDRC_pU.dat')
+    # file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
+    # drc = np.genfromtxt(dir+targname+'_filtMatchDRC_pU.dat')
+    #
+    # lenD = len(drc)
 
-    lenD = len(drc)
+
+    file = np.genfromtxt(dir+targname+'_fd_'+filt+'_cut.dat',names=True)
+    full = np.genfromtxt(dir+targname+'_flcDRCmatch_'+filt+'.dat',names=True)
+
+    if filt=='F606W':
+        fils='_f606w'
+    elif filt=='F814W':
+        fils='_f814w'
+
+    magStr = 'magrD'+fils
 
     kG = True # keep going
 
@@ -18,9 +29,9 @@ def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
         file_g = file[file['stdF']<=stdTol]
         # file_g = file[file_idx]
 
-        flc_diff = stats.sigmaclip(file_g['magrD']-file_g['magrF'],sigTol,sigTol)
+        flc_diff = stats.sigmaclip(file_g[magStr]-file_g['magrF'],sigTol,sigTol)
 
-        if len(flc_diff[0]) >= (0.1*lenD):
+        if len(flc_diff[0]) >= (0.1*len(full)):
             kG = False
 
         else:
@@ -38,14 +49,17 @@ def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
 
     fig, ax = plt.subplots(figsize=(6,4))
 
-    ax.scatter(file_g['magrD'],file_g['magrD']-file_g['magrF'],s=20)
+    ax.scatter(full[magStr],full[magStr]-full['magrF'],s=15,color='silver')
+    ax.scatter(file_g[magStr],file_g[magStr]-file_g['magrF'],s=20)
     ax.hlines(mag_corr,17.5,28)
 
     ax.set_xlim(17.5,28)
     title_str = targname + '_' + filt + ' {0}'.format(len(flc_diff[0]))
     ax.set_title(title_str)
 
-    plt.savefig(dir+targname+'_'+filt+'ZPTline.png',dpi=600,bbox_inches='tight')
+    saveDir = './photUtils28Sep/catDir_'+targname+'/'
+
+    plt.savefig(saveDir+targname+'_'+filt+'ZPTline3.png',dpi=600,bbox_inches='tight')
 
     plt.close()
 
@@ -74,8 +88,9 @@ def applyZPT(mag_corr,err_add,targname,filt,dir='./'):
     header = s0.join(colAs)
     header += ' magZPT magZPTerr'
 
+    saveDir = './photUtils28Sep/catDir_'+targname+'/'
 
-    np.savetxt(dir+'magZPTedAll_'+filt+'.dat',outArr,header=header)
+    np.savetxt(saveDir+'magZPTedAll_'+filt+'.dat',outArr,header=header)
 
     return None
 

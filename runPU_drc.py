@@ -129,14 +129,16 @@ def f2mag_dirs(targname,date='20Aug',workDir='./'):
 
 
 # targname_arr = np.genfromtxt('targnamesDirections.txt',dtype='str')
+
+targname_arr = np.genfromtxt('targnamesPost.txt',dtype='str')
 #
-# def main():
+def main():
 #
-#     # for c1,targname in enumerate(targname_arr):
-#         # saveDir = f2mag_dirs(targname,date='20Aug',workDir='./')
+    for c1,targname in enumerate(targname_arr):
+        saveDir = f2mag_dirs(targname,date='28Sep',workDir='./')
 #
 #     runPhotUtils("../Hannah_Data/drcTargInfo2.dat",saveDir='./')
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
