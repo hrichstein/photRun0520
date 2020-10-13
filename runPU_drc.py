@@ -137,7 +137,7 @@ def main():
     for c1,targname in enumerate(targname_arr):
         saveDir = f2mag_dirs(targname,date='28Sep',workDir='./')
 #
-#     runPhotUtils("../Hannah_Data/drcTargInfo2.dat",saveDir='./')
+    runPhotUtils("../Hannah_Data/drcTargInfo2.dat",saveDir='./')
 
 
 if __name__ == '__main__':
