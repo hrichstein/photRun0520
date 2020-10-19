@@ -2,51 +2,51 @@ import numpy as np
 import os
 from astropy.io import fits
 
-# from getDRCfiltRef_pu import *
+from getDRCfiltRef_pu import *
 #     # getRefDRCFilt
-# from drcFiltLinTrans_pu2 import *
+from drcFiltLinTrans_pu2 import *
 #     # linFiltTransDRC
-# from matchDRCfilt_pu2 import *
+from matchDRCfilt_pu2 import *
     # matchFiltDRC
 
-# from getJdan import getJdan
+from getJdan import getJdan
 from runPU_1008 import runPhotUtils
-from runPU_drc import f2mag_dirs
-# from initialCorrMatch_pu import *
+# from runPU_drc import f2mag_dirs
+from initialCorrMatch_pu import *
     # distCor, offCor, matchWJCs, pullMags, wrapped
-# from linTrans_1_pu import outDiths, makePlot, openFiles
-# from reMatchPull_pu import *
+from linTrans_1_pu import outDiths, makePlot, openFiles
+from reMatchPull_pu import *
     # matchWJCs_i, pullMags_i, wrapped_i
-# from stdCuts_pu import makeSTDcuts
-# from drcFLCref_pu import *
+from stdCuts_pu import makeSTDcuts
+from drcFLCref_pu import *
     # getRef
-# from linFLC2drc_pu import *
+from linFLC2drc_pu import *
     # linFLC2drc
-# from whichIter_pu import whichIter, doIterMatch, getMatch
+from whichIter_pu import whichIter, doIterMatch, getMatch
 # from getZPT_pu import *
 #     # getZPT, applyZPT, doZPT
 # from newZPT_pu2 import *
     # uses TopCat cut files
 # from getZPT_pu3 import *
 from newZPT_0510 import *
-# from plotZPTdiff_pu import plotZPTdiff
-# from getRefFilt_pu import *
+from plotZPTdiff_pu import plotZPTdiff
+from getRefFilt_pu import *
 #     # getRefFilt
-# from linTransFiltFLC_pu import *
-# from matchFiltFLC_pu import *
+from linTransFiltFLC_pu import *
+from matchFiltFLC_pu import *
 #     # matchFilt
-# from makeCMD_pu import makeCMD
-# from matchFLCdrcAll import *
+from makeCMD_pu import makeCMD
+from matchFLCdrcAll import *
 #     # doIterMatchDRC
 # from applyRedDm import applyRedDm
 # from makeCMD_abs import makeCMDabs
 # from make9plots import *
 #     # feedFunc
-# from drcFLC_diff_1408bins import *
-# from match4cstar import match4cStar606, match4cStar814
-# from match4cstar_f606wWmag import match4cStar606
-# targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
-targname_arr = np.genfromtxt('targnamesPost.txt',dtype='str')
+from drcFLC_diff_1408bins import *
+from match4cstar import match4cStar606, match4cStar814
+from match4cstar_f606wWmag import match4cStar606
+targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
+# targname_arr = np.genfromtxt('targnamesPost.txt',dtype='str')
 
 # targname_arr = ['TUCANA-II-SE']
 
@@ -68,25 +68,25 @@ for c1,targname in enumerate(targname_arr):
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
-    for c2,filt in enumerate(filt_arr):
-        # jdan = getJdan(targname,filt)
-        # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
-        # wrapped(targname,filt,jdan,catDir=saveDir)
-        # outDiths(targname,filt,jdan,dir=saveDir,suffix='_ref.dat',iter=1)
-        # openFiles(targname,filt,jdan,dir=saveDir,iter=1)
-        # wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
-        # makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
-        # getRef(targname,filt,dir=saveDir,matchtol=50)
-        # linFLC2drc(targname,filt,dir=saveDir)
+    # for c2,filt in enumerate(filt_arr):
+    #     jdan = getJdan(targname,filt)
+    #     runPhotUtils(targname,filt,jdan,saveDir=saveDir)
+    #     wrapped(targname,filt,jdan,catDir=saveDir)
+    #     outDiths(targname,filt,jdan,dir=saveDir,suffix='_ref.dat',iter=1)
+    #     openFiles(targname,filt,jdan,dir=saveDir,iter=1)
+    #     wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
+    #     makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
+    #     getRef(targname,filt,dir=saveDir,matchtol=50)
+    #     linFLC2drc(targname,filt,dir=saveDir)
         ### Below are included in doIterMatch
         ### match_file = whichIter(targname,filt,dir=saveDir)
         ### print(match_file)
         ### getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
-        print(filt)
-        doZPT(targname,filt,dir=saveDir,sigTol=3.5,stdTol=0.1)
+        # print(filt)
+        # doZPT(targname,filt,dir=saveDir,sigTol=3.5,stdTol=0.1)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
-
+    #
     # getRefFilt(targname,matchtol=3,dir=saveDir)
     # linFiltTrans(targname,dir=saveDir)
     # matchFilt(targname,dir=saveDir,matchtol=3)
