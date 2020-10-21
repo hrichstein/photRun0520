@@ -70,7 +70,7 @@ def matchFiltDRC(targname,dir='./',matchtol=3):
 
     idV_mas, xV_mas, yV_mas, magV_mas, idI_mas = 0, 1, 2, 3, 4
 
-    newCols = np.zeros((len(master),3))
+    # newCols = np.zeros((len(master),3))
 
     idCol606 = master[:,idV_mas]
     idx606 = np.asarray(idCol606,int)
