@@ -19,11 +19,11 @@ from linTrans_1_pu import outDiths, makePlot, openFiles
 from reMatchPull_pu import *
     # matchWJCs_i, pullMags_i, wrapped_i
 from stdCuts_pu import makeSTDcuts
-# from drcFLCref_pu import *
+from drcFLCref_pu import *
     # getRef
-# from linFLC2drc_pu import *
+from linFLC2drc_pu import *
     # linFLC2drc
-# from whichIter_pu import whichIter, doIterMatch, getMatch
+from whichIter_pu import whichIter, doIterMatch, getMatch
 # from getZPT_pu import *
 #     # getZPT, applyZPT, doZPT
 # from newZPT_pu2 import *
@@ -82,20 +82,20 @@ for c1,targname in enumerate(targname_arr):
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
     for c2,filt in enumerate(filt_arr):
-        jdan = getJdan(targname,filt)
-        runPhotUtils(targname,filt,jdan,saveDir=saveDir)
-        wrapped(targname,filt,jdan,catDir=saveDir)
-        outDiths(targname,filt,jdan,dir=saveDir,suffix='_ref.dat',iter=1)
-        openFiles(targname,filt,jdan,dir=saveDir,iter=1)
-        wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
-        makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
-    #     getRef(targname,filt,dir=saveDir,matchtol=50)
-    #     linFLC2drc(targname,filt,dir=saveDir)
+        # jdan = getJdan(targname,filt)
+        # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
+        # wrapped(targname,filt,jdan,catDir=saveDir)
+        # outDiths(targname,filt,jdan,dir=saveDir,suffix='_ref.dat',iter=1)
+        # openFiles(targname,filt,jdan,dir=saveDir,iter=1)
+        # wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
+        # makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
+        getRef(targname,filt,dir=saveDir,matchtol=50)
+        linFLC2drc(targname,filt,dir=saveDir)
         ### Below are included in doIterMatch
-        ### match_file = whichIter(targname,filt,dir=saveDir)
+        match_file = whichIter(targname,filt,dir=saveDir)
         ### print(match_file)
-        ### getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
-        # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
+        getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
+        doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # print(filt)
         # doZPT(targname,filt,dir=saveDir,sigTol=3.5,stdTol=0.1)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
