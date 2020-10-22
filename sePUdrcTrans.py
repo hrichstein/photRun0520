@@ -1,5 +1,8 @@
+""" This transforms PU positions to SE """
+
 import numpy as np
 import matplotlib.pyplot as plt
+
 from linear6d import test_linear
 
 
@@ -8,8 +11,8 @@ def main():
     for c1, targname in enumerate(targname_arr):
         ref_file = './catMatchFLCdrc18Oct/catDir_'+ targname \
                    + '/sePUdrcRef.dat'
-        all_file = './photUtils20Aug/catDir_'+ targname + '/' + targname +\
-            '_filtMatchDRC_pU.dat'
+        all_file = './photUtils20Aug/catDir_'+ targname + '/' + targname \
+                   + '_filtMatchDRC_pU.dat'
         save_dir = './catMatchFLCdrc18Oct/catDir_'+ targname + '/'
 
         linTransSEpu(targname, refFile=ref_file, allFile=all_file,

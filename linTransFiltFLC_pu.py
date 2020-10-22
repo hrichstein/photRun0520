@@ -2,12 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from linear6d import *
 
-def linFiltTrans(targname,dir='./'):
+def linFiltTrans(targname,dir='./',newdir='./'):
 
     # Going from F814W to F606W
 
-    file = np.genfromtxt(dir+'filtRef_'+targname+'_pu.dat',names=True)
-    fileCat = np.genfromtxt(dir+'filtRef_'+targname+'_pu.dat')
+    file = np.genfromtxt(newdir+'filtRef_'+targname+'_pu.dat',names=True)
+    fileCat = np.genfromtxt(newdir+'filtRef_'+targname+'_pu.dat')
     colNs = np.array(file.dtype.names)
 
     all = np.genfromtxt(dir+'magZPTedAll_F814W.dat',names=True)
@@ -42,7 +42,7 @@ def linFiltTrans(targname,dir='./'):
     all_arr[:,0] = allCat[:,x_bt]
     all_arr[:,1] = allCat[:,y_bt]
 
-    outName = dir + targname + "_filtTrans"
+    outName = newdir + targname + "_filtTrans"
 
     new_match, new_all = test_linear(match_arr[:,0],match_arr[:,1], master_arr[:,0], master_arr[:,1], weights, weights, all_arr[:,0],all_arr[:,1])
 

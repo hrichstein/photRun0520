@@ -1,15 +1,15 @@
 import numpy as np
 # import matplotlib.pyplot as plt
 
-def matchFilt(targname,dir='./',matchtol=3):
+def matchFilt(targname,dir='./',matchtol=3,newdir='./'):
 
     f606wN = np.genfromtxt(dir+'magZPTedAll_F606W.dat',names=True)
     f606w = np.genfromtxt(dir+'magZPTedAll_F606W.dat')
 
     # f814wN = np.genfromtxt(dir+'magZPTedAll_F814W.dat',names=True)
     # f814w = np.genfromtxt(dir+'magZPTedAll_F814W.dat')
-    f814wN = np.genfromtxt(dir+targname + "_filtTrans_pu.dat",names=True)
-    f814w = np.genfromtxt(dir+targname + "_filtTrans_pu.dat")
+    f814wN = np.genfromtxt(newdir+targname + "_filtTrans_pu.dat",names=True)
+    f814w = np.genfromtxt(newdir+targname + "_filtTrans_pu.dat")
 
     id606 = np.zeros((len(f606w),1))
     id606[:,0] = np.arange(0,len(f606w),1)
@@ -26,12 +26,12 @@ def matchFilt(targname,dir='./',matchtol=3):
     # Getting columns of x,y of transformed F814W to F606W
     xI = np.int(np.where(col814=='x_f606wTrans')[0])
     yI = np.int(np.where(col814=='y_f606wTrans')[0])
-    magI = np.int(np.where(col814=='magZPT')[0])
+    magI = np.int(np.where(col814=='magZPT_wa')[0])
     idI = len(col814)
 
     xV = np.int(np.where(col606=='xt1')[0])
     yV = np.int(np.where(col606=='yt1')[0])
-    magV = np.int(np.where(col606=='magZPT')[0])
+    magV = np.int(np.where(col606=='magZPT_wa')[0])
     idV = len(col606)
 
     master_in = f606w[:,[xV,yV,magV,idV]]
@@ -95,7 +95,7 @@ def matchFilt(targname,dir='./',matchtol=3):
 
     header = header606 + header814
 
-    np.savetxt(dir+targname+'_allMatchedZPTed_pu.dat',outArr,header=header)
+    np.savetxt(newdir+targname+'_allMatchedZPTed_pu.dat',outArr,header=header)
 
 
     return None

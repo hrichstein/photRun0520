@@ -29,9 +29,9 @@ from whichIter_pu import whichIter, doIterMatch, getMatch
 # from newZPT_pu2 import *
     # uses TopCat cut files
 # from getZPT_pu3 import *
-# from newZPT_0510 import *
+from newZPT_0510 import *
 # from plotZPTdiff_pu import plotZPTdiff
-# from getRefFilt_pu import *
+from getRefFilt_pu import *
 #     # getRefFilt
 from linTransFiltFLC_pu import *
 from matchFiltFLC_pu import *
@@ -46,8 +46,8 @@ from matchFiltFLC_pu import *
 # from drcFLC_diff_1408bins import *
 # from match4cstar import match4cStar606, match4cStar814
 # from match4cstar_f606wWmag import match4cStar606
-targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
-# targname_arr = np.genfromtxt('targnamesPost.txt',dtype='str')
+# targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
+targname_arr = np.genfromtxt('targnamesPost.txt',dtype='str')
 
 # targname_arr = ['TUCANA-II-SE']
 
@@ -74,14 +74,14 @@ def f2mag_dirs(targname,date='28Sep',workDir='./'):
 
 
 for c1,targname in enumerate(targname_arr):
-    saveDir = f2mag_dirs(targname,date='21Oct',workDir='./')
+    saveDir = f2mag_dirs(targname,date='21Oct',workDir='.')
     # saveDir = saveDir[-1]
     print(targname)
     # getRefDRCFilt(targname,dir=saveDir,matchtol=3)
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
 
-    for c2,filt in enumerate(filt_arr):
+    # for c2,filt in enumerate(filt_arr):
         # jdan = getJdan(targname,filt)
         # runPhotUtils(targname,filt,jdan,saveDir=saveDir)
         # wrapped(targname,filt,jdan,catDir=saveDir)
@@ -89,20 +89,21 @@ for c1,targname in enumerate(targname_arr):
         # openFiles(targname,filt,jdan,dir=saveDir,iter=1)
         # wrapped_i(targname,filt,jdan,iter=1,catDir=saveDir)
         # makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
-        getRef(targname,filt,dir=saveDir,matchtol=50)
-        linFLC2drc(targname,filt,dir=saveDir)
-        ### Below are included in doIterMatch
-        match_file = whichIter(targname,filt,dir=saveDir)
-        ### print(match_file)
-        getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
-        doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
+        # getRef(targname,filt,dir=saveDir,matchtol=50)
+        # linFLC2drc(targname,filt,dir=saveDir)
+        # ### Below are included in doIterMatch
+        # match_file = whichIter(targname,filt,dir=saveDir)
+        # ### print(match_file)
+        # getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
+        # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # print(filt)
         # doZPT(targname,filt,dir=saveDir,sigTol=3.5,stdTol=0.1)
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
     #
     # getRefFilt(targname,matchtol=3,dir=saveDir)
-    # linFiltTrans(targname,dir=saveDir)
-    # matchFilt(targname,dir=saveDir,matchtol=3)
+    getRefFilt(targname,matchtol=3,dir='./catRawMags20Aug/catDir_'+targname+'/')
+    linFiltTrans(targname,dir='./catRawMags20Aug/catDir_'+targname+'/',newdir=saveDir)
+    matchFilt(targname,dir='./catRawMags20Aug/catDir_'+targname+'/',newdir=saveDir,matchtol=3)
     # makeCMD(targname,dir=saveDir)
     # applyRedDm(targname,dir=saveDir)
     # makeCMDabs(targname,dir=saveDir)

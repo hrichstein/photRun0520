@@ -167,8 +167,8 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
         # the conditions are true
         # Then, matchrows is a listing of the rows in the cat array
         # where the sources meet the positional requirements.
-        matchrows = cat[(abs(master[row][x1] - cat[:,x2]) <= matchtol) &
-                        (abs(master[row][y1] - cat[:,y2]) <= matchtol)]
+        matchrows = cat[(abs(master[row][x1] - cat[:,x2]) <= matchtol)
+                        & (abs(master[row][y1] - cat[:,y2]) <= matchtol)]
 
         # If only one source met the tolerance criteria, the index value
         # for that source is put into the matchids array. It will go in
@@ -185,10 +185,10 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
         elif (len(matchrows) > 1):
             distDiff = np.zeros((len(matchrows),1))
             for dd in range(len(matchrows)):
-                distDiff[dd] = np.sqrt((master[row][x1] -
-                                       matchrows[dd][x2])**2 +
-                                       (master[row][y1] -
-                                       matchrows[dd][y2])**2)
+                distDiff[dd] = np.sqrt((master[row][x1]
+                                       - matchrows[dd][x2])**2
+                                       + (master[row][y1]
+                                       - matchrows[dd][y2])**2)
             small = np.argmin(distDiff)
             matchids_in[row][0] = matchrows[small][id_mat]
             row += 1

@@ -1,7 +1,6 @@
 import numpy as np
 import os
-from matplotlib import pyplot as plt
-from astropy.io import fits
+
 
 def f2mag_dirs(targname,workDir='./catMatchFLCdrc18Oct'):
 
@@ -9,7 +8,7 @@ def f2mag_dirs(targname,workDir='./catMatchFLCdrc18Oct'):
     # Creates folder for raw mags if it doesn't exists
     # returns the names of both
 
-    magCatDir = workDir + '/' #+ 'photUtils' + date
+    magCatDir = workDir + '/'  # + 'photUtils' + date
     catDir = magCatDir + 'catDir_' + targname + '/'
 
     # if not os.path.exists(os.path.join(".",magCatDir)):
@@ -17,14 +16,14 @@ def f2mag_dirs(targname,workDir='./catMatchFLCdrc18Oct'):
     if not os.path.exists(os.path.join(".",catDir)):
         os.makedirs(catDir)
 
-
     return None
 
 
 targname_arr = np.genfromtxt('targnamesDirections2.txt',dtype='str')
-#
+
+
 def main():
-#
+
     for c1,targname in enumerate(targname_arr):
         f2mag_dirs(targname,workDir='./catMatchFLCdrc18Oct')
 

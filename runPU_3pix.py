@@ -9,12 +9,14 @@ from photutils import DAOStarFinder
 def runPhotUtils(targname,filt,jdanUse=None,saveDir='./'):
 
     if filt=='F606W':
-        EEband = 0.839
+        # EEband = 0.839  # 4 pixel
+        EEband = 0.795
         ZPT = 26.667
         fils = '_f606w/'
 
     elif filt=='F814W':
-        EEband = 0.830
+        # EEband = 0.830  # 4 pixels
+        EEband = 0.77
         ZPT = 26.779
         fils = '_f814w/'
 
@@ -42,8 +44,8 @@ def runPhotUtils(targname,filt,jdanUse=None,saveDir='./'):
         loc = np.array([sources['xcentroid'], sources['ycentroid']])
         positions = np.transpose(loc)
 
-        apertures_r4 = CircularAperture(positions, r=4.)
-        rawflux_r4 = aperture_photometry(data, apertures_r4)
+        apertures_r3 = CircularAperture(positions, r=3.)
+        rawflux_r3 = aperture_photometry(data, apertures_r3)
 
         annulus_apertures = CircularAnnulus(positions, r_in=9.,
                                             r_out=12.)
@@ -60,28 +62,28 @@ def runPhotUtils(targname,filt,jdanUse=None,saveDir='./'):
 
         bkg_median = np.array(bkg_median)
 
-        rawflux_r4['annulus_median'] = bkg_median
-        rawflux_r4['aper_bkg'] = bkg_median * apertures_r4.area
+        rawflux_r3['annulus_median'] = bkg_median
+        rawflux_r3['aper_bkg'] = bkg_median * apertures_r3.area
 
-        rawflux_r4['final_phot'] = rawflux_r4['aperture_sum'] \
-            - rawflux_r4['aper_bkg']
+        rawflux_r3['final_phot'] = rawflux_r3['aperture_sum'] \
+            - rawflux_r3['aper_bkg']
 
-        mask_negative = (rawflux_r4['final_phot'] > 0)
-        rawflux_pos_r4 = rawflux_r4[mask_negative]
+        mask_negative = (rawflux_r3['final_phot'] > 0)
+        rawflux_pos_r3 = rawflux_r3[mask_negative]
 
-        final_phot = -2.5 * np.log10(rawflux_pos_r4['final_phot'] / EEband) \
+        final_phot = -2.5 * np.log10(rawflux_pos_r3['final_phot'] / EEband) \
             + 2.5 * np.log10(hdr['exptime']) + ZPT
 
-        rawflux_pos_r4['magr'] = final_phot
+        rawflux_pos_r3['magr'] = final_phot
 
-        rawflux_pos_r4['id'] = np.arange(0,len(rawflux_pos_r4),1)
+        rawflux_pos_r3['id'] = np.arange(0,len(rawflux_pos_r3),1)
 
         s0 = ' '
-        header = s0.join(rawflux_pos_r4.dtype.names)
+        header = s0.join(rawflux_pos_r3.dtype.names)
 
         outname = saveDir + jdanUse[ff] + '_' + filt + 'photU.dat'
 
-        np.savetxt(outname,rawflux_pos_r4,header=header)
+        np.savetxt(outname,rawflux_pos_r3,header=header)
 
     return None
 

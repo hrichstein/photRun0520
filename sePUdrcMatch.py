@@ -6,10 +6,10 @@ def main():
     targname_arr = np.genfromtxt('./targnamesDirections2.txt',dtype=str)
     se_dir = './catMatchFLCdrc18Oct/seDRCs/'
     for c1,targname in enumerate(targname_arr):
-        pu_file = './photUtils20Aug/catDir_'+ targname + '/'+ targname + \
-                  '_filtMatchDRC_pU.dat'
+        pu_file = './photUtils20Aug/catDir_' + targname + '/' + targname \
+                  + '_filtMatchDRC_pU.dat'
         se_file = se_dir + targname + '_sfErr.dat'
-        save_dir = './catMatchFLCdrc18Oct/catDir_'+ targname + '/'
+        save_dir = './catMatchFLCdrc18Oct/catDir_' + targname + '/'
 
         getRefSEpuDRC(targname,seFilename=se_file,puFilename=pu_file,
                       matchtol=3,saveDir=save_dir)
@@ -162,7 +162,7 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
         # Then, matchrows is a listing of the rows in the cat array where the
         # sources meet the positional requirements.
         matchrows = cat[(abs(master[row][x1] - cat[:,x2])
-                        <= matchtol) & (abs(master[row][y1] - cat[:,y2]) 
+                        <= matchtol) & (abs(master[row][y1] - cat[:,y2])
                         <= matchtol)]
 
         # If only one source met the tolerance criteria, the index value for
@@ -180,10 +180,10 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
         elif (len(matchrows) > 1):
             distDiff = np.zeros((len(matchrows),1))
             for dd in range(len(matchrows)):
-                distDiff[dd] = np.sqrt((master[row][x1] -
-                                       matchrows[dd][x2])**2 +
-                                       (master[row][y1] -
-                                       matchrows[dd][y2])**2)
+                distDiff[dd] = np.sqrt((master[row][x1]
+                                       - matchrows[dd][x2])**2
+                                       + (master[row][y1]
+                                       - matchrows[dd][y2])**2)
             small = np.argmin(distDiff)
             matchids_in[row][0] = matchrows[small][id_mat]
             row += 1

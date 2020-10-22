@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.1):
 
+    dir = './catRawMags20Aug/catDir_'+targname+'/'
     # drcDir = 'photUtils20Aug/catDir_'+targname+'/'
     file = np.genfromtxt(dir+targname+'_fd_'+filt+'_cut.dat',names=True)
     full = np.genfromtxt(dir+targname+'_flcDRCmatch_'+filt+'.dat',names=True)
@@ -171,7 +172,8 @@ def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.1):
 
     ax.legend()
 
-    saveDir = './photUtils28Sep/catDir_'+targname+'/'
+    # saveDir = './photUtils28Sep/catDir_'+targname+'/'
+    saveDir = './photUtils21Oct/catDir_'+targname+'/'
 
     plt.savefig(saveDir+targname+'_'+filt+'ZPTline0510.png',dpi=600,bbox_inches='tight')
 
@@ -211,9 +213,10 @@ def applyZPT(mag_corr, med_corr,err_add, mag_full_corr, med_full_corr,err_full_a
     header = s0.join(colAs)
     header += ' magZPT_wa magZPT_med magZPTerr magZPTfull_wa magZPTfull_med magZPTerrfull'
 
-    saveDir = './photUtils28Sep/catDir_'+targname+'/'
+    # saveDir = './photUtils28Sep/catDir_'+targname+'/'
+    saveDir = './catRawMags20Aug/catDir_'+targname+'/'
 
-    np.savetxt(saveDir+'magZPTedAll_'+filt+'_0510.dat',outArr,header=header)
+    np.savetxt(saveDir+'magZPTedAll_'+filt+'.dat',outArr,header=header)
 
     return None
 
@@ -222,8 +225,8 @@ def doZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.1):
 
     mag_corr, med_corr,err_add, mag_full_corr, med_full_corr,err_full_add = getZPT(targname,filt,dir=dir,sigTol=sigTol,stdTol=stdTol)
 
-    applyZPT(mag_corr, med_corr,err_add, mag_full_corr, med_full_corr,err_full_add,targname,filt,dir=dir)
+    # applyZPT(mag_corr, med_corr,err_add, mag_full_corr, med_full_corr,err_full_add,targname,filt,dir=dir)
 
-
+    applyZPT(mag_corr, med_corr,err_add, mag_full_corr, med_full_corr,err_full_add,targname,filt,dir='./catRawMags20Aug/catDir_'+targname+'/')
     return None
 #

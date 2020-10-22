@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 def getZPT(targname,filt,dir='./',sigTol=2.5,stdTol=0.05):
 
 
-    file = np.genfromtxt(dir+'flcDRCmatch_'+filt+'.dat',names=True)
-    drc = np.genfromtxt(dir+targname+'_filtMatchDRC_pU.dat')
+    file = np.genfromtxt(dir+targname+'_flcDRCmatch_'+filt+'.dat',names=True)
+    drc = np.genfromtxt('./catRawMags20Aug/catDir_'+targname + '/'+targname +'_filtMatchDRC_pU.dat')
 
     lenD = len(drc)
 

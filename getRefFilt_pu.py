@@ -26,15 +26,15 @@ def getRefFilt(targname,matchtol=3,dir='./'):
     # Will be the same for both filters
     xt1 = np.int(np.where(col606=='xt1')[0])
     yt1 = np.int(np.where(col606=='yt1')[0])
-    magZPT = np.int(np.where(col606=='magZPT')[0])
+    magZPT = np.int(np.where(col606=='magZPT_wa')[0])
 
     idCol = len(col606)
 
     # Sorting to get the 50 brightest stars
-    v50 = np.argsort(f606wN['magZPT'])[:50]
+    v50 = np.argsort(f606wN['magZPT_wa'])[:50]
     fv_50 = f606w[v50]
 
-    i50 = np.argsort(f814wN['magZPT'])[:50]
+    i50 = np.argsort(f814wN['magZPT_wa'])[:50]
     fi_50 = f814w[i50]
 
     master_in = fv_50[:,[xt1,yt1,magZPT,idCol]]
@@ -80,7 +80,8 @@ def getRefFilt(targname,matchtol=3,dir='./'):
     header = 'x_f606w y_f606w magr_f606w id_f606w id_f814w x_f814w y_f814w magr_f814w'
     form = '%1.5f %1.5f %1.4f %d %d %1.5f %1.5f %1.4f'
 
-    outName = dir+'filtRef_'+targname
+    saveDir = './photUtils21Oct/catDir_'+targname+'/'
+    outName = saveDir+'filtRef_'+targname
     # np.savetxt(outName+'.dat',outArr,header=header,fmt=form)
     np.savetxt(outName+'_pu.dat',outArr,header=header,fmt=form)
 
