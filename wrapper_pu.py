@@ -4,9 +4,9 @@ from astropy.io import fits
 
 from getDRCfiltRef_pu import *
 #     # getRefDRCFilt
-from drcFiltLinTrans_pu2 import *
+from drcFiltLinTrans_pu import *
 #     # linFiltTransDRC
-from matchDRCfilt_pu2 import *
+from matchDRCfilt_pu import *
     # matchFiltDRC
 
 from getJdan import getJdan
@@ -30,6 +30,7 @@ from whichIter_pu import whichIter, doIterMatch, getMatch
     # uses TopCat cut files
 # from getZPT_pu3 import *
 from newZPT_0510 import *
+# from dummyZPT import *
 # from plotZPTdiff_pu import plotZPTdiff
 from getRefFilt_pu import *
 #     # getRefFilt
@@ -80,6 +81,9 @@ for c1,targname in enumerate(targname_arr):
     # getRefDRCFilt(targname,dir=saveDir,matchtol=3)
     # linFiltTransDRC(targname,dir=saveDir)
     # matchFiltDRC(targname,dir=saveDir,matchtol=3)
+    getRefDRCFilt(targname,dir='./photUtils21Oct/catDir_'+targname+'/',matchtol=3)
+    linFiltTransDRC(targname,dir='./photUtils21Oct/catDir_'+targname+'/')
+    matchFiltDRC(targname,dir='./photUtils21Oct/catDir_'+targname+'/',matchtol=3)
 
     # for c2,filt in enumerate(filt_arr):
         # jdan = getJdan(targname,filt)
@@ -91,9 +95,9 @@ for c1,targname in enumerate(targname_arr):
         # makeSTDcuts(saveDir,filt,suffix='_aftLT.dat')
         # getRef(targname,filt,dir=saveDir,matchtol=50)
         # linFLC2drc(targname,filt,dir=saveDir)
-        # ### Below are included in doIterMatch
+        # # ### Below are included in doIterMatch
         # match_file = whichIter(targname,filt,dir=saveDir)
-        # ### print(match_file)
+        # # ### print(match_file)
         # getMatch(targname,filt,match_file,dir=saveDir,matchtol=2.5,stdTol=5)
         # doIterMatch(targname,filt,dir=saveDir,matchtol=2.5,stdTol=5)
         # print(filt)
@@ -101,9 +105,14 @@ for c1,targname in enumerate(targname_arr):
         # plotZPTdiff(targname,filt,dir=saveDir,sigTol=2.5,stdTol=0.05)
     #
     # getRefFilt(targname,matchtol=3,dir=saveDir)
-    getRefFilt(targname,matchtol=3,dir='./catRawMags20Aug/catDir_'+targname+'/')
-    linFiltTrans(targname,dir='./catRawMags20Aug/catDir_'+targname+'/',newdir=saveDir)
-    matchFilt(targname,dir='./catRawMags20Aug/catDir_'+targname+'/',newdir=saveDir,matchtol=3)
+    # getRefFilt(targname,matchtol=3,dir='./photUtils28Sep/catDir_'+targname+'/')
+    # linFiltTrans(targname,dir='./photUtils28Sep/catDir_'+targname+'/',newdir=saveDir)
+    # matchFilt(targname,dir='./photUtils28Sep/catDir_'+targname+'/',newdir=saveDir,matchtol=3)
+
+
+    # getRefFilt(targname,matchtol=3,dir='./catRawMags20Aug/catDir_' + targname + '/')
+    # linFiltTrans(targname,dir='./catRawMags20Aug/catDir_' + targname + '/',newdir=saveDir)
+    # matchFilt(targname,dir='./catRawMags20Aug/catDir_' + targname + '/',newdir=saveDir,matchtol=3)
     # makeCMD(targname,dir=saveDir)
     # applyRedDm(targname,dir=saveDir)
     # makeCMDabs(targname,dir=saveDir)

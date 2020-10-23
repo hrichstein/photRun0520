@@ -105,10 +105,10 @@ def matchTransSEpu(targname,seFilename='None.dat',puFilename='None.dat',
     # A way to get a header without having to type out everything
     s0 = ' '
     headerSE = s0.join(seNames)
-    headerSE += ' idxSE'
+    # headerSE += ' idxSE'
 
     headerPU = s0.join(puNames)
-    headerPU += ' idxPU'
+    # headerPU += ' idxPU'
 
     outArr = np.hstack((regSE,regPU))
     header = headerSE + ' ' + headerPU

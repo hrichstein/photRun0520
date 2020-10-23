@@ -96,7 +96,7 @@ def matchFilt(targname,dir='./',matchtol=3,newdir='./'):
     header = header606 + header814
 
     np.savetxt(newdir+targname+'_allMatchedZPTed_pu.dat',outArr,header=header)
-
+    print(newdir+targname+'_allMatchedZPTed_pu.dat')
 
     return None
 
