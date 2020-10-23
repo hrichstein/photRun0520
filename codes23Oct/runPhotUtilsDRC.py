@@ -41,7 +41,7 @@ def f2mag_dirs(targname,date=dateDef,workDir='./'):
     return catDir
 
 
-def runPhotUtils(drcInfo,radius=4,saveDir='./',suffix='_photU.dat'):
+def runPhotUtils(drcInfo,radius=4,suffix='_photU.dat'):
 
     """
     Input:
@@ -55,6 +55,12 @@ def runPhotUtils(drcInfo,radius=4,saveDir='./',suffix='_photU.dat'):
     Variables to change: filternames, EEBand, ZPT, r_in,
     and r_out. Can replace _rad with _r(integer radius) if it
     helps you keep track of things.
+
+    When running this in a loop on multiple targets, sometimes
+    one could run out of memory space. This causes the computer
+    to kill the program. When this happens, just remove the
+    targets that have already been run from the drcInfo and
+    run again.
     """
 
     info = np.loadtxt(drcInfo,dtype=str)
@@ -149,6 +155,8 @@ def runPhotUtils(drcInfo,radius=4,saveDir='./',suffix='_photU.dat'):
 
         s0 = ' '
         header = s0.join(rawflux_pos_rad.dtype.names)
+
+        saveDir = f2mag_dirs(targname,date=dateDef,workDir='../')
 
         outName = saveDir + fileNames[ff] + '_' + filt + suffix
 
