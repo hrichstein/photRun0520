@@ -41,7 +41,7 @@ def f2mag_dirs(targname,date=dateDef,workDir='./'):
     return catDir
 
 
-def runPhotUtils(drcInfo,radius=4,suffix='_photU.dat'):
+def runPhotUtils(drcInfo,radius=4,suffix='_pu.dat'):
 
     """
     Input:
