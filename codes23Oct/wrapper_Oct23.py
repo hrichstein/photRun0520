@@ -14,12 +14,14 @@ import numpy as np
 #   catDir = magCatDir + 'catDir_' + targname + '/'
 # from getRefDRCfilt import getRefDRCfilt  # run Oct 26
 # from drcFiltLinTrans import drcFiltLinTrans  # run Oct 26
-from matchDRCfilt import matchFiltDRC
+# from matchDRCfilt import matchFiltDRC  # run Oct 27
+from getJdan import getJdan
 
 
-# IMPORTANT VARIABLES FOR THIS PROCESS
+# IMPORTANT VARIABLES FOR THIS PROCESS (that can be changed)
 work_dir = '../'  # this goes to photRun0520 for me
 drcDir = '/Volumes/Spare Data/Hannah_Data/origDRCs/'
+jdanDir = '/Volumes/Spare Data/Hannah_Data/'
 targFile = work_dir + 'targnamesDirections2.txt'
 dateDef = '23Oct'
 drcInfoFile = '/Volumes/Spare Data/Hannah_Data/' + "drcTargInfo_new3.dat"
@@ -30,6 +32,7 @@ matchtol_f = 2.5  # using for final matching
 ########
 
 targname_arr = np.genfromtxt(targFile,dtype='str')
+filt_arr = ['F814W','F606W']
 
 # Run this once, then comment out. May need to cut drcInfoFile
 # into smaller pieces to avoid memory overload.
@@ -46,8 +49,12 @@ for c1,targname in enumerate(targname_arr):
     # linear6d threw an error, but it looks like everything was completed.
     # There's now an extra drcFiltTrans.dat in directories from a past run.
     # Run on Oct 26 @ 8 PM
-    matchFiltDRC(targname,dir=save_dir,matchtol=matchtol_f,suffix=suffix_)
-    # Run on Oct 27 @ 12 AM 
+    # matchFiltDRC(targname,dir=save_dir,matchtol=matchtol_f,suffix=suffix_)
+    # Run on Oct 27 @ 12 AM
+
+    for c2, filt in enumerate(filt_arr):
+        jdan = getJdan(targname,filt,dir=jdanDir)
+
 #
 #
 #
