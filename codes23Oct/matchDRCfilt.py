@@ -88,7 +88,7 @@ def matchFiltDRC(targname,dir='./',matchtol=2,suffix='_pu.dat'):
     s8 = '_f814w '
     header814 = s8.join(col814)
 
-    header = header606 + header814
+    header = header606 + '_f606w ' + header814
 
     np.savetxt(dir + targname + '_matchedDRCfilt.dat',outArr,header=header)
 

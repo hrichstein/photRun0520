@@ -13,7 +13,7 @@ from photutils import DAOStarFinder
 work_dir = '../'  # this goes to photRun0520
 drcDir = '/Volumes/Spare Data/Hannah_Data/origDRCs/'
 targFile = work_dir + 'targnamesDirections2.txt'
-dateDef = '23Oct'
+dateDef_ = '23Oct'
 drcInfoFile = '/Volumes/Spare Data/Hannah_Data/' + "drcTargInfo_new.dat"
 suffix_ = '_pu.dat'
 radius_ = int(4)
@@ -21,7 +21,7 @@ radius_ = int(4)
 # def main():
 
 
-def f2mag_dirs(targname,date=dateDef,workDir='./'):
+def f2mag_dirs(targname,date=dateDef_,workDir='./'):
 
     """
     Makes the ultimate directory structure for the run
@@ -41,7 +41,7 @@ def f2mag_dirs(targname,date=dateDef,workDir='./'):
     return catDir
 
 
-def runPhotUtils(drcInfo,radius=4,suffix='_pu.dat'):
+def runPhotUtils(drcInfo,radius=4,suffix='_pu.dat',date=dateDef_):
 
     """
     Input:
@@ -122,6 +122,11 @@ def runPhotUtils(drcInfo,radius=4,suffix='_pu.dat'):
         apertures_rad = CircularAperture(positions, r=radius)
         rawflux_rad = aperture_photometry(data, apertures_rad)
 
+        #  Added this on Nov 2
+        rawflux_rad['roundness1']= sources['roundness1']
+        rawflux_rad['roundness2']= sources['roundness2']
+        rawflux_rad['sharpness']= sources['sharpness']
+
         annulus_apertures = CircularAnnulus(positions, r_in=9.,
                                             r_out=12.)
 
@@ -156,7 +161,7 @@ def runPhotUtils(drcInfo,radius=4,suffix='_pu.dat'):
         s0 = ' '
         header = s0.join(rawflux_pos_rad.dtype.names)
 
-        saveDir = f2mag_dirs(targname,date=dateDef,workDir='../')
+        saveDir = f2mag_dirs(targname,date=date,workDir='../')
 
         outName = saveDir + fileNames[ff] + '_' + filt + suffix
 
