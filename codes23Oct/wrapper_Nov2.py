@@ -1,8 +1,8 @@
-""" Nov 2 wrapper """
+""" Nov 10 wrapper, with r6-r4 flag """
 
 import numpy as np
 
-from runPhotUtilsDRC import runPhotUtils  # run Oct 26
+# from runPhotUtilsDRC_6m4 import runPhotUtils  # run Oct 26
 # In the above .py file, there's also a function to create the file structure
 # For these files, I have the following directory convention, with the date
 # 23Oct. If I decide to re-run things, I will need to change that date.
@@ -24,8 +24,8 @@ work_dir = '../'  # this goes to photRun0520 for me
 drcDir = '/Volumes/Spare Data/Hannah_Data/origDRCs/'
 jdanDir = '/Volumes/Spare Data/Hannah_Data/'
 targFile = work_dir + 'targnamesDirections2.txt'
-dateDef = '02Nov'
-drcInfoFile = '/Volumes/Spare Data/Hannah_Data/' + "drcTargInfo_new3.dat"
+dateDef = '10Nov'
+# drcInfoFile = '/Volumes/Spare Data/Hannah_Data/' + "drcTargInfo_new3.dat"
 suffix_ = '_pu.dat'
 radius_ = int(4)
 matchtol_ = 1  # using for reference star finding
@@ -38,20 +38,20 @@ filt_arr = ['F814W','F606W']
 # Run this once, then comment out. May need to cut drcInfoFile
 # into smaller pieces to avoid memory overload.
 # runPhotUtils(drcInfoFile,radius=radius_,suffix=suffix_,date=dateDef)
-# Run the above on 2 Nov @ 11:50 PM
+# Run the above on 10 Nov @ 11:50 PM
 
 for c1,targname in enumerate(targname_arr):
     save_dir = work_dir + 'drcPhot' + dateDef + '/' + 'catDir_' \
         + targname + '/'
 
-    # getRefDRCfilt(targname,dir=save_dir,matchtol=matchtol_,suffix=suffix_)
-    # Run on Nov 3 12:15 AM
-    # drcFiltLinTrans(targname,dir=save_dir,suffix=suffix_)
+    getRefDRCfilt(targname,dir=save_dir,matchtol=matchtol_,suffix=suffix_)
+    # Run on Nov 10 12:00 AM
+    drcFiltLinTrans(targname,dir=save_dir,suffix=suffix_)
     # linear6d threw an error, but it looks like everything was completed.
     # There's now an extra drcFiltTrans.dat in directories from a past run.
-    # Run on
-    # matchFiltDRC(targname,dir=save_dir,matchtol=matchtol_f,suffix=suffix_)
-    # Run on
+    # Run on Nov 10 12:00 AM
+    matchFiltDRC(targname,dir=save_dir,matchtol=matchtol_f,suffix=suffix_)
+    # Run on Nov 10 12:00 AM
     makeCMD(targname,dir=save_dir)
 
     # for c2, filt in enumerate(filt_arr):
