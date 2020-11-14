@@ -104,7 +104,7 @@ def matchWJCs(targname,filt,jdanUse,workDir='./',matchtol=2,suffix='_ref.dat'):
     magr = np.int(np.where(colNs=='magr')[0])
     id = np.int(np.where(colNs=='id')[0])
     # Create an array of zeros with columns equal to the number of non-master dithers to store the matching id for each source
-    matchids = np.zeros((len(master), (len(jdanUse)-1)),dtype=int)
+
     # master = np.hstack((masterCat, matchids))
 
     # Loop through other images

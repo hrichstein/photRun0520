@@ -1,132 +1,92 @@
-"""
-Getting the reference stars between the photutils and s/g labeled stars
-to do linear transform.
-"""
-
 import numpy as np
-import matplotlib.pyplot as plt
 
 
-pu_Fn = '../drcPhot02Nov/HOROLOGIUM-I_newFlag.dat'
-save_D = '../drcPhot02Nov/sePU10Nov/'
-tname='HOROLOGIUM-I'
-se_Fn = '../catMatchFLCdrc18Oct/seDRCs/' + tname + '_sfErr.dat'
+def matchFiltFLC(targname,dir='./',matchtol=1):
 
+    f606wN = np.genfromtxt(dir+'magSTDcut_F606W.dat',names=True)
+    f606w = np.genfromtxt(dir+'magSTDcut_F606W.dat')
 
-def main():
-    getRefSEpuDRC(tname,seFilename=se_Fn,puFilename=pu_Fn,
-                  matchtol=3,saveDir=save_D)
+    f814wN = np.genfromtxt(dir+"flcFiltTrans_" + targname + ".dat",
+                           names=True)
+    f814w = np.genfromtxt(dir+"flcFiltTrans_" + targname + ".dat")
 
+    id606 = np.zeros((len(f606w),1))
+    id606[:,0] = np.arange(0,len(f606w),1)
 
-# IMPORTANT VARIABLES FOR THIS PROCESS
-work_dir = '../'  # this goes to photRun0520
-# targFile = work_dir + 'targnamesDirections2.txt'
-# dateDef = '23Oct'
-# suffix_ = '_pu.dat'
+    f606w_id = np.hstack((f606w,id606))
+    col606 = np.array(f606wN.dtype.names)
 
+    id814 = np.zeros((len(f814w),1))
+    id814[:,0] = np.arange(0,len(f814w),1)
 
-def getRefSEpuDRC(targname,seFilename='None.dat',
-                  puFilename='None.dat',
-                  matchtol=3,saveDir='./'):
+    f814w_id = np.hstack((f814w,id814))
+    col814 = np.array(f814wN.dtype.names)
 
-    # The source extractor files will be considered the MASTER here
+    # Getting columns of x,y of transformed F814W to F606W
+    xI = np.int(np.where(col814=='x_f606wTrans')[0])
+    yI = np.int(np.where(col814=='y_f606wTrans')[0])
+    idI = len(col814)
 
-    # Loading SE files
-    seFileN = np.genfromtxt(seFilename, names=True)
-    seFile = np.genfromtxt(seFilename)
+    xV = np.int(np.where(col606=='xDRC1')[0])
+    yV = np.int(np.where(col606=='yDRC1')[0])
+    idV = len(col606)
 
-    # Loading PU Files
-    puFileN = np.genfromtxt(puFilename, names=True)
-    puFile = np.genfromtxt(puFilename)
+    master_in = f606w_id[:,[xV,yV,idV]]
+    x,y,idV_mas = 0,1,2
 
-    # Getting column names
-    seNames = np.array(seFileN.dtype.names)
-    puNames = np.array(puFileN.dtype.names)
+    cat = f814w_id
 
-    # Getting column locations
-    # xSE = np.int(np.where(seNames=='xt1_f814w')[0])
-    # ySE = np.int(np.where(seNames=='yt1_f814w')[0])
-    xSE = np.int(np.where(seNames=='x_i')[0])
-    ySE = np.int(np.where(seNames=='y_i')[0])
-    # magSE = np.int(np.where(seNames=='magRaw_v')[0])
-
-    xPU = np.int(np.where(puNames=='xcenter')[0])
-    yPU = np.int(np.where(puNames=='ycenter')[0])
-    # magPU = np.int(np.where(puNames=='magr_f606w')[0])
-
-    # Making an id column for the matching array
-    idCol = np.zeros((len(puFile),1))
-    idCol[:,0] = np.arange(0,len(puFile),1)
-
-    puFile_wid = np.hstack((puFile,idCol))
-    id_idx = len(puNames)
-
-    # Getting the 50 brightest stars
-    # s50 = np.argsort(seFileN['mean_f814w'])[:50]
-    s50 = np.argsort(seFileN['magRaw_i'])[:50]
-    se_50 = seFile[s50]
-
-    p50 = np.argsort(puFileN['magr_f814w'])[:50]
-    pu_50 = puFile_wid[p50]
-
-    master_in = se_50[:,[xSE,ySE]]
-    xse_idx, yse_idx = 0, 1
-
-    cat = pu_50
-
-    matchtol = matchtol
     nF_out = True
 
-    while nF_out:
-        master, matchids = matchlistID(master_in,cat,matchtol,xse_idx,yse_idx,
-                                       xPU,yPU,id_idx)
+    len606 = len(f606w_id)
+    len814 = len(f814w_id)
 
-        if len(master)>=int(6):  # Need 6 stars to do the 6D transform
+    minLen = np.min([len606,len814])
+
+    while nF_out:
+
+        master, matchids = matchlistID(master_in,cat,matchtol,x,y,xI,yI,idI)
+
+        if len(master)>=int(0.65*minLen):
             nF_out = False
-            print('Minimum Number Reached:{0:d}'.format(len(master)),targname)
+            print('Minimum Number Reached: %d' % len(master),targname)
 
         else:
-            print('Need more stars...')
-            master_in = se_50[:,[xSE,ySE]]  # need to reset master_in just
-            # in case it was changed from the function
-            matchtol += 1  # Increasing the match tolerance.
-            # Change depending on the step size you need to take
+            print('Need More Stars')
+            print("Pixel Tolerance: %d, Number Stars: %d" % (matchtol,
+                                                             len(master)))
+            matchtol += 1
+            if matchtol <= 4:
+                master_in = f606w_id[:,[xV,yV,idV]]
+            else:
+                print("Sacrificing number of stars for quality of matches.")
+                nF_out = False
 
-    # Combining the master x,y with the matching indices for the cat array
     master = np.hstack((master,matchids))
-    xse_idx, yse_idx, id_match = 0, 1, 2
+    print(targname, len(master)/minLen)
 
-    # Using the indices (have to do a little type-magic first)
-    idxCol = master[:,id_match]
-    idxP = np.asarray(idxCol,int)
-    regP = puFile_wid[idxP]
+    xV_mas, yV_mas, idV_mas, idI_mas = 0, 1, 2, 3
 
-    # Since these are just reference stars, only need the x,y info
-    newCols = np.zeros((len(master),2))
-    newCols[:,0] = regP[:,xPU]
-    newCols[:,1] = regP[:,yPU]
+    idCol606 = master[:,idV_mas]
+    idx606 = np.asarray(idCol606,int)
+    reg606 = f606w[idx606]
 
-    outArr = np.hstack((master,newCols))
+    idCol814 = master[:,idI_mas]
+    idx814 = np.asarray(idCol814,int)
+    reg814 = f814w[idx814]
 
-    header = 'xSE ySE idPU xPU yPU'
-    form = '%1.5f %1.5f %d %1.5f %1.5f'
+    outArr = np.hstack((reg606,reg814))
 
-    outName = saveDir + 'sePUdrcRef'
-    np.savetxt(outName + '.dat', outArr, header=header, fmt=form)
+    col606_temp = np.array(["{}{}".format(n,'_f606w') for n in col606])
+    s0 = ' '
+    header606 = s0.join(col606_temp)
 
-    # Prep for plotting, then plotting
-    xse, yse, idP, xpu, ypu = 0, 1, 2, 3, 4
+    col814_temp = np.array(["{}{}".format(n,'_f814w') for n in col814])
+    header814 = s0.join(col814_temp)
 
-    fig, ax = plt.subplots(figsize=(4,4))
+    header = header606 + ' ' + header814
 
-    ax.scatter(outArr[:,xse],outArr[:,yse],label='SE Pos',s=50,color='black')
-    ax.scatter(outArr[:,xpu],outArr[:,ypu],label='PU Pos',s=10,color='magenta')
-
-    ax.legend()
-    ax.set_title(targname)
-
-    plt.savefig(outName + '.png',dpi=600,bbox_inches='tight')
-    plt.close()  # !! Very important line!!!
+    np.savetxt(dir+targname+'_allMatchedFLC.dat',outArr,header=header)
 
     return None
 
@@ -166,7 +126,6 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
     row = 0
 
     while nF:
-
         # Finding the difference in the x and y positions between the master
         # array, row by row
         # Checking that the difference in x and y (separately) is smaller than
@@ -216,23 +175,21 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
         # methodically through the master list, but not removing best-matching
         # sources from the cat array.)
         if (row >= len(master)):
+            u, udx = np.unique(matchids_in,return_index=True)
             # udx is the array of unique indices. I see if this is less than
             # the master length. If so, I use udx to get the relevant, unique
             # sources.
-            u, udx = np.unique(matchids_in,return_index=True)
-
             if len(udx)<len(master):
-
                 master = master[udx]
                 matchids_in = matchids_in[udx]
 
                 print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(
-                      matchtol,len(master)))
+                    matchtol,len(master)))
                 nF = False
 
             elif len(udx)==len(master):
                 print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(
-                      matchtol,len(master)))
+                    matchtol,len(master)))
                 nF = False
         # A different way to deal with this would be to invert the matching
         # algorithm. Take the two matched lists and start running through the
@@ -242,7 +199,4 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
 
     return master,matchids_in
 
-
-if __name__ == '__main__':
-    main()
 #

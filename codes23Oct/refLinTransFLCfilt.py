@@ -1,132 +1,139 @@
 """
-Getting the reference stars between the photutils and s/g labeled stars
-to do linear transform.
+Getting the reference stars between the two filters so that I can do a 6D
+linear transform; and then doing that transform
 """
 
 import numpy as np
+import os
+
 import matplotlib.pyplot as plt
-
-
-pu_Fn = '../drcPhot02Nov/HOROLOGIUM-I_newFlag.dat'
-save_D = '../drcPhot02Nov/sePU10Nov/'
-tname='HOROLOGIUM-I'
-se_Fn = '../catMatchFLCdrc18Oct/seDRCs/' + tname + '_sfErr.dat'
-
-
-def main():
-    getRefSEpuDRC(tname,seFilename=se_Fn,puFilename=pu_Fn,
-                  matchtol=3,saveDir=save_D)
-
+from linear6d import test_linear
 
 # IMPORTANT VARIABLES FOR THIS PROCESS
 work_dir = '../'  # this goes to photRun0520
-# targFile = work_dir + 'targnamesDirections2.txt'
-# dateDef = '23Oct'
-# suffix_ = '_pu.dat'
+targFile = work_dir + 'targnamesDirections2.txt'
+dateDef = '23Oct'
+suffix_ = '_pu.dat'
 
 
-def getRefSEpuDRC(targname,seFilename='None.dat',
-                  puFilename='None.dat',
-                  matchtol=3,saveDir='./'):
+def transFLCfilt(targname,dir='./',matchtol=1):
+    """
+    Replace F606W and F814W (and 606 and 814) throughout this if using
+    different filters
+    """
 
-    # The source extractor files will be considered the MASTER here
+    x = os.listdir(dir)
+    for ii in x:
+        if ii.endswith('cut_F606W.dat'):
+            f606w_file = ii
+        elif ii.endswith('cut_F814W.dat'):
+            f814w_file = ii
 
-    # Loading SE files
-    seFileN = np.genfromtxt(seFilename, names=True)
-    seFile = np.genfromtxt(seFilename)
+    f606wN = np.genfromtxt(dir+f606w_file,names=True)
+    f606w = np.genfromtxt(dir+f606w_file)
 
-    # Loading PU Files
-    puFileN = np.genfromtxt(puFilename, names=True)
-    puFile = np.genfromtxt(puFilename)
+    f814wN = np.genfromtxt(dir+f814w_file,names=True)
+    f814w = np.genfromtxt(dir+f814w_file)
 
-    # Getting column names
-    seNames = np.array(seFileN.dtype.names)
-    puNames = np.array(puFileN.dtype.names)
+    col606 = np.array(f606wN.dtype.names)
+    # col814 = np.array(f814wN.dtype.names)  # names will be the same between
+    # filters
 
-    # Getting column locations
-    # xSE = np.int(np.where(seNames=='xt1_f814w')[0])
-    # ySE = np.int(np.where(seNames=='yt1_f814w')[0])
-    xSE = np.int(np.where(seNames=='x_i')[0])
-    ySE = np.int(np.where(seNames=='y_i')[0])
-    # magSE = np.int(np.where(seNames=='magRaw_v')[0])
+    # Getting indices of columns
 
-    xPU = np.int(np.where(puNames=='xcenter')[0])
-    yPU = np.int(np.where(puNames=='ycenter')[0])
-    # magPU = np.int(np.where(puNames=='magr_f606w')[0])
+    # Will be the same for both filters
+    x = np.int(np.where(col606=='xDRC1')[0])
+    y = np.int(np.where(col606=='yDRC1')[0])
 
-    # Making an id column for the matching array
-    idCol = np.zeros((len(puFile),1))
-    idCol[:,0] = np.arange(0,len(puFile),1)
+    idCol = len(col606)
+    newCol = np.zeros((len(f606w),1),dtype=int)
+    newCol[:,0] = np.arange(0,len(f606w),1)
 
-    puFile_wid = np.hstack((puFile,idCol))
-    id_idx = len(puNames)
+    f606w_id = np.hstack((f606w,newCol))
 
-    # Getting the 50 brightest stars
-    # s50 = np.argsort(seFileN['mean_f814w'])[:50]
-    s50 = np.argsort(seFileN['magRaw_i'])[:50]
-    se_50 = seFile[s50]
+    newCol = np.zeros((len(f814w),1),dtype=int)
+    newCol[:,0] = np.arange(0,len(f814w),1)
+    f814w_id = np.hstack((f814w,newCol))
 
-    p50 = np.argsort(puFileN['magr_f814w'])[:50]
-    pu_50 = puFile_wid[p50]
+    # Sorting to get the 50 brightest stars
+    v50 = np.argsort(f606wN['mean'])[:50]  # using v abbreviation because
+    # F606W is a broad V-band
+    f606w_50 = f606w_id[v50]
 
-    master_in = se_50[:,[xSE,ySE]]
-    xse_idx, yse_idx = 0, 1
+    i50 = np.argsort(f814wN['mean'])[:50]  # using i abbrev. b/c F814W is
+    # broad I-band
+    f814w_50 = f814w_id[i50]
 
-    cat = pu_50
+    master_in = f606w_50[:,[idCol,x,y]]  # selecting the columns I need
+    idV,xv,yv= 0,1,2  # associating short vars with indices
 
-    matchtol = matchtol
+    cat = f814w_50  # this has ALL of the columns from F814W catalog
+
     nF_out = True
 
     while nF_out:
-        master, matchids = matchlistID(master_in,cat,matchtol,xse_idx,yse_idx,
-                                       xPU,yPU,id_idx)
 
-        if len(master)>=int(6):  # Need 6 stars to do the 6D transform
+        master, matchids = matchlistID(master_in,cat,matchtol,xv,yv,x,y,idCol)
+
+        if len(master)>=int(6):  # because it's a 6D transformation
             nF_out = False
             print('Minimum Number Reached:{0:d}'.format(len(master)),targname)
-
         else:
-            print('Need more stars...')
-            master_in = se_50[:,[xSE,ySE]]  # need to reset master_in just
-            # in case it was changed from the function
-            matchtol += 1  # Increasing the match tolerance.
-            # Change depending on the step size you need to take
+            print('Need More Stars')
+            master_in = f606w_50[:,[idCol,x,y]]  # resetting, just in case
+            matchtol += 1
 
-    # Combining the master x,y with the matching indices for the cat array
     master = np.hstack((master,matchids))
-    xse_idx, yse_idx, id_match = 0, 1, 2
 
-    # Using the indices (have to do a little type-magic first)
-    idxCol = master[:,id_match]
-    idxP = np.asarray(idxCol,int)
-    regP = puFile_wid[idxP]
+    idV, xv, yv, idI = 0, 1, 2, 3, 4  # index columns of master
 
-    # Since these are just reference stars, only need the x,y info
     newCols = np.zeros((len(master),2))
-    newCols[:,0] = regP[:,xPU]
-    newCols[:,1] = regP[:,yPU]
 
-    outArr = np.hstack((master,newCols))
+    idxCol = master[:,idI]
+    idxI = np.asarray(idxCol,int)
+    regI = f814w[idxI]
 
-    header = 'xSE ySE idPU xPU yPU'
-    form = '%1.5f %1.5f %d %1.5f %1.5f'
+    newCols[:,0] = regI[:,x]
+    newCols[:,1] = regI[:,y]
 
-    outName = saveDir + 'sePUdrcRef'
-    np.savetxt(outName + '.dat', outArr, header=header, fmt=form)
+    tempArr = np.hstack((master,newCols))
 
-    # Prep for plotting, then plotting
-    xse, yse, idP, xpu, ypu = 0, 1, 2, 3, 4
+    idV, xv, yv, idI, xi, yi = 0, 1, 2, 3, 4, 5
 
-    fig, ax = plt.subplots(figsize=(4,4))
+    # Linear Transform Part
 
-    ax.scatter(outArr[:,xse],outArr[:,yse],label='SE Pos',s=50,color='black')
-    ax.scatter(outArr[:,xpu],outArr[:,ypu],label='PU Pos',s=10,color='magenta')
+    match_arr = np.zeros((len(tempArr),2))
+    match_arr[:,0] = tempArr[:,xi]  # the x in F814W that is going to F606W
+    match_arr[:,1] = tempArr[:,yi]  # the y in F814W that is going to F606W
 
-    ax.legend()
-    ax.set_title(targname)
+    master_arr = np.zeros((len(tempArr),2))
+    master_arr[:,0] = tempArr[:,xv]  # the x ref F606W
+    master_arr[:,1] = tempArr[:,yv]  # the y ref F606W
 
-    plt.savefig(outName + '.png',dpi=600,bbox_inches='tight')
-    plt.close()  # !! Very important line!!!
+    weights = np.ones(len(master_arr))
+
+    all_arr = np.zeros((len(f814w),2))
+    all_arr[:,0] = f814w_id[:,x]
+    all_arr[:,1] = f814w_id[:,y]
+
+    print('Transforming ',targname)
+    new_match, new_all = test_linear(match_arr[:,0],match_arr[:,1],
+                                     master_arr[:,0],master_arr[:,1],weights,
+                                     weights, all_arr[:,0],all_arr[:,1])
+
+    outArr = np.hstack((f814w,new_all))
+    s0 = ' '
+    header = s0.join(col606)
+    header += ' x_f606wTrans y_f606wTrans'
+
+    outName = dir + 'flcFiltTrans_' + targname
+
+    np.savetxt(outName + '.dat',outArr,header=header)
+
+    makePlot(targname,match_arr[:,0],match_arr[:,1],master_arr[:,0],
+             master_arr[:,1],new_match[:,0],new_match[:,1],
+             label_1='Original in F814W',label_2='Original in F606W',
+             label_3='New in F814W 2 F606W',outname=outName+'_matchCheck')
 
     return None
 
@@ -166,7 +173,6 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
     row = 0
 
     while nF:
-
         # Finding the difference in the x and y positions between the master
         # array, row by row
         # Checking that the difference in x and y (separately) is smaller than
@@ -216,23 +222,21 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
         # methodically through the master list, but not removing best-matching
         # sources from the cat array.)
         if (row >= len(master)):
+            u, udx = np.unique(matchids_in,return_index=True)
             # udx is the array of unique indices. I see if this is less than
             # the master length. If so, I use udx to get the relevant, unique
             # sources.
-            u, udx = np.unique(matchids_in,return_index=True)
-
             if len(udx)<len(master):
-
                 master = master[udx]
                 matchids_in = matchids_in[udx]
 
                 print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(
-                      matchtol,len(master)))
+                    matchtol,len(master)))
                 nF = False
 
             elif len(udx)==len(master):
                 print("Pixel Tolerance: {0:d}, Number Stars: {1:d}".format(
-                      matchtol,len(master)))
+                    matchtol,len(master)))
                 nF = False
         # A different way to deal with this would be to invert the matching
         # algorithm. Take the two matched lists and start running through the
@@ -243,6 +247,21 @@ def matchlistID(master,cat,matchtol,x1,y1,x2,y2,id_mat):
     return master,matchids_in
 
 
-if __name__ == '__main__':
-    main()
+def makePlot(targname,x1,y1,x2,y2,x3,y3,label_1,
+             label_2,label_3,outname=None):
+
+    fig, ax = plt.subplots(figsize=(6,6))
+
+    ax.scatter(x1,y1,label=label_1,s=60)
+    ax.scatter(x2,y2,label=label_2,s=25)
+    ax.scatter(x3,y3,label=label_3,s=10)
+
+    ax.legend()
+    ax.set_title(targname)
+
+    plt.savefig(outname+'.png',dpi=600,bbox_inches='tight')
+    plt.close()
+
+    return None
+
 #
