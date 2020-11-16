@@ -24,8 +24,9 @@ import numpy as np
 # from matchFiltFLC import matchFiltFLC
 # from refLinTransFLCdrc import transFLCdrc
 # from matchFLCdrc import matchFLCdrc
-from sig2noise import s2n
-from plotErrMag import plotErr
+# from sig2noise import s2n
+# from plotErrMag import plotErr
+from make2CMD import make2CMD
 
 # IMPORTANT VARIABLES FOR THIS PROCESS (that can be changed)
 work_dir = '../'  # this goes to photRun0520 for me
@@ -85,5 +86,6 @@ for c1,targname in enumerate(targname_arr):
     # print('Matching FLCs to DRC for {0}...'.format(targname))
     # matchFLCdrc(targname,flcFile=flc_file,drcFile=drc_file,dir=save_dir,
     #             matchtol=matchtol_)
-    s2n(targname,dir=save_dir)
+    # s2n(targname,dir=save_dir)
     # plotErr(targname,dir=save_dir)
+    make2CMD(targname,dir=save_dir)
