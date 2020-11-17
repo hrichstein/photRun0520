@@ -26,7 +26,8 @@ import numpy as np
 # from matchFLCdrc import matchFLCdrc
 # from sig2noise import s2n
 # from plotErrMag import plotErr
-from make2CMD import make2CMD
+# from make2CMD import make2CMD
+from outEl import outputEl
 
 # IMPORTANT VARIABLES FOR THIS PROCESS (that can be changed)
 work_dir = '../'  # this goes to photRun0520 for me
@@ -88,4 +89,5 @@ for c1,targname in enumerate(targname_arr):
     #             matchtol=matchtol_)
     # s2n(targname,dir=save_dir)
     # plotErr(targname,dir=save_dir)
-    make2CMD(targname,dir=save_dir)
+    # make2CMD(targname,dir=save_dir)
+    outputEl(targname,dir=save_dir)
